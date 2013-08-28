@@ -27,12 +27,12 @@ from google.appengine.ext import db
 
 from exercises import accuracy_model
 from exercises import progress_normalizer
-#import app
+import app
 import backup_model
 import consts
 import decorators
 from exercises import file_contents, stacks
-#import experiments
+import experiments
 #from gae_bingo import gae_bingo
 #import gandalf.bridge
 #import layer_cache
@@ -40,9 +40,9 @@ import object_property
 #import phantom_users
 #import setting_model
 #import url_util
-#import user_models
+import user_models
 #import user_util
-#import util
+import util
 #from tincan import TinCan
 
 
@@ -270,10 +270,12 @@ class Exercise(backup_model.BackupModel):
 
     @staticmethod
     def get_all_use_cache():
-        if user_util.is_current_user_developer():
-            return Exercise._get_all_use_cache_unsafe()
-        else:
-            return Exercise._get_all_use_cache_safe()
+        #if user_util.is_current_user_developer():
+        #    return Exercise._get_all_use_cache_unsafe()
+        #else:
+        #    return Exercise._get_all_use_cache_safe()
+        #!
+        return Exercise._get_all_use_cache_unsafe()
 
     @staticmethod
 #    @layer_cache.cache_with_key_fxn(
@@ -319,7 +321,7 @@ class UserExercise(backup_model.BackupModel):
     """Information about a single user's interaction with a single exercise."""
     user = db.UserProperty()
     exercise = db.StringProperty()
-    exercise_model = db.ReferenceProperty(Exercise)
+    #exercise_model = db.ReferenceProperty(Exercise)
     streak = db.IntegerProperty(default=0)
     _progress = db.FloatProperty(default=None, indexed=False)  # A continuous value >= 0.0, where 1.0 means proficiency. This measure abstracts away the internal proficiency model.
     longest_streak = db.IntegerProperty(default=0, indexed=False)
@@ -522,7 +524,7 @@ class UserExercise(backup_model.BackupModel):
         user_data.proficient_exercises.append(self.exercise)
         user_data.need_to_reassess = True
 
-        phantom_users.util_notify.update(user_data, self, False, True)
+        #phantom_users.util_notify.update(user_data, self, False, True)
 
         user_data.put()
 
@@ -1350,7 +1352,7 @@ def commit_problem_log(problem_log_source, user_data=None, async=True):
 
         # Bump up attempt count
         if problem_log_source.attempts[0] != "hint": # attempt
-            TinCan.create_question(user_data, "answered", exercise, problem_log=problem_log_source)
+            #TinCan.create_question(user_data, "answered", exercise, problem_log=problem_log_source)
             if index_attempt < len(problem_log.time_taken_attempts) \
                and problem_log.time_taken_attempts[index_attempt] != -1:
                 # This attempt has already been logged. Ignore this dupe taskqueue execution.
@@ -1402,12 +1404,12 @@ def commit_problem_log(problem_log_source, user_data=None, async=True):
 
 
         # Only send progressed and completed events when exercise is not proficient and answer has been correct
-        if hasattr(problem_log_source, "explicitly_proficient") and \
-            not getattr(problem_log_source, "explicitly_proficient"):
-            if hasattr(problem_log_source, "completed") and getattr(problem_log_source, "completed"):
-                TinCan.create_question(user_data, "progressed", exercise, user_exercise=user_exercise)
-            if user_exercise.progress >= 1.0:
-                TinCan.create_question(user_data, "completed", exercise, problem_log=problem_log)
+        #if hasattr(problem_log_source, "explicitly_proficient") and \
+        #    not getattr(problem_log_source, "explicitly_proficient"):
+        #    if hasattr(problem_log_source, "completed") and getattr(problem_log_source, "completed"):
+        #        TinCan.create_question(user_data, "progressed", exercise, user_exercise=user_exercise)
+        #    if user_exercise.progress >= 1.0:
+        #        TinCan.create_question(user_data, "completed", exercise, problem_log=problem_log)
 
 
         logging.info(problem_log.time_ended())
@@ -1484,7 +1486,9 @@ def commit_stack_log(stack_log_source, card, cards_done, cards_left,
     possibly include VideoLog in the future.
     """
     def txn():
-        stack_log = StackLog.get(stack_log_source.key())
+        _k = stack_log_source.key()
+        #stack_log = StackLog.get(_k)
+        stack_log = db.get(_k)
         if stack_log is None:
             stack_log = stack_log_source
 
@@ -1513,5 +1517,8 @@ def commit_stack_log(stack_log_source, card, cards_done, cards_left,
 
         stack_log.put()
 
-    db.run_in_transaction(txn)
+    
+    #Dev only
+    txn()
+    #db.run_in_transaction(txn)
 

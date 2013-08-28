@@ -20,9 +20,9 @@ import points
 #import badges.util_badges
 #import phantom_users
 #
-#import gae_bingo.gae_bingo
+import gae_bingo.gae_bingo
 #from goals.models import GoalList
-#from experiments import StrugglingExperiment
+from experiments import StrugglingExperiment
 
 
 def exercise_graph_dict_json(user_data, user_exercise_graph, admin=False):
@@ -101,7 +101,7 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
 
     if user_exercise and user_exercise.belongs_to(user_data):
         dt_now = datetime.datetime.now()
-        exercise = user_exercise.exercise_model
+        exercise = exercise_models.Exercise.get_by_name(user_exercise.exercise)
 
         user_exercise.last_done = dt_now
         user_exercise.seconds_per_fast_problem = exercise.seconds_per_fast_problem
@@ -232,14 +232,14 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
                     just_earned_proficiency = True
                     problem_log.earned_proficiency = True
 
-            badges.util_badges.update_with_user_exercise(
-                user_data,
-                user_exercise,
-                include_other_badges=True,
-                action_cache=badges.last_action_cache.LastActionCache.get_cache_and_push_problem_log(user_data, problem_log))
+            #badges.util_badges.update_with_user_exercise(
+            #    user_data,
+            #    user_exercise,
+            #    include_other_badges=True,
+            #    action_cache=badges.last_action_cache.LastActionCache.get_cache_and_push_problem_log(user_data, problem_log))
 
-            # Update phantom user notifications
-            phantom_users.util_notify.update(user_data, user_exercise)
+            ## Update phantom user notifications
+            #phantom_users.util_notify.update(user_data, user_exercise)
 
             gae_bingo.gae_bingo.bingo([
                 'struggling_problems_done',
@@ -266,9 +266,9 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
 
         user_exercise_graph = exercise_models.UserExerciseGraph.get_and_update(user_data, user_exercise)
 
-        goals_updated = GoalList.update_goals(user_data,
-            lambda goal: goal.just_did_exercise(user_data, user_exercise,
-                just_earned_proficiency))
+        #goals_updated = GoalList.update_goals(user_data,
+        #    lambda goal: goal.just_did_exercise(user_data, user_exercise,
+        #        just_earned_proficiency))
 
         # Bulk put
         db.put([user_data, user_exercise, user_exercise_graph.cache])
@@ -321,7 +321,8 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
                     stack_log_source, card, cards_done, cards_left,
                     problem_log.__class__.__name__, str(problem_log.key()))
 
-        return user_exercise, user_exercise_graph, goals_updated
+        #return user_exercise, user_exercise_graph, goals_updated
+        return user_exercise, user_exercise_graph
 
 def calc_topic_mode_log_stats(user_exercise_graph, topic_id,
         just_earned_proficiency):

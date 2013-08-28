@@ -12,7 +12,7 @@ except ImportError:
     import simplejson as json
 
 from google.appengine.ext import db
-#import pickle_util
+import pickle_util
 
 
 class ObjectProperty(db.BlobProperty):

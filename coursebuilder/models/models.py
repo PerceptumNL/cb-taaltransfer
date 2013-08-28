@@ -28,6 +28,8 @@ from google.appengine.api import namespace_manager
 from google.appengine.api import users
 from google.appengine.ext import db
 
+from khan.user_models import UserData
+
 
 # We want to use memcache for both objects that exist and do not exist in the
 # datastore. If object exists we cache its instance, if object does not exist
@@ -409,10 +411,10 @@ class StudentProfileDAO(object):
             student.put()
 
 
-class Student(BaseEntity):
+class Student(UserData):
     """Student data specific to a course instance."""
     enrolled_on = db.DateTimeProperty(auto_now_add=True, indexed=True)
-    user_id = db.StringProperty(indexed=True)
+    #user_id = db.StringProperty(indexed=True)
     name = db.StringProperty(indexed=False)
     additional_fields = db.TextProperty(indexed=False)
     is_enrolled = db.BooleanProperty(indexed=False)

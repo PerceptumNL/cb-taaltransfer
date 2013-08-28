@@ -91,6 +91,7 @@ def gcb_init_third_party():
         if not os.path.exists(lib.file_path):
             raise Exception('Library does not exist: %s' % lib.file_path)
         sys.path.insert(0, lib.full_path)
+    sys.path.insert(0, 'khan')
 
 
 gcb_init_third_party()
