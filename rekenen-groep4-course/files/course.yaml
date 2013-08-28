@@ -1,0 +1,5 @@
+# my new course.yaml
+course:
+  title: 'Groep 4'
+  admin_user_emails: '[sergio@perceptum.nl]'
+  now_available: False

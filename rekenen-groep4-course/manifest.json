@@ -1,0 +1,102 @@
+{
+  "entities": [
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-10.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-11.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-12.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-13.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-16.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-17.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-18.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-23.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-24.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-25.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-29.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-30.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-31.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-32.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-35.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-36.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-37.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-4.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/activity-6.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/assessment-38.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/assessment-39.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/assets/js/review-38.js"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/course.yaml"
+    }, 
+    {
+      "is_draft": false, 
+      "path": "files/data/course.json"
+    }
+  ], 
+  "raw": "course:/groep_4::ns_groep_4", 
+  "version": "1.3"
+}
