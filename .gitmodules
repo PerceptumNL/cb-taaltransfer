@@ -1,3 +1,19 @@
 [submodule "khan-exercises-coursebuilder"]
-	path = khan-exercises-coursebuilder
-	url = https://github.com/PerceptumNL/khan-exercises-coursebuilder.git
+       path = khan-exercises-coursebuilder
+       url = https://github.com/PerceptumNL/khan-exercises-coursebuilder.git
+
+[submodule "third_party/wtforms-src"]
+	path = coursebuilder/khan/third_party/wtforms-src
+	url = https://github.com/Khan/wtforms.git
+[submodule "third_party/werkzeug-src"]
+	path = coursebuilder/khan/third_party/werkzeug-src
+	url = https://github.com/Khan/werkzeug
+[submodule "third_party/appengine-search-src"]
+	path = coursebuilder/khan/third_party/appengine-search-src
+	url = https://github.com/DocSavage/appengine-search.git
+[submodule "third_party/flask-src"]
+	path = coursebuilder/khan/third_party/flask-src
+	url = https://github.com/Khan/flask.git
+[submodule "werkzeug-debugger-appengine"]
+	path = coursebuilder/khan/werkzeug-debugger-appengine
+	url = https://github.com/daaku/werkzeug-debugger-appengine.git

@@ -4,5 +4,7 @@ source activate
 cd rekenen-groep4-course
 zip -r ../groep_4.zip *
 cd -
+export SERVER_SOFTWARE="Development"
+export PYTHONPATH=$PYTHONPATH:$PWD/coursebuilder/tools/etl:$PWD/tools/google_appengine:$PWD/tools/google_appengine/lib/webapp2-2.5.2:$PWD/tools/google_appengine/lib/webob-1.2.3:$PWD/tools/google_appengine/lib/jinja2-2.6/:$PWD/tools/google_appengine/lib/fancy_urllib/
 python coursebuilder/import.py upload course / cb-rekenen localhost:8080 --force_overwrite --archive_path groep_4.zip
 
