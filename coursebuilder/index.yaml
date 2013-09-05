@@ -13,6 +13,16 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: DailyActivityLog
+  properties:
+  - name: user
+  - name: date
+
+- kind: ExerciseVideo
+  properties:
+  - name: exercise
+  - name: exercise_order
+
 - kind: Feedback
   properties:
   - name: author_user_id
@@ -26,6 +36,12 @@ indexes:
   ancestor: yes
   properties:
   - name: updated_on
+
+- kind: ProblemLog
+  properties:
+  - name: exercise
+  - name: user
+  - name: time_done
 
 - kind: ProblemLog
   properties:
@@ -89,6 +105,11 @@ indexes:
   - name: user
   - name: total_done
     direction: desc
+
+- kind: UserExercise
+  properties:
+  - name: user
+  - name: proficient_date
 
 - kind: VideoLog
   properties:

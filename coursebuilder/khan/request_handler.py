@@ -223,6 +223,7 @@ class RequestHandler(webapp2.RequestHandler, RequestInputHandler):
             return type.__new__(mcls, name, bases, attrs)
 
     def is_ajax_request(self):
+        return True
         # jQuery sets X-Requested-With header for this detection.
         if self.request.headers.has_key("x-requested-with"):
             s_requested_with = self.request.headers["x-requested-with"]

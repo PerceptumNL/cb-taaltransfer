@@ -23,6 +23,10 @@ libraries:
   version: "1.2.3"
 
 handlers:
+
+- url: /gae_bingo/static
+  static_dir: khan/gae_bingo/static
+
 - url: /images
   static_dir: khan/images
 
