@@ -1,0 +1,8 @@
+source activate
+#python coursebuilder/import.py upload course /groep_4 cb-rekenen cb-rekenen.appspot.com --archive_path groep_4.zip
+
+cd rekenen-groep4-course
+zip -r ../groep_4.zip *
+cd -
+python coursebuilder/import.py upload course / cb-rekenen localhost:8080 --force_overwrite --archive_path groep_4.zip
+
