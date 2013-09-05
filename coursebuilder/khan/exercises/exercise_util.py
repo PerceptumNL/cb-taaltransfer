@@ -9,19 +9,19 @@ except ImportError:
 from google.appengine.ext import db
 from google.appengine.ext import deferred
 
-#import custom_exceptions
+import custom_exceptions
 import datetime
 import exercise_models
 import points
-#import topic_models
-#import user_util
-#import video_models
+import topic_models
+import user_util
+import video_models
 
-#import badges.util_badges
-#import phantom_users
-#
+import badges.util_badges
+import phantom_users
+
 import gae_bingo.gae_bingo
-#from goals.models import GoalList
+from goals.models import GoalList
 from experiments import StrugglingExperiment
 
 
@@ -96,10 +96,10 @@ def make_wrong_attempt(user_data, user_exercise):
 def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
     attempt_content, sha1, seed, completed, count_hints, time_taken,
     review_mode, topic_mode, problem_type, ip_address, card, stack_uid,
-    topic_id, cards_done, cards_left, async_problem_log_put=True,
-    async_stack_log_put=True):
+    topic_id, cards_done, cards_left, async_problem_log_put=False,
+    async_stack_log_put=False):
 
-    if user_exercise and user_exercise.belongs_to(user_data):
+    if user_exercise: # and user_exercise.belongs_to(user_data):
         dt_now = datetime.datetime.now()
         exercise = exercise_models.Exercise.get_by_name(user_exercise.exercise)
 
@@ -135,11 +135,11 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
             if user_exercise.total_done == 0 and user_data.is_phantom:
                 error_class = custom_exceptions.QuietException
 
-            msg = "Problem out of order (%s, %s) for uid:%s, content:%s, seed:%s"
+            ##msg = "Problem out of order (%s, %s) for uid:%s, content:%s, seed:%s"
 
-            raise error_class(msg % (problem_number,
-                user_exercise.total_done + 1, user_data.user_id,
-                attempt_content, seed))
+            ##raise error_class(msg % (problem_number,
+            ##    user_exercise.total_done + 1, user_data.user_id,
+            ##    attempt_content, seed))
 
         if len(sha1) <= 0:
             raise Exception("Missing sha1 hash of problem content.")
@@ -232,14 +232,14 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
                     just_earned_proficiency = True
                     problem_log.earned_proficiency = True
 
-            #badges.util_badges.update_with_user_exercise(
-            #    user_data,
-            #    user_exercise,
-            #    include_other_badges=True,
-            #    action_cache=badges.last_action_cache.LastActionCache.get_cache_and_push_problem_log(user_data, problem_log))
+            badges.util_badges.update_with_user_exercise(
+                user_data,
+                user_exercise,
+                include_other_badges=True,
+                action_cache=badges.last_action_cache.LastActionCache.get_cache_and_push_problem_log(user_data, problem_log))
 
-            ## Update phantom user notifications
-            #phantom_users.util_notify.update(user_data, user_exercise)
+            # Update phantom user notifications
+            phantom_users.util_notify.update(user_data, user_exercise)
 
             gae_bingo.gae_bingo.bingo([
                 'struggling_problems_done',
@@ -266,9 +266,9 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
 
         user_exercise_graph = exercise_models.UserExerciseGraph.get_and_update(user_data, user_exercise)
 
-        #goals_updated = GoalList.update_goals(user_data,
-        #    lambda goal: goal.just_did_exercise(user_data, user_exercise,
-        #        just_earned_proficiency))
+        goals_updated = GoalList.update_goals(user_data,
+            lambda goal: goal.just_did_exercise(user_data, user_exercise,
+                just_earned_proficiency))
 
         # Bulk put
         db.put([user_data, user_exercise, user_exercise_graph.cache])
@@ -321,8 +321,7 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
                     stack_log_source, card, cards_done, cards_left,
                     problem_log.__class__.__name__, str(problem_log.key()))
 
-        #return user_exercise, user_exercise_graph, goals_updated
-        return user_exercise, user_exercise_graph
+        return user_exercise, user_exercise_graph, goals_updated
 
 def calc_topic_mode_log_stats(user_exercise_graph, topic_id,
         just_earned_proficiency):

@@ -1,4 +1,4 @@
-#import auth.cookies
+import auth.cookies
 import datetime
 import request_cache
 import logging
@@ -8,13 +8,13 @@ from google.appengine.ext import db
 from third_party.asynctools import AsyncMultiTask, QueryTask
 
 # Needed for side effects of secondary imports
-#import nicknames  # @UnusedImport
-#import facebook_util
-#from phantom_users.phantom_util import get_phantom_user_id_from_cookies, \
-#    is_phantom_id
-#
-#from api.auth.auth_util import current_oauth_map, allow_cookie_based_auth
-#import uid
+import nicknames  # @UnusedImport
+import facebook_util
+from phantom_users.phantom_util import get_phantom_user_id_from_cookies, \
+    is_phantom_id
+
+from api.auth.auth_util import current_oauth_map, allow_cookie_based_auth
+import uid
 
 
 def current_req_has_auth_credentials():

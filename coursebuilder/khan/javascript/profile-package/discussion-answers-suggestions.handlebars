@@ -1,0 +1,11 @@
+{{#if hasWatchedVideos}}
+    Kun jij helpen met het beantwoorden van vragen gerelateerd aan deze video?
+{{else}}
+    Bekijk deze video en help met het beantwoorden van vragen:
+{{/if}}
+
+<div class="discussion-message-body">
+    {{#each videos}}
+        <a class="discussion-message-item" href="{{url}}">{{name}}</a>
+    {{/each}}
+</div>

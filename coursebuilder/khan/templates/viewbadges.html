@@ -1,0 +1,121 @@
+{% extends "page_template.html" %}
+
+{% block pagecss %}
+    {{ js_css_packages.css_package("badge") }}
+{% endblock pagecss %}
+
+{% block meta_facebook_tags -%}
+{% if badge -%}
+        <meta property="og:type" content="{{ App.facebook_app_namespace }}:badge" /> 
+        <meta property="og:title" content="{{ badge.description }}" />
+        <meta property="og:description" content="{{ badge.safe_extended_description }}" />
+        <meta property="og:url" content="{{ badge.absolute_url }}">
+        <meta property="og:image" content="{{ badge.large_icon_src }}" />
+{%- endif %}
+{%- endblock %}
+
+{% block pagecontent %}
+
+{% if badge -%}
+<div class="badge-box">
+<div class="badge-spotlight vertical-shadow">
+    <h2 class="info-box">{{ badge.description }}</h2>
+    <div class="description">
+        {{ badge.safe_extended_description|escape }}
+    </div>
+    <div class="hero-badge">
+        <figure>
+            <p><img src="{{ badge.large_icon_src }}" alt="a large illustration of a {{ badge.type_label()|escape }}">
+            <figcaption>
+                <p class="badge-desc"><span class="badge-type">{{ badge.type_label()|escape }}</span> Badge
+            </figcaption>
+        </figure>
+    <div class="badge-hook info-box">
+        <p class="badge-hook">Dit is slechts &#233;&#233;n van de <a title="really, more like a billionty">meer dan honderd </a> badges die je kunt verdienen bij iktel.nl.
+        {% if logged_in %}
+        <p class="badge-hook">Begin <a href="/exercisedashboard">met een opgave</a> of <a href="/#browse">bekijk een video</a> en verdien er zelf ook &#233;&#233;n</p>
+        {% else %}
+        <p class="badge-hook"><a href="{{ login_url|escape }}">Log in</a> of <a href="{{ templatetags.to_insecure_url('/signup') }}?continue={{continue|urlencode}}">Registreer je</a> nu meteen en verdien vandaag nog je eerste badge!</p>
+        {% endif %}
+    </div>
+    </div>
+</div>
+</div>
+{%- endif %}
+
+<div class="achievement-badges-explanation">
+    <h3 class="fancy-heading"><span>Successen</span></h3>
+    <table style="width:100%" cellspacing="5">
+        <tr>
+            <td style="text-align:center;">
+                <img src="/images/badges/meteorite-small.png" /><br/>
+                <strong>Meteoriet</strong> badges komen vaak voor en zijn makkelijk te verdienen wanneer je net begint.
+            </td>
+            <td style="text-align:center;">
+                <img src="/images/badges/moon-small.png" /><br/>
+                <strong>Maan</strong> badges zijn niet gebruikelijk en geven aan dat je al veel geleerd hebt.
+            </td>
+            <td style="text-align:center;">
+                <img src="/images/badges/earth-small.png" /><br/>
+                <strong>Aarde</strong> badges zijn zeldzaam. Ze vereisen dat je al veel geleerd hebt.
+            </td>
+            <td style="text-align:center;">
+                <img src="/images/badges/sun-small.png" /><br/>
+                <strong>Zon</strong> badges zijn episch. Het verdienen van deze badges is een ware uitdaging en ze vereisen daarom ook een enorme toewijding.
+            </td>
+            <td style="text-align:center;">
+                <img src="/images/badges/eclipse-small.png" /><br/>
+                <strong>Zwarte Gat</strong> badges zijn legendarisch en onbekend. Dit is de meest prestigieuze badge die je kunt verdienen bij iktel.nl.
+            </td>
+            <td style="text-align:center;">
+                <img src="/images/badges/master-challenge-blue-small.png" /><br/>
+                <strong>Uitdagingen badges</strong> zijn speciale badges die je alleen kunt verdienen als je alle opgaven van een onderwerp hebt voltooid.
+            </td>
+        </tr>
+    </table>
+</div>
+
+<article class="achievement-badges-container">
+{% if user_badges_master %}
+    <h3 class="fancy-heading"><span>Jouw uitdagingen badges</span></h3>
+    <div class="clear">&nbsp;</div>
+    <div class="centered-badge-container">
+    {% for user_badge in user_badges_master %}
+        {% if user_badge.badge %}
+            {{ badges.badge_block(user_badge.badge, user_badge) }}
+        {% endif %}
+    {% endfor %}
+    </div>
+    <div class="clear">&nbsp;</div>
+{% endif %}
+
+{% if user_badges_normal %}
+    <h3 class="fancy-heading"><span>Jouw badges</span></h3>
+    <div class="clear">&nbsp;</div>
+    <div class="centered-badge-container">
+    {% for user_badge in user_badges_normal %}
+        {% if user_badge.badge %}
+            {{ badges.badge_block(user_badge.badge, user_badge) }}
+        {% endif %}
+    {% endfor %}
+    </div>
+    <div class="clear">&nbsp;</div>
+{% endif %}
+
+
+<h2 class="luxe"><span>Alle Badges</span></h2>
+{% for badge_collection in badge_collections %}
+    <div class="clear">&nbsp;</div>
+    <h3 class="fancy-heading"><span>{{ badge_collection[0].type_label()|escape }}</span></h3>
+    <div class="clear">&nbsp;</div>
+    <div class="centered-badge-container">
+    {% for badge in badge_collection %}
+          <a class="big-button" href="/badges/{{ badge.slug }}">{{ badges.badge_block(badge, None, show_badge_frequencies) }}</a>
+    {% endfor %}
+    </div>
+{% endfor %}
+    <div class="clear">&nbsp;</div>
+</article>
+
+{% endblock pagecontent %}
+

@@ -1,0 +1,104 @@
+{% extends "coach_resources/view_toolkit.html" %}
+
+{% block col1content %}
+		
+	<h1>Een klas opstarten</h1>
+	<p class="lead">Om het meeste uit iktel.nl te halen moet je een aantal accounts opzetten. In onze handige gids wordt uitgelegd hoe je dit het snelst kunt doen.</p>
+	<p>Om gebruik te maken van iktel.nl kun je inloggen met een Facebook- of Google-account. In de toekomst wordt het mogelijk om met andere, al bestaande, e-mailadressen aan te melden.</p>
+	
+	
+	
+	<p>Meer informatie over Google accounts vind je hier</p>
+	<ul class="bullet">
+		<li><a href="http://www.google.com/apps/intl/en/edu/k12.html">Google Apps for Education registratie</a></li>
+		<li><a href="http://www.google.com/support/a/bin/answer.py?answer=139019">Google Apps for Education veel gestelde vragen</a></li>
+	</ul>
+	
+	<h3>Een vlotte start van de klas</h3>
+	<p class="has-media"><span class="toolkit-media"><img width="100%" src="/images/toolkit/login-with-Google.png"/></span>
+	Om snel met iktel.nl aan de slag te kunnen, raden wij het gebruik van Google apps for education aan. Elke leerling heeft zo zijn eigen e-mailadres. (voornaam.achternaam@schoolnaam.nl)</p>
+		
+        <p>Aangezien het werken met een nieuw systeem soms lastig is, staat <a href="http://dl.dropbox.com/u/33113979/KA_add_students.pdf">hier</a> beschreven hoe dat werkt. 
+        <!--- <strong>TODO: add in sample document</strong></p>	--->
+	
+	<p>Coaches kunnen de gegevens van studenten zien en zien waar hulp nodig is. Om deze data te kunnen zien, moet je hun coach zijn. Meerdere coaches (bijvoorbeeld ouders) kunnen ook toegevoegd worden. Om een coach aan de account van een leerling toe te voegen dienen zij onderstaand schema te volgen:</p>
+		
+	<!-- TODO(Matt): Link to coach.html template instead of copying in file contents. -->
+						
+    {% set coach_email = UserData.current().email if UserData.current() else "Sign in for your Coach id." %}
+
+    <div id="empty-class">
+        {% if class_is_empty %}
+        <h1>Je hebt nog geen leerlingen.</h1>
+        {% endif %}
+        <h3>Elke student dient zich in te schrijven en deze stappen te volgen:</h3>
+        <ol>
+            <li>
+                <p>Ten eerste, moeten zij <a href="/profile">hun profiel</a> bezoeken door bovenaan de pagina op hun naam te klikken.</p>
+                <img src="/images/profile-link-in-header.png?1" class="vertical-shadow rounded-background" />
+            </li>
+            <li>
+                <p>Daarna moeten zij op de "coach" tab klikken.</p>
+                <img src="/images/coaches-nav.png?1" class="vertical-shadow rounded-background"/>
+            </li>
+            <li class="enter-email">
+                <!-- Are you a flying chimpanzee? Are you changing this element or anything inside?
+                If you answered yes to any of these questions, please update the positioning of the coach email.
+                Look in default.css for #empty-class ol li.enter-email div.coach-email -->
+                <p>Tenslotte moeten zij het e-mailadres van hun coach invullen en op <em>Coach toevoegen</em> klikken.</p>
+                {% if UserData.current() %}
+                    <p>Jouw coach ID is <strong>{{ coach_email|escape }}</strong>.</p>
+                {% else %}
+                    <p>{{ coach_email|escape}}</p>
+                {% endif %}
+                <div class="coach-email">{{ coach_email|escape }}</div>
+                <img src="/images/coaches-tab-in-profile.png?1" class="vertical-shadow rounded-background"/>
+            </li>
+        </ol>
+        <p>Zodra je coach van je leerlingen bent, heb je toegang tot alle vormen van interessante gegevens over hun voortgang en prestaties.</p>
+        <p>Via<a href="/class_profile">Klassenoverzicht</a> heb je toegang.</p>
+    </div>
+    
+    <h1>Het creëren van klassenlijsten</h1>
+    <hr>
+    <p>Je kunt alle studenten die jou hebben toegevoegd als coach vinden onder “Coach”, rechtsbovenaan. Kies hier: "Beheer leerlingen". Sommige leraren willen hun leerlingen scheiden in meerdere klassen (bijvoorbeeld per periode). Als je dit wilt, volg dan deze stappen;</p>
+     <ul class="bullet">
+    	<li>Klik op "Creëer een nieuwe lijst", aan de linkerzijde van het scherm.</li>
+    	<li>Geef de lijst een naam (bijv. eerste periode wiskunde) en klik op "Oke".</li>
+    	<li>Herhaal dit zoveel als je zelf wilt.</li>
+    </ul>
+    <p>Nu moet je nog studenten toevoegen aan de lijsten die je net gemaakt hebt. In het midden staat een lijst met alle leerlingen.
+    <ul class="bullet">
+    	<li>Ga met je muis naar de rechterzijde van elke leerling. Hier verschijnt een drop-down menu met alle lijsten.</li>
+    	<li>Klik op de lijst waaraan je de student wilt toevoegen. Als je bijvoorbeeld Jan aan de lijst Wiskunde wilt toevoegen, ga je met de muis naar "Jan" en klik in het drop-down menu op "Wiskunde". Je kunt zoveel leerlingen toevoegen als je zelf wilt.</li></ul>
+    <p>Je kunt alle rapporten van alle leerlingen en voor elke categorie terugzien onder "Alle studenten" aan de rechterkant van de coach-pagina. Selecteer hier de klassenlijst die je wilt bekijken. </p>
+    
+	<p><a href="{{base_url}}/technology" class="call-to-action simple-button green">Volgende: Techniek →</a></p>
+
+{% endblock col1content %}	
+		
+{% block col2content %}	
+<div class="callout">
+		<h3>Handige links</h3>
+                <ul class="bullet">
+			<li><a href="https://dl-web.dropbox.com/get/coach%20toevoegen.pdf?w=AACcwQkNAO9ii43SUgnZWnF81f1ONjEQNQIQXVKkVYHC6w">Download de handleiding voor leerlingen "hoe een coach toe te voegen" </a></li>
+			<li><a href="http://khanacademy.desk.com/customer/portal/articles/414069-how-can-i-add-my-class-to-khan-academy-">Hoe voeg ik mijn klas toe aan iktel.nl?</a></li>
+			<li><a href="http://khanacademy.desk.com/customer/portal/articles/414096-we-cannot-use-gmail-or-facebook-in-our-school-how-can-we-log-in-to-khan-academy-">Hoe kan ik inloggen zonder Facebook of Google?</a></li>
+			<li><a href="http://khanacademy.desk.com/customer/portal/articles/414103-do-you-support-any-other-ways-to-log-into-khan-academy-">Zijn er andere manieren om in te loggen?</a></li>
+			<li><a href="http://khanacademy.desk.com/customer/portal/articles/414104-does-khan-academy-have-its-own-login-">Heeft iktel.nl een eigen log-in?</a></li>
+		</ul>	
+</div>
+
+
+             <script type="text/javascript">
+            var disqus_shortname = 'ka-toolkit'; 
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	
+{% endblock col2content %}	

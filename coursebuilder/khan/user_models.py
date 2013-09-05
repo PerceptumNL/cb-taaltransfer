@@ -21,26 +21,24 @@ from google.appengine.ext import db
 
 from exercises import accuracy_model
 from api import jsonify   # TODO(csilvers): move out of api/?
-#import auth.models
-#from auth import age_util
-#from counters import user_counter
+import auth.models
+from auth import age_util
+from counters import user_counter
 #from discussion import discussion_models
-#from tincan import TinCan
-#import badges
-#import facebook_util
-#import gae_bingo.models
-#import gae_bingo.gae_bingo
-#import nicknames
+from tincan import TinCan
+import badges
+import facebook_util
+import gae_bingo.models
+import gae_bingo.gae_bingo
+import nicknames
 import object_property
-#import phantom_users
+import phantom_users
 import request_cache
 import transaction_util
-#import user_util
+import user_util
 import util
-#import uid
-
-#c-b
-from models.entities import BaseEntity
+import uid
+import models.models
 
 
 _PRE_PHANTOM_EMAIL = "http://nouserid.khanacademy.org/pre-phantom-user-2"
@@ -59,9 +57,8 @@ GOOGLE_ID_PREFIX = "http://googleid.khanacademy.org/"
 _COACH_DEMO_COWORKER_EMAIL = "khanacademy.demo2@gmail.com"
 
 
-#class UserData(gae_bingo.models.GAEBingoIdentityModel,
-#               auth.models.CredentialedUser):
-class UserData(BaseEntity):
+class UserData(gae_bingo.models.GAEBingoIdentityModel,
+               auth.models.CredentialedUser):
     # Canonical reference to the user entity. Avoid referencing this directly
     # as the fields of this property can change; only the ID is stable and
     # user_id can be used as a unique identifier instead.
@@ -218,9 +215,9 @@ class UserData(BaseEntity):
         new_name = nickname or ""
 
         if new_name != self.user_nickname:
-            #if nickname and not nicknames.is_valid_nickname(nickname):
-            #    # The user picked a name, and it seems offensive. Reject it.
-            #    return False
+            if nickname and not nicknames.is_valid_nickname(nickname):
+                # The user picked a name, and it seems offensive. Reject it.
+                return False
 
             self.user_nickname = new_name
 
@@ -253,6 +250,7 @@ class UserData(BaseEntity):
         should not be displayed to users -- for that, use the 'email'
         property.
         """
+        return 'test@example.com'
         return self.user.email()
 
     def has_sendable_email(self):
@@ -372,15 +370,17 @@ class UserData(BaseEntity):
         """
 
         #user_id = util.get_current_user_id_unsafe(bust_cache=True)
-        user_id = None
         #if user_id is None:
         #    return None
 
         google_user = users.get_current_user()
-        if google_user:
-            email = google_user.email()
-        else:
-            email = user_id
+        #if google_user:
+        #    email = google_user.email()
+        #else:
+        #    email = user_id
+        return models.models.Student.get_by_email(google_user.email())
+
+        return UserData.get_from_db_key_email(email)
 
         existing = UserData.get_from_request_info(user_id, email)
         if existing:
@@ -480,6 +480,7 @@ class UserData(BaseEntity):
 
     @property
     def is_pre_phantom(self):
+        return False
         return _PRE_PHANTOM_EMAIL == self.user_email
 
     @property
@@ -531,9 +532,10 @@ class UserData(BaseEntity):
         if not email:
             return None
 
-        query = UserData.all()
-        query.filter('user =', users.User(email))
-        query.order('-points')  # Temporary workaround for issue 289
+        query = models.models.Student.all()
+        query.filter('key_name =', email)
+        #query.filter('user =', users.User(email))
+        #query.order('-points')  # Temporary workaround for issue 289
 
         return query.get()
 
@@ -663,8 +665,7 @@ class UserData(BaseEntity):
             user_data = UserData.get_or_insert(**prop_values)
             user_data = db.get(user_data.key())   # force-commit for HRD data
 
-        #if user_data and not user_data.is_phantom:
-        if user_data:
+        if user_data and not user_data.is_phantom:
             # Record that we now have one more registered user
             if (datetime.datetime.now() - user_data.joined).seconds < 60:
                 # Extra safety check against user_data.joined in case some
@@ -939,11 +940,9 @@ class UserData(BaseEntity):
                 userExercise = exercise_models.UserExercise.get(
                     str(key_user_exercise))
 
+            #TinCan.create_question(self, "launched", exercise)
 
         if allow_insert and not userExercise:
-            logging.error("BLEEE")
-            logging.error(exercise)
-            logging.error(exercise.kind())
             userExercise = exercise_models.UserExercise.get_or_insert(
                 key_name=exid,
                 parent=self,
@@ -1215,9 +1214,9 @@ class UserData(BaseEntity):
             self._original_points = self.points
 
         # Check if we crossed an interval of 2500 points
-        if self.points % 2500 > (self.points + points) % 2500:
-            phantom_users.util_notify.update(
-                self, user_exercise=None, threshold=True)
+        #if self.points % 2500 > (self.points + points) % 2500:
+        #    phantom_users.util_notify.update(
+        #        self, user_exercise=None, threshold=True)
         self.points += points
 
     def original_points(self):
@@ -1243,6 +1242,7 @@ class UserData(BaseEntity):
         May calculate (and cache) a stale count if called shortly after any
         change to the FeedbackNotification index.
         """
+        return 0
         if self.count_feedback_notification == -1:
             # Recalculate feedback notification count
 
@@ -1532,14 +1532,13 @@ class NicknameIndex(db.Model):
     @staticmethod
     def update_indices(user):
         """ Updates the indices for a user given her current nickname. """
-        pass
-        #nickname = user.nickname
-        #index_strings = nicknames.build_index_strings(nickname)
+        nickname = user.nickname
+        index_strings = nicknames.build_index_strings(nickname)
 
-        #db.delete(NicknameIndex.entries_for_user(user))
-        #entries = [NicknameIndex(parent=user, index_value=s)
-        #           for s in index_strings]
-        #db.put(entries)
+        db.delete(NicknameIndex.entries_for_user(user))
+        entries = [NicknameIndex(parent=user, index_value=s)
+                   for s in index_strings]
+        db.put(entries)
 
     @staticmethod
     def entries_for_user(user):

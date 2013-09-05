@@ -1,0 +1,31 @@
+<div class="achievement-badge category-{{category}} achievement-badge-owned" title="{{badge.safeExtendedDescription}}">
+  <div id="outline-box">
+  <img src="{{badge.iconSrc}}" id="badge-icon"/>
+  {{#if hasMultiple}}
+    <div class="achievement-count">x{{count}}</div>
+  {{/if}}
+  <div class="achievement-text">
+  <div class="achievement-title">{{badge.description}}</div>
+  <div class="achievement-desc">
+      {{#if badge.isRetired}}
+        Deze badge is <span class="badge-context-retired">buiten dienst</span>!
+        Jij mag hem voor altijd houden, maar niemand anders kan hem nog verdienen.
+      {{else}}
+        Voor het laatst behaald: <abbr class="timeago" title="{{lastEarnedDate}}">{{lastEarnedDate}}</abbr>
+        {{#if visibleContextName}}
+          in <strong>{{visibleContextName}}</strong>
+          {{#if hasMultiple}}
+            <span class="badge-context-hidden-link"><a href="#" onclick="Badges.showMoreContext(this);return false;">en ook in<span class="ellipsis">...</span></a></span>
+            <span class="badge-context-hidden" style="display:none;">
+            {{#each listContextNamesHidden}}
+               <strong>{{name}}{{#unless isLast}}, {{/unless}}</strong>
+            {{/each}}
+            </span>
+          {{/if}}
+        {{/if}}
+      {{/if}}
+  </div>
+  </div>
+  {{#if badge.points}}<div class="energy-points-badge">{{badge.points}}</div>{{/if}}
+  </div>
+</div>

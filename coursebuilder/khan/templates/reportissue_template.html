@@ -1,0 +1,50 @@
+{% extends "page_template.html" %}
+{% block pagescript %}
+<script type="text/javascript">
+function submitForm(value)
+{
+        document.forms['reportissue'].submit();
+}
+</script>
+<style>
+	p { margin-bottom: 1em; }
+</style>
+{% endblock pagescript %}
+{% block pagetitle %}Meld een probleem{% endblock pagetitle %}
+{% block pagecontent %}
+<article id="report-problem">
+	{% if message %}
+	<p style="color: red;">
+	{{message}}
+	</p>
+	{% endif %}
+        <h2 class="main-headline">{% block have_an_issue %}Heb je een probleem?{% endblock have_an_issue %}&nbsp;
+        We horen het graag van je!
+        </h2>
+				{% block exercise_warning %}{% endblock exercise_warning %}
+        <p>
+        Je kunt jouw probleem doorgeven door het onderstaande digitale formulier in te vullen.
+
+        <form method="POST" action="/reportissue">
+        <label style="display:block;">Email</label>
+        <input name="ucontact" type="text" id="issue-description" class="simple-input ui-corner-all blur-on-esc" placeholder="Email" style="width:400px"></input>
+        <br />
+        <label style="display:block;">Onderwerp</label>
+        <input name="title" type="text" id="issue-title" class="simple-input ui-corner-all blur-on-esc" placeholder="Titel" style="width:400px"/>
+        <br />
+        <label style="display:block;">Beschrijving van het probleem</label>
+        <textarea name="ureport" type="text" id="issue-description" class="simple-input ui-corner-all blur-on-esc" placeholder="Beschrijving" style="width:400px;height:200px"></textarea>
+        <br />
+        <input type="hidden" name="page" value="reportaproblem"></input>
+        <input type="hidden" name="utype" value="general"></input>
+        <input type="submit" text="Submit"></input>
+        </form>
+
+        <p>Bedankt voor melden van het probleem!
+        <p>
+        Wanneer wij denken dat we het probleem hebben opgelost zul je een e-mail ontvangen en je zult zelf het verschil zien
+        bij de volgende keer dat we de site upgraden.  
+        </p>
+        <p><em>Hartelijk dank dat je de tijd neemt om ons te helpen met het verbeteren van iktel.nl!</em></p>
+</article>
+{% endblock pagecontent %}

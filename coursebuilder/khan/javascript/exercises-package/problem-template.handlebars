@@ -1,0 +1,96 @@
+<!--
+    TODO: eventually, this template can replace khan-exercises/exercises/khan-exercise.html,
+    which is used in exercise test mode
+-->
+
+<div id="exercise-message-container" style="display: none;">
+	<div class="exercise_message"></div>
+</div>
+<div id="warning-bar">
+	<span id="warning-bar-content"></span>
+	<span id="warning-bar-close">(<a href="">sluit</a>)</span>
+</div>
+<div id="problem-and-answer">
+	<div id='problemarea'>
+		<div id='scratchpad'><div></div></div>
+		<div id='workarea'></div>
+		<div id='hintsarea'></div>
+	</div>
+	<div id="answer_area_wrap"><div id="answer_area">
+		<form id="answerform" action="/exercisedashboard" method="get" name="answerform">
+			<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px">
+			<div id="answercontent" class="info-box">
+				<span id="examples-show">Antwoordformaat</span>
+				<span class="info-box-header">Antwoord</span>
+				<div id="solutionarea" class="fancy-scrollbar"></div>
+				<ul id="examples" style="display: none"></ul>
+				<div class="answer-buttons">
+				<input type="button" class="simple-button green" id="check-answer-button" tabindex="10" value="Check Antwoord"/>
+				<input type="button" class="simple-button green" id="next-question-button" style="display:none;" name="correctnextbutton" value="Correct! Volgende vraag..."/>
+				<div id="positive-reinforcement"><img src="/images/face-smiley.gif" /></div>
+				<span id="show-solution-button-container"></span>
+				<div id="check-answer-results"><p class="check-answer-message info-box-sub-description"></p></div>
+				</div>
+			</div>
+			<div id="readonly" class="info-box">
+				<span id="readonly-problem" class="info-box-header"></span>
+				<span id="readonly-title" class="info-box-subheader">Je bekijkt een probleem.</span>
+				<span class="info-box-sub-description">Wil je een soortgelijke oefening doen, <a id="readonly-start" href="">begin met deze oefening</a>.</span>
+			</div>
+			<div class="info-box hint-box">
+				<span class="info-box-header">Hulp nodig?</span>
+				<div id="get-hint-button-container">
+					<input id="hint" type="button" class="simple-button orange full-width" value="Geef mij een hint" name="hint"/>
+				</div>
+				<span id="hint-remainder"></span>
+			</div>
+			<div class="info-box related-video-box">
+				<div id="related-video-content">
+					<span class="info-box-header">Uitleg nodig?
+						<span class="watch" style="display:none"> Bekijk een video.</span>
+					</span>
+
+					<div id="related-video-list">
+						<span class="related-content-title">Gerelateerde filmpjes:</span>
+						<ul class="related-video-list"></ul>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</form>
+		<div id="issue" class="info-box" style="display:none;">
+			<span class="info-box-header">Rapporteer een probleem</span>
+			<span id="issue-status" class="info-box-sub-description"></span>
+			<form>
+				<fieldset>
+					<legend>Soort Probleem</legend>
+					<ul>
+						<li>
+							<input type="radio" name="issue-type" id="issue-wrong-or-unclear">
+							<label for="issue-wrong-or-unclear">Het antwoord is fout of de vraag is onduidelijk</label>
+						</li>
+						<li>
+							<input type="radio" name="issue-type" id="issue-hard">
+							<label for="issue-hard">Ik ben gefrustreerd (leg uit waarom) of dit is te moeilijk</label>
+						</li>
+						<li>
+							<input type="radio" name="issue-type" id="issue-not-showing">
+							<label for="issue-not-showing">Ik kan de opgaven niet zien of de website werkt niet</label>
+						</li>
+						<li>
+							<input type="radio" name="issue-type" id="issue-other">
+							<label for="issue-other">Anders (Beschrijf hieronder)</label>
+						</li>
+					</ul>
+				</fieldset>
+				<label for="issue-title">Onderwerp:<input type="text" name="issue-title" id="issue-title" /></label>
+				<label for="issue-email">Jouw email (optioneel):<input type="text" name="issue-email" id="issue-email" /></label>
+				<label for="issue-body">Beschrijving van het probleem:<textarea name="issue-body" id="issue-body"></textarea></label>
+				<input type="submit" class="simple-button" value="Voeg Probleem toe">
+				<a href="/#" id="issue-cancel">Sluit</a>
+				<img id="issue-throbber" style="display:none;" name="issue-throbber">
+			</form>
+		</div>
+	</div></div>
+	<div style="clear: both;"></div>
+</div>

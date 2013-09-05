@@ -1,0 +1,36 @@
+{% macro empty_class_instructions(class_is_empty=True) -%}
+
+    {% set coach_email = UserData.current().email if UserData.current() else "Sign in for your Coach id." %}
+
+    <div id="empty-class">
+        {% if class_is_empty %}
+        <h1>Je hebt nog geen leerlingen.</h1>
+        {% endif %}
+        <h3>Elk van je leerlingen moet de volgende stappen ondernemen:</h3>
+        <ol>
+            <li>
+                <p>Ten eerste moeten ze naar <a href="/profile">hun profiel</a> gaan door bovenaan de pagina op hun naam te klikken. (zie 'test' in afbeelding)</p>
+                <img src="/images/profile-link-in-header.png?1" class="vertical-shadow rounded-background" />
+            </li>
+            <li>
+                <p>Vervolgens moeten ze op het coaches icoon klikken.</p>
+                <img src="/images/coaches-nav.png?1" class="vertical-shadow rounded-background"/>
+            </li>
+            <li class="enter-email">
+                <!-- Are you a flying chimpanzee? Are you changing this element or anything inside?
+                If you answered yes to any of these questions, please update the positioning of the coach email.
+                Look in default.css for #empty-class ol li.enter-email div.coach-email -->
+                <p>Tenslotte, moeten ze jouw Coach id invoeren en op <em>voeg coach toe</em> klikken.</p>
+                {% if UserData.current() %}
+                    <p>Jouw coach id is <strong>{{ coach_email|escape }}</strong>.</p>
+                {% else %}
+                    <p>{{ coach_email|escape}}</p>
+                {% endif %}
+                <div class="coach-email">{{ coach_email|escape }}</div>
+                <img src="/images/coaches-tab-in-profile.png?1" class="vertical-shadow rounded-background"/>
+            </li>
+        </ol>
+        <p>Nadat leerlingen jou tot hun coach hebben gemaakt, heb je toegang tot allerlei interessante data over hun voortgang en behaalde resultaten.</p>
+        <p>Je kunt deze data bekijken via het <a href="/class_profile">klassenrapport</a>.</p>
+    </div>
+{%- endmacro %}

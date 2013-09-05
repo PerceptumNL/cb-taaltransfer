@@ -1,0 +1,53 @@
+{
+    "profileRoot": "/profile/_emtest333%40example.com",
+    "profileData": {
+        "avatarName": "yellowleaf",
+        "avatarSrc": "/images/avatars/leaf-yellow.png",
+        "countExercisesProficient": 2,
+        "countVideosCompleted": 1,
+        "dateJoined": "2012-03-08T23:52:42Z",
+        "email": "test333@example.com",
+        "isCoachingLoggedInUser": true,
+        "nickname": "test333",
+        "points": 4637,
+        "username": "",
+        "isDataCollectible": false,
+        "isSelf": true,
+        "isPublic": false,
+        "isPhantom": false,
+        "isRequestingToCoachLoggedInUser": false,
+        "publicBadges": [{
+            "badgeCategory": 0,
+            "description": "Inspired 15 Minutes",
+            "hideContext": false,
+            "iconSrc": "/images/badges/meteorite-small.png",
+            "icons": {
+                "compact": "/images/badges/meteorite-60x60.png",
+                "medium": "/images/badges/meteorite-medium.png",
+                "small": "/images/badges/meteorite-small.png"
+            },
+            "isOwned": false,
+            "name": "powerfifteenminutesbadge",
+            "points": 0,
+            "safeExtendedDescription": "Beantwoord 10 problemen correct en bekijk een video van 10  minuten in 15 minuten"
+        }, {
+            "badgeCategory": 0,
+            "description": "De vaart erin",
+            "hideContext": false,
+            "iconSrc": "/images/badges/meteorite-small.png",
+            "icons": {
+                "compact": "/images/badges/meteorite-60x60.png",
+                "medium": "/images/badges/meteorite-medium.png",
+                "small": "/images/badges/meteorite-small.png"
+            },
+            "isOwned": false,
+            "name": "nicetimedproblembadge",
+            "points": 100,
+            "safeExtendedDescription": "Beantwoord snel & correct 5 vaardigheden problemen achter elkaar (tijdslimiet hangt af van de moeilijkheidsgraad)"
+        }],
+        "isEditable": true,
+        "isFullyEditable": false
+    },
+    "countVideos": 3023,
+    "countExercises": 305
+}

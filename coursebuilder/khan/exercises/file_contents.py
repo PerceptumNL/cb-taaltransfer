@@ -2,8 +2,8 @@ import os
 import hashlib
 
 import layer_cache
-#from js_css_packages import templatetags
-#from custom_exceptions import MissingExerciseException
+from js_css_packages import templatetags
+from custom_exceptions import MissingExerciseException
 
 
 @layer_cache.cache_with_key_fxn(

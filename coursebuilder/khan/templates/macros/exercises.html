@@ -1,0 +1,55 @@
+{% macro exercise_legend() -%}
+<div class="exercise-legend" style="">
+    <span class="exercise-color proficient"></span>
+    <span class="legend-label proficient">Gehaald</span>
+    <span class="exercise-color suggested"></span>
+    <span class="legend-label suggested ">Aanbevolen</span>
+    <span class="exercise-color review"></span>
+    <span class="legend-label review">Herhalen</span>
+</div>
+{%- endmacro %}
+
+{% macro exercise_dashboard(review_drawer=False, review_statement='', review_call_to_action='') -%}
+    <div class="dashboard-header">
+        <div class="dashboard-title"><img src="/images/dashboard-icon-active.png" class="dashboard-icon" width=22 height=22 /> Kennismap <a href="#" class="collapse-drawer toggle-drawer"><img src="/images/expand-left.png" width="25" height="25"/></a></div>
+            <a href="#" class="expand-drawer toggle-drawer"><img src="/images/expand-right.png" width="25" height="25" /></a>
+        </div>
+    <div class="dashboard-drawer drawer-hoverable">
+    {%- if review_drawer -%}
+    <a href="/review" id="dashboard-review-exercises" class="hide-on-dashboard-filter exercise-color review light">
+        <img src="/images/node-review-40.png">
+        <span class="gradient-overlay"></span>
+        <span id="dashboard-review-title" href="/review">{{ review_statement }}</span>
+        <!-- TODO(david): This is placeholder. Need points info. -->
+        <span id="dashboard-review-content" href="/review">{{ review_call_to_action }} &raquo;</span>
+    </a>
+    {%- endif -%}
+    <div class="dashboard-drawer-inner fancy-scrollbar"><div>
+       <div class="dashboard-filter">
+          <input type="text" class="dashboard-filter-text ui-corner-all simple-input" placeholder="Zoek in oefeningen" /><input type="button" value="Wis" class="dashboard-filter-clear simple-button ui-corner-right strict" style="display: none;"></input>
+       </div>
+       <div class="exercise-list">
+        <span class="exercise-sublist dashboard-suggested-exercises hide-on-dashboard-filter">
+        <h3>Aanbevolen <span class="exercise-filter-count"></span></h3>
+         <div class="exercise-content suggested-exercises-content"></div>
+        </span>
+        <span class="exercise-sublist dashboard-all-exercises">
+          <h3>
+            <a href="javascript:void 0;" class="exercise-all-exercises exercise-all-exercises-text">Alle Weergeven</a>
+            <span class="exercise-filter-count"></span>
+         </h3>
+         <div class="exercise-content all-exercises-content"></div>
+        </span>
+        <span class="exercise-no-results" style="display: none;">Niets gevonden.</span>
+       </div>
+    </div></div>
+    </div>
+{%- endmacro %}
+
+{% macro knowledgemap(import_maps_package) -%}
+  {%- if import_maps_package -%}
+    <script src="http://maps.google.com/maps/api/js?v=3.8&sensor=false" type="text/javascript"></script>
+    {{ js_css_packages.js_package("maps") }}
+  {%- endif -%}
+    <div class="map-canvas"></div>
+{%- endmacro %}

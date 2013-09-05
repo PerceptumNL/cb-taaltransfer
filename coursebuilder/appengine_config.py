@@ -18,6 +18,7 @@ __author__ = 'psimakov@google.com (Pavel Simakov)'
 
 import os
 import sys
+import logging
 
 
 # Whether we are running in the production environment.
@@ -91,7 +92,11 @@ def gcb_init_third_party():
         if not os.path.exists(lib.file_path):
             raise Exception('Library does not exist: %s' % lib.file_path)
         sys.path.insert(0, lib.full_path)
-    sys.path.insert(0, 'khan')
+    sys.path.insert(0, '.')
+    BUNDLE_ROOT = os.path.dirname(__file__)
+    logging.error(BUNDLE_ROOT)
+    sys.path.insert(0, BUNDLE_ROOT + '/khan')
+    sys.path.insert(0, BUNDLE_ROOT + '/khan/third_party')
 
 
 gcb_init_third_party()

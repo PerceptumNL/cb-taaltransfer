@@ -1,0 +1,11 @@
+{{#if hasWatchedVideos}}
+   Heb jij vragen over deze recent bekeken video's?
+{{else}}
+    Nadat je <a href="/#browse">de video bekeken hebt</a>, kun je gerelateerde vragen stellen. Je kunt beginnen met het bekijken van voorgestelde video's:
+{{/if}}
+
+<div class="discussion-message-body">
+    {{#each videos}}
+        <a class="discussion-message-item" href="{{url}}">{{name}}</a>
+    {{/each}}
+</div>

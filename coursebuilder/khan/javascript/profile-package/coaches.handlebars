@@ -1,0 +1,27 @@
+<div class="graph-picker">
+   Coaches hebben toegang tot al je iktel.nl gegevens.
+    <ul class="tabrow">
+        <li>
+            Jouw student id is {{identifier}}
+        </li>
+    </ul>
+</div>
+{{#if isMutable}}
+<div class="col1">
+    <div class="coaches-section">
+        <h2>Voeg een coach toe</h2>
+        <input id="coach-email" class="blur-on-esc" placeholder="Coach id" type="text">
+        <span id="add-coach" class="simple-button">Voeg coach toe</span>
+        <img class="coach-throbber" style="display: none" src="/images/throbber.gif">
+
+        <div class="notification error" style="display: none;"></div>
+    </div>
+</div>
+{{/if}}
+
+<div class="col2">
+    <div class="coaches-section">
+        <h2>Jouw coach</h2>
+        <div id="coach-list-container"></div>
+    </div>
+</div>

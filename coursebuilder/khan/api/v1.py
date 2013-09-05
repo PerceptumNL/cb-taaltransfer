@@ -47,7 +47,7 @@ from profiles import (class_progress_report_graph, recent_activity,
                       suggested_activity)
 from knowledgemap.layout import MapLayout
 from common_core.models import CommonCoreMap
-from youtube_sync import youtube_get_video_data_dict, youtube_get_video_data
+#from youtube_sync import youtube_get_video_data_dict, youtube_get_video_data
 
 from api.route_decorator import route
 from api import v1_utils
@@ -83,9 +83,9 @@ def add_action_results(obj, dict_results):
     if user_data:
         dict_results["user_data"] = user_data
 
-        dict_results["user_info_html"] = templatetags.user_info(user_data,
-                # Use ajax referrer, if we have it, for post-login continue url
-                continue_url=request.referrer)
+        #dict_results["user_info_html"] = templatetags.user_info(user_data,
+        #        # Use ajax referrer, if we have it, for post-login continue url
+        #        continue_url=request.referrer)
 
         notifications_dict = notifications.Notifier.pop()
 
@@ -2390,25 +2390,38 @@ def user_problem_logs(exercise_name):
 # @open_access + @create_phantom will log in the user if appropriate
 # (either the cookie or oauth map is set), or else create a phantom user.
 @api.auth.decorators.open_access
-@api_create_phantom
+#@api_create_phantom
 @jsonp
 @jsonify
 def attempt_problem_number(exercise_name, problem_number):
-    user_data = user_models.UserData.current()
+    logging.error("attempt")
+    from google.appengine.api import datastore_errors, users
+    import models.models
+    u = users.get_current_user()
+    logging.error(u)
+    uu = models.models.Student.get_by_email(u.email())
+    logging.error(uu)
+    #user_data = user_models.UserData.current()
+    user_data = uu
 
+    logging.error(exercise_name)
     exercise = exercise_models.Exercise.get_by_name(exercise_name)
     user_exercise = user_data.get_or_insert_exercise(exercise)
+
+    logging.error(exercise)
+    logging.error(user_exercise)
+
 
     if user_exercise and problem_number:
 
         review_mode = request.request_bool("review_mode", default=False)
-        card_json = request.request_string("card")
+        card_json = request.request_string("card", {})
         cards_done = request.request_int("cards_done", default=-1)
         cards_left = request.request_int("cards_left", default=-1)
 
-        if cards_done == -1 or cards_left == -1 or not card_json:
-            return api_invalid_param_response("Missing request params:" +
-                    " cards_done, cards_left, or card")
+        #if cards_done == -1 or cards_left == -1 or not card_json:
+        #    return api_invalid_param_response("Missing request params:" +
+        #            " cards_done, cards_left, or card")
 
         user_exercise, user_exercise_graph, goals_updated = (
             exercises.exercise_util.attempt_problem(

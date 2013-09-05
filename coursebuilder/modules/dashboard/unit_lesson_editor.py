@@ -38,6 +38,7 @@ from tools import verify
 import yaml
 import filer
 import messages
+import khan_hook
 
 from google.appengine.ext import db
 
@@ -1064,6 +1065,10 @@ class LessonRESTHandler(BaseRESTHandler):
         lesson.activity_title = updates_dict['activity_title']
         lesson.activity_listed = updates_dict['activity_listed']
         lesson.now_available = not updates_dict['is_draft']
+
+
+        #trigger exercises khan exercises
+        khan_hook.LessonExercises().update(lesson.objectives)
 
         activity = updates_dict.get('activity', '').strip()
         errors = []

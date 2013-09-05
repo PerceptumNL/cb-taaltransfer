@@ -36,6 +36,9 @@ import modules.oeditor.oeditor
 import modules.review.review
 import modules.khanex.khanex
 
+import profiles
+import profiles.handlers
+
 # use this flag to control debug only features
 debug = not appengine_config.PRODUCTION_MODE
 
@@ -60,6 +63,24 @@ global_routes, namespaced_routes = custom_modules.Registry.get_all_routes()
 sites.ApplicationRequestHandler.bind(namespaced_routes)
 app_routes = [(r'(.*)', sites.ApplicationRequestHandler)]
 
+khan_routes = [('/profile/graph/activity', profiles.handlers.ActivityGraph),
+    ('/profile/graph/focus', profiles.handlers.FocusGraph),
+    ('/profile/graph/exercisesovertime',
+     profiles.handlers.ExercisesOverTimeGraph),
+    ('/profile/graph/exerciseproblems',
+     profiles.handlers.ExerciseProblemsGraph),
+
+    ('/profile/graph/classexercisesovertime',
+     profiles.handlers.ClassExercisesOverTimeGraph),
+    ('/profile/graph/classenergypointsperminute',
+     profiles.handlers.ClassEnergyPointsPerMinuteGraph),
+    ('/profile/graph/classtime', profiles.handlers.ClassTimeGraph),
+    ('/profile/(.+?)/(.*)', profiles.handlers.ViewProfile),
+    ('/profile/(.*)', profiles.handlers.ViewProfile),
+    ('/profile', profiles.handlers.ViewProfile),
+    ('/class_profile', profiles.handlers.ViewClassProfile),
+    ('/class_profile/(.*)', profiles.handlers.ViewClassProfile)]
+
 # tag extension resource routes
 extensions_tag_resource_routes = [(
     '/extensions/tags/.*/resources/.*', tags.ResourcesHandler)]
@@ -70,6 +91,6 @@ webapp2_i18n_config = {'translations_path': os.path.join(
 
 # init application
 app = webapp2.WSGIApplication(
-    global_routes + extensions_tag_resource_routes + app_routes,
+    global_routes + extensions_tag_resource_routes + khan_routes + app_routes,
     config={'webapp2_extras.i18n': webapp2_i18n_config},
     debug=debug)

@@ -1,0 +1,147 @@
+{% extends "page_template.html" %}
+
+{#
+{% import 'macros/mailing_lists.html' as mailing_lists %}
+#}
+
+{% block pagecss %}
+    {{ js_css_packages.css_package("bootstrap-grids") }}
+{% endblock pagecss %}
+
+{% block pagesubmenu %}
+<span class="breadcrumbs_nav">
+    <a href="/coach/resources" id="teacher-resources" class="selected">Middelen voor de leraar/lerares <span style="font-size:8px;color:orange;"> NIEUW</span>
+    <a href="/students" id="manage-students">Beheer leerlingen</a>
+    <a href="/class_profile" id="class-stats">Klassenoverzicht</a>
+</span>
+{% endblock pagesubmenu %}
+
+{% block pagecontent %}
+<style type="text/css">
+.container{ margin-top:2em; }
+
+.bigdeal { margin-top:2em; }
+.bigdeal .bigpic {
+    overflow:hidden; height:230px;
+    -webkit-border-radius:8px;
+    -moz-border-radius:8px;
+    -ms-border-radius:8px;
+    -o-border-radius:8px;
+    border-radius:8px;
+}
+.bigdeal .bigpic img{ width:100%; }
+.bigdeal h2 {font-family: museosans300, museosans-300, helveticaneue-light, "helvetica neue", sans-serif; font-size:28px; color: rgb(137, 185, 8); }
+.bigdeal a.simple-button.action-gradient.green { font-size:18px; font-family: museosans300, museosans-300, helveticaneue-light, "helvetica neue", sans-serif; }
+.smallpic { height:120px; border-bottom:2px solid #e3f1f9; margin-bottom:1em; }
+.extra-resources { margin-top:1em; }
+.extra-resources h3, .extra-resources h3 a:visited { color:rgb(0,89,135); }
+.extra-resources > div:hover  h3 a { color: rgb(137, 185, 8); text-decoration:none; }
+.extra-resources h3 small {color: #900; position:relative; font-size:9px; top:-4px; text-transform:uppercase; letter-spacing:1px;}
+.extra-resources p{ font-size:12px; line-height:1.5em; }
+.middle.row {margin-top: 3em; position:relative; }
+.middle.row hr {
+    height:0; width:100%; 
+    border-bottom: 2px solid #d0e39c; position:absolute; }
+.middle.row h4 {
+    text-transform:uppercase; letter-spacing: 4px; 
+    width:auto; text-align:center; color:#444;
+    font-family: museosans300, museosans-300, helveticaneue-light, "helvetica neue", sans-serif; 
+    font-size:12px;
+    margin-top:.7em; position:relative;
+}
+.middle.row h4 span {background-color:white; padding:0 15px; }
+.keepintouch input{ width: 95%; }
+.keepintouch input.simple-input { width:92%; padding-left:3%; margin-bottom:1em; }
+</style>
+
+<article id="coach-splash">
+
+<div class="container">
+    {#
+    <div class="login row">
+        <span class="span1">Login</span>
+        <span class="fb span2">met facebook</span>
+        <span class="goog span2">met google</span>
+    </div>
+    #}
+
+    <div class="bigdeal row">
+
+        <div class="bigpic span5">
+            <a href="/toolkit/">
+            <img src="/images/teacher-classroom.png" alt="a teacher interacting with students">
+            </a>
+        </div>
+        <div class="bigcallout span6 offset1">
+            <h2>Geef jouw klas een boost</h2>
+            <p>Bezoek onze toolkit voor leraren en ontdek alle geweldige dingen die andere leraren en coaches doen met iktel.nl.
+            <p>We willen onze coaches graag eerste rangs middelen bieden. Gratis. Altijd. Uitgebreide informatie en inhoudelijke analyses zijn slechts het begin.</p>
+            <p><a href="/toolkit/" class="simple-button green">Ontdek de toolkit</a></p>
+        </div>
+    </div>
+
+    <div class="middle row">
+        <hr>
+        <h4><span>Plus, alle coaches krijgen toegang tot</span></h4>
+    </div>
+
+    <div class="extra-resources row">
+        <div class="span3">
+            <div class="smallpic">
+                <a href="/toolkit/using-data">
+                    <img src="/images/toolkit-01.png">
+                </a>
+            </div>
+            <h3><a href="/toolkit/using-data">Omvangrijke informatie</a></h3>
+            <p>Krijg een volledig beeld van hoe jouw klas presteert op het gebied van<em> lineare vergelijkingen of</em> de voortgang van Ronald op het gebied van het <em>optellen van breuken</em>.
+        </div>
+
+        <div class="span3">
+            <div class="smallpic">
+                <a href="http://khanacademy.desk.com">
+                    <img src="/images/toolkit-02.png">
+                </a>
+            </div>
+            <h3><a href="http://khanacademy.desk.com">Jouw vragen</a></h3>
+            <p>Vind- en geef antwoord op veelgestelde vragen als: <a href="http://www.iktel.nl/about/faq"><br>Wat is iktel.nl? </a> <br> Of, <a href="http://www.iktel.nl/about/faq">voeg je eigen vragen toe</a>. <br>(Wordt aangevuld)
+        </div>
+
+        <div class="span3">
+            <div class="smallpic">
+                <a href="/commoncore">
+                    <img src="/images/toolkit-03.png">
+                </a>
+            </div>
+            <h3><a href="/commoncore">Leerlijnen</a> <small>alpha</small></h3>
+            <p>Bekijk video's en oefeningen <!-- TODO(Matt): Nice to have - Insert "We're in the early innings here - suggestions welcome." and form to allow CC suggestion --></a>
+        </div>
+        {#
+        <div class="span3">
+            <div class="smallpic">
+                <a href="javascript:$('#mailform').focus();">
+                    <img src="/images/toolkit-04.png">
+                </a>
+            </div>
+            <h3><a href="javascript:$('#mailform').focus();">Blijf in contact</a></h3>
+            <div class="mailing_list_container" id="mailing_list_container_2">
+                <form name="coach_mailing_list_form" class="keepintouch">
+                    <input type="email" name="email" class="email simple-input ui-corner-all"
+                     id="mailform" placeholder="Enter your email"
+                     {% if logged_in %} value="{{ coach_email }}" {% endif %} />
+                    <input type="submit" value="Registreer jouw klas" class="simple-button">
+                </form>
+            </div>
+            <p>Schrijf je in voor onze coach mailing en blijf op de hoogte van nieuwe ontwikkelingen.</p>
+            <script>
+                if (typeof MailingList !== "undefined") {
+                    MailingList.init("2");
+                }
+            </script>
+        </div>
+        #}
+    </div>
+
+</article>
+</div>
+
+{% endblock pagecontent %}

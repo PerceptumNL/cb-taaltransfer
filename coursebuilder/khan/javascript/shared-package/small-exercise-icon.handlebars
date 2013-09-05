@@ -1,0 +1,30 @@
+{{#if justEarnedProficiency}}
+
+<span class="small-exercise-icon node-complete" data-desc="Je bent bekwaam in deze vaardigheid."></span>
+
+{{else}}
+
+{{#if reviewing}}
+
+<span class="small-exercise-icon node-review" data-desc="Je beheerst deze vaardigheid bijna, wellicht moet je het nog eens herhalen."></span>
+
+{{else}}
+
+{{#if proficient}}
+
+<span class="small-exercise-icon node-complete" data-desc="Je bent bekwaam in deze vaardigheid."></span>
+
+{{else}}
+
+{{#if suggested}}
+
+<span class="small-exercise-icon node-suggested" data-desc="Je hebt aan alle vereisten voldaan, dus wij denken dat je er klaar voor bent."></span>
+
+{{else}}
+
+<span class="small-exercise-icon node-not-started" data-desc="Deze vaardigheid kan je oefenen"></span>
+
+{{/if}}
+{{/if}}
+{{/if}}
+{{/if}}

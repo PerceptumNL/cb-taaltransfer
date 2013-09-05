@@ -13,6 +13,25 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: Feedback
+  properties:
+  - name: author_user_id
+  - name: types
+  - name: sum_votes
+    direction: desc
+  - name: date
+    direction: desc
+
+- kind: Goal
+  ancestor: yes
+  properties:
+  - name: updated_on
+
+- kind: ProblemLog
+  properties:
+  - name: user
+  - name: time_done
+
 - kind: ReviewStep
   properties:
   - name: assigner_kind
@@ -33,3 +52,45 @@ indexes:
   - name: completed_count
   - name: assigned_count
   - name: create_date
+
+- kind: Student
+  properties:
+  - name: user
+  - name: points
+    direction: desc
+
+- kind: UserBadge
+  properties:
+  - name: user
+  - name: badge_name
+  - name: date
+    direction: desc
+
+- kind: UserBadge
+  properties:
+  - name: user
+  - name: date
+
+- kind: UserData
+  properties:
+  - name: user
+  - name: points
+    direction: desc
+
+- kind: UserData
+  properties:
+  - name: user_id
+  - name: points
+    direction: desc
+
+- kind: UserExercise
+  properties:
+  - name: exercise
+  - name: user
+  - name: total_done
+    direction: desc
+
+- kind: VideoLog
+  properties:
+  - name: user
+  - name: time_watched

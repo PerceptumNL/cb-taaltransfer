@@ -63,16 +63,16 @@ application = profiler.ProfilerWSGIMiddleware(application)
 application = middleware.GAEBingoWSGIMiddleware(application)
 application = wsgi_compat.WSGICompatHeaderMiddleware(application)
 
-if App.is_dev_server:
-    try:
-        # Run debugged app
-        from third_party.werkzeug_debugger_appengine import get_debugged_app
-        api_app.debug = True
-        application = get_debugged_app(application)
-    except Exception, e:
-        api_app.debug = False
-        logging.warning("Error running debugging version of werkzeug app, "
-                        "running production version: %s" % e)
+#if App.is_dev_server:
+#    try:
+#        # Run debugged app
+#        from third_party.werkzeug_debugger_appengine import get_debugged_app
+#        api_app.debug = True
+#        application = get_debugged_app(application)
+#    except Exception, e:
+#        api_app.debug = False
+#        logging.warning("Error running debugging version of werkzeug app, "
+#                        "running production version: %s" % e)
     
 # Uncomment the following line to enable profiling 
 #application = ProfilerMiddleware(application)

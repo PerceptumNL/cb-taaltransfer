@@ -1,0 +1,40 @@
+<div id="modal-video" class="video modal fade hide">
+    <div class="modal-header">
+        <a href="#" class="close-button close">x</a>
+        <div id="description">
+            <h3 class="title-header">
+                <span class="title">{{video.title}}</span>
+                <span class="long-description">: <span>{{video.description}}</span></span>
+            </h3>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="youtube-video">
+            {{>youtube-player}}
+            <div class="subtitles-warning">
+                &lArr; Gebruik dit menu om ondertiteling te zien en hoe je deze moet maken voor verschillende talen.
+                Je wilt waarschijnlijk YouTube's onderschriften verbergen als je hier gebruik van maakt.
+            </div>
+        </div>
+        <span class="video_extra_links">
+            <nobr>
+            <div class="extra-link-bar">
+                {{#if downloadUrl}}
+                <a href="{{downloadUrl}}" title="Download this lesson" style="z-index:101;" class="simple-button with-icon download-icon download-link">
+                <img src="/images/download-icon-small.png" />
+                         Download
+                </a>
+                {{/if}}
+            </div>
+            <span style="float:right;" id="points-badge-hover">
+                <div class="video-energy-points" {{#if logged_in}}title="{{points}} Energy Punten verdient voor het bekijken van deze video"{{else}}title="Je verdient punten voor het bekijken van deze video. Log in om deze te behouden"{{/if}} >
+                    <span class="video-energy-points-current">{{points}}</span> van {{possible_points}}
+                </div>
+            </span>
+            </nobr>
+         </span>
+    </div>
+    <div class="modal-footer">
+        <a href="{{video_url}}" class="simple-button green">Bekijk op de video pagina</a>
+    </div>
+</div>

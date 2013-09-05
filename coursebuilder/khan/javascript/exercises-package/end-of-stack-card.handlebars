@@ -1,0 +1,102 @@
+<div class="end-of-stack-info">
+    <div class="title clearfix">
+        <div class="stack-stats">
+            <p data-desc="De langste reeks van kaarten met meer dan 3 blaadjes van deze stapel.">
+            	<img src="/images/power-mode/streak.png?2" /><span class="times">&times;</span>{{longestStreak}}
+           	</p>
+            <p data-desc="De kaarten die je snel hebt beantwoord van deze stapel.">
+            	<img src="/images/power-mode/speed-answer.png?1" /><span class="times">&times;</span>{{speedyCards}}
+            </p>
+            <p data-desc="Het aantal blaadjes behaald van deze stapel.">
+            	<img src="/images/power-mode/card-leaf-full-large.png" /><span class="times">&times;</span>{{totalLeaves}}
+            </p>
+        </div>
+        <h2>Stapel Voortgang</h2>
+    </div>
+    <div class="progress-graph current-stack visited-no-recolor">
+	    {{#each progress}}
+	    	<div class="skill-status">
+                <h2 class="skill-bar-title">
+                    {{#with exerciseStates}}{{> shared_small-exercise-icon}}{{/with}}
+                    <a href="{{userExercise.exerciseModel.relativeUrl}}">{{displayName}}</a>
+                </h2>
+                {{{skill-bar end start exerciseStates}}}
+		    </div>
+	    {{/each}}
+    </div>
+
+    {{#unless practiceMode}}
+    <div>
+        <h2 style="display: inline-block;">Algehele voortgang</h2>
+        <a href="javascript:void(0);" class="simple-button" id="Laat details zien van dit onderwerp">
+            {{proficient}}/{{total}} vaardigheden
+        </a>
+    </div>
+    <div class="progress-graph current-topic clearfix visited-no-recolor">
+        <div class="three-col col-one">
+            <h3>Toekomstige vaardigheden</h3>
+            {{#each unstartedExercises}}
+            <div class="skill-status">
+                <h4 class="skill-bar-title">
+                    {{#with exerciseStates}}{{> shared_small-exercise-icon}}{{/with}}
+                    <a href="{{exerciseModel.relativeUrl}}">{{exerciseModel.displayName}}</a>
+                </h4>
+                {{{skill-bar progress progress}}}
+            </div>
+            {{/each}}
+        </div>
+        <div class="three-col col-two">
+            <h3>Vaardigheden in ontwikkeling</h3>
+            {{#each startedExercises}}
+            <div class="skill-status">
+                <h4 class="skill-bar-title">
+                    {{#with exerciseStates}}{{> shared_small-exercise-icon}}{{/with}}
+                    <a href="{{exerciseModel.relativeUrl}}">{{exerciseModel.displayName}}</a>
+                </h4>
+                {{{skill-bar progress progress}}}
+            </div>
+            {{/each}}
+        </div>
+        <div class="three-col col-three">
+            <h3>Beheerste vaardigheden</h3>
+            {{#each proficientExercises}}
+        	<div class="skill-status">
+    	    	<h4 class="skill-bar-title">
+    	    		{{#with exerciseStates}}{{> shared_small-exercise-icon}}{{/with}}
+                    <a href="{{exerciseModel.relativeUrl}}">{{exerciseModel.displayName}}</a>
+    	    	</h4>
+                {{{skill-bar progress progress exerciseStates}}}
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    {{/unless}}
+
+    {{#if practiceMode}}
+        {{#each progress}}
+        {{#if exerciseStates.proficient}}
+            <h2>
+                Goed werk! Je bent er klaar voor om verder te gaan. 
+                {{#if exerciseStates.reviewing}}
+                {{#unless exerciseStates.justEarnedProficiency}}
+                <span class="hover-disclosure review-explain" data-desc="Je beheerst deze vaardigheid beter, maar we denken dat je de stof nog een keer moet herhalen wegens problemen in de laaste fase.">
+                    Waarom is de balk oranje?
+                </span>
+                {{/unless}}
+                {{/if}}
+            </h2>
+            <div class="stack-controls practice-mode proficient">
+                <input type="button" class="more-stacks simple-button left" value="Meer van deze oefeningen"><input type="button" class="skill-proficient to-dashboard default-action simple-button green right" value="Kies een nieuwe vaardigheid om aan te werken" style="margin:0">
+            </div>
+        {{else}}
+            <div class="stack-controls practice-mode">
+                <input type="button" class="take-a-break to-dashboard simple-button left" value="Werk aan iets anders"><input type="button" class="more-stacks default-action simple-button green right" value="Meer van deze oefeningen!">
+            </div>
+        {{/if}}
+        {{/each}}
+    {{else}}
+        <div class="stack-controls">
+            <input type="button" class="take-a-break to-dashboard simple-button left" value="Werk aan iets anders"><input type="button" class="more-stacks default-action simple-button green right" value="Meer van deze oefeningen!">
+        </div>
+    {{/if}}
+</div>

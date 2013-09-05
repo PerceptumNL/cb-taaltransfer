@@ -1,0 +1,90 @@
+{% extends "page_template.html" %}
+
+{% block pagesubmenu %}
+<span class="breadcrumbs_nav">
+    <a href="/badges/custom/create" class="selected">Create custom badge</a>
+    <a href="/badges/custom/award">Award custom badge</a>
+</span>
+{% endblock pagesubmenu %}
+
+{% block pagecss %}
+<style>
+    #form-badges td { padding-right: 9px; vertical-align: top; }
+</style>
+{% endblock pagecss %}
+
+{% block pagecontent %}
+    <div style="padding: 9px 23px;">
+
+        {% if failed %}
+        <div style="color:red;padding-bottom:9px;">Maken van badge niet gelukt. Het kan zijn dat de badge al bestaat of dat je niet alle onderstaande velden hebt ingevuld.</div>
+        {% endif %}
+
+        <div>
+            <form id="form-badges" method="POST" action="/badges/custom/create">
+
+                <table>
+
+                    <tr>
+                        <td style="font-weight:bold;">Naam</td>
+                        <td style="padding-bottom:9px;">
+                            <input type="text" name="name" value="" maxlength="30"/><br/>
+                            <em>Een unieke naam voor de badge. Dit kan niet meer veranderen en is niet aan de gebruiker getoond.</em>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-weight:bold;">Beschrijving</td>
+                        <td style="padding-bottom:9px;">
+                            <input type="text" name="description" value="" maxlength="30"/><br/>
+                            <em>Een korte beschrijving van de badge, zoals 'Goede Reeks' of 'Uithoudingsvermogen'. Dit wordt aan de gebruiker getoond.</em>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-weight:bold;">Volledige Beschrijving</td>
+                        <td style="padding-bottom:9px;">
+                            <textarea name="full_description" rows="5" cols="40"></textarea><br/>
+                            <em>Een uitgebreide beschrijving van hoe en waarom de gebruiker de badge heeft verdiend, meestal in de tegenwoordige tijd. <br/>Voorbeelden: "Verdien 100,000 energie punten," "Blijf 3 jaar lid van iktel.nl," "Wordt gevorderd in 25 vaardigheden."</em>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-weight:bold;">Punten</td>
+                        <td style="padding-bottom:9px;">
+                            <input type="text" name="points" value="0"/><br/>
+                            <em>Hoe veel punten krijgt degene die deze badge behaald?</em>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-weight:bold;">Badge categorie</td>
+                        <td style="padding-bottom:9px;">
+                            <select name="badge_category" style="width:200px;">
+                                <option value="-1"></option>
+                                {% for badge_category in badge_categories %}
+                                    <option value="{{ badge_category.0|escape }}">{{ badge_category.1|escape }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-weight:bold;">Aangepaste icoon</td>
+                        <td style="padding-bottom:9px;">
+                            <input type="text" name="icon_src" value=""/><br/>
+                            <em>Laat leeg om standaard plaatje van de categorie te gebruiken.<br/>
+                                Gebruik een gerelateerde URL zoals "/afbeeldingen/mijn-icoon.png" om de icoon voor deze badge te specificeren.</em>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <br/>
+                <input class="simple-button" type="submit" value="Create badge"/>
+
+            </form>
+        </div>
+    </div>
+{% endblock pagecontent %}
+

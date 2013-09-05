@@ -28,59 +28,63 @@ import sys
 from google.appengine.ext import db
 from google.appengine.ext import deferred
 from google.appengine.ext.remote_api import remote_api_stub
-#from third_party.mapreduce import control
+from third_party.mapreduce import control
 
 import exercise_models
-#import exercise_video_model
+import exercise_video_model
 from exercises import exercise_util
-#from knowledgemap import layout
-#from phantom_users import phantom_util
-#from testutil import handler_test_utils
-#import topic_models
-#import url_model
-#import user_models
-#import video_models
-from models.models import Student as UserData
+from knowledgemap import layout
+from phantom_users import phantom_util
+from testutil import handler_test_utils
+import topic_models
+import url_model
+import user_models
+import video_models
 
 
 class Users(object):
     """Various UserData objects."""
     def __init__(self):
         """Create users of different types: moderator, phantom, etc."""
-        self.user1 = UserData.insert_for(
+        self.user1 = user_models.UserData.insert_for(
             'user1', 'user1@example.com', username='user1profilename')
+        self.user1.set_password(self.user1.user_id)
         self.user1.update_nickname('User One')
 
-        self.user2 = UserData.insert_for(
+        self.user2 = user_models.UserData.insert_for(
             'user2', 'user2@example.com', username='user2profilename')
+        self.user2.set_password(self.user2.user_id)
         self.user2.update_nickname('User Two')
         
-        self.moderator = UserData.insert_for(
+        self.moderator = user_models.UserData.insert_for(
             'moderator', 'moderator@example.com',
             username='moderatorprofilename')
+        self.moderator.set_password(self.moderator.user_id)
         self.moderator.update_nickname('Moderator')
         self.moderator.moderator = True
         self.moderator.put()
 
-        self.developer = UserData.insert_for(
+        self.developer = user_models.UserData.insert_for(
             'developer', 'developer@example.com',
             username='developerprofilename')
+        self.developer.set_password(self.developer.user_id)
         self.developer.update_nickname('Developer')
         self.developer.developer = True
         self.developer.put()
 
-        self.child = UserData.insert_for(
+        self.child = user_models.UserData.insert_for(
             'child', 'child@example.com',
             username='childprofilename',
             # Make this child very young. 13 years from now, this account will
             # no longer be a child, tests will fail, and this will need to
             # be updated.
             birthdate=datetime.date(2012, 5, 16))
+        self.child.set_password(self.child.user_id)
         self.child.update_nickname('child')
         self.child.put()
 
         # It may also be useful to have a phantom user
-        #self.phantom = phantom_util._create_phantom_user_data()
+        self.phantom = phantom_util._create_phantom_user_data()
 
         # TODO(csilvers): add a facebook-id user and a google-id user
         # TODO(csilvers): add an admin user (probably has to be a google id)
@@ -192,7 +196,7 @@ class Users(object):
             reader_spec=(
                 "third_party.mapreduce.input_readers.DatastoreInputReader"),
             mapper_parameters={
-                "input_reader": {"entity_kind": "UserData"},
+                "input_reader": {"entity_kind": "user_models.UserData"},
                 },
             mapreduce_parameters={"processing_rate": 250},
             shard_count=64,

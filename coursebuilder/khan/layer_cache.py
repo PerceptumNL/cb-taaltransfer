@@ -12,17 +12,17 @@ from google.appengine.runtime.apiproxy_errors import ArgumentError
 from google.appengine.runtime.apiproxy_errors import RequestTooLargeError
 from google.appengine.api.datastore_errors import BadRequestError
                                             
-#from app import App
-#import pickle_util
-#import request_cache
+from app import App
+import pickle_util
+import request_cache
 
-#if App.is_dev_server:
-#    # instance_cache disables itself during development presumably to avoid confusion.
-#    # Instead, alias it to request_cache. This means individual requests will
-#    # behave more like production, but the cache will be flushed after a request.
-#    import request_cache as instance_cache
-#else:
-#    import instance_cache
+if App.is_dev_server:
+    # instance_cache disables itself during development presumably to avoid confusion.
+    # Instead, alias it to request_cache. This means individual requests will
+    # behave more like production, but the cache will be flushed after a request.
+    import request_cache as instance_cache
+else:
+    import instance_cache
 
 # layer_cache provides an easy way to cache the result of functions across requests.
 # layer_cache uses instance_cache's in-memory storage, memcache, and the datastore.

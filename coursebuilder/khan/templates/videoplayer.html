@@ -1,0 +1,43 @@
+{% import 'macros/user.html' as user %}
+{% set logged_in = user_data and not user_data.is_phantom %}
+
+<span class="extra-link-bar desktop-only">
+    <span class="share dropdown">
+        <span class="dropdown-toggle">
+            <i class="icon-share icon-large"></i>
+            Share
+            <i class="icon-caret-down"></i>
+        </span>
+        <ul class="dropdown-menu no-submenus">
+            <li>
+            <a  href="javascript:void 0"
+                class="facebookShare"
+                onclick="_gaq.push(['_trackEvent', 'Click', 'Video-Page-Share-Facebook']);Social.facebookVideo('{{video.title|escapejs}}','{{video.description|escapejs}}','/video?v={{video.youtube_id}}');">
+                <i class="icon-facebook icon-large"></i>
+                Deel
+            </a>
+            </li>
+            <li>
+            <a  href="http://twitter.com/share?url=http%3A%2F%2Fwww.iktel.nl%2Fvideo%3Fv%3D{{video.youtube_id|urlencode|escape}}&amp;via=iktel.nl"
+                class="twitterShare"
+                onclick="_gaq.push(['_trackEvent', 'Click', 'Video-Page-Share-Twitter']);">
+                <i class="icon-twitter icon-large"></i>
+                Tweet
+            </a>
+            </li>
+            <li>
+            <a  class="emailShare"
+                href="mailto:?Subject=I just learnt about {{video.title}} at Khanacademie&amp;Body=You can learn about it too. Check out http%3A%2F%2Fwww.iktel.nl%2Fvideo%3fv%3D{{video.youtube_id|urlencode}}"
+                onclick="_gaq.push(['_trackEvent', 'Click', 'Video-Page-Share-Email']);">
+                <i class="icon-envelope icon-large"></i>
+                Email
+            </a>
+            </li>
+        </ul>
+    </span>
+
+    <span id="points-badge-hover">
+        {{ user.possible_points_badge(awarded_points, video_points_base,
+            logged_in) }}
+    </span>
+ </span>

@@ -33,16 +33,18 @@ import consts
 import decorators
 from exercises import file_contents, stacks
 import experiments
-#from gae_bingo import gae_bingo
+from gae_bingo import gae_bingo
 #import gandalf.bridge
-#import layer_cache
+import layer_cache
 import object_property
-#import phantom_users
-#import setting_model
-#import url_util
+import phantom_users
+import setting_model
+import url_util
 import user_models
-#import user_util
+import user_util
 import util
+from models.entities import BaseEntity
+import models.models
 #from tincan import TinCan
 
 
@@ -51,8 +53,9 @@ import util
 ASSESSMENT_CARD_PERIOD = 8
 
 class Exercise(backup_model.BackupModel):
+#class Exercise(BaseEntity):
     """Information about a single exercise."""
-    name = db.StringProperty()
+    name = db.StringProperty(indexed=True)
     file_name = db.StringProperty()
     pretty_display_name = db.StringProperty()
     short_display_name = db.StringProperty(default="")
@@ -104,19 +107,20 @@ class Exercise(backup_model.BackupModel):
 
     @staticmethod
     def get_by_name(name, version=None):
-        dict_exercises = Exercise._get_dict_use_cache_unsafe()
-        if dict_exercises.has_key(name):
-            if dict_exercises[name].is_visible_to_current_user():
-                exercise = dict_exercises[name]
-                # if there is a version check to see if there are any updates to the video
-                if version:
-                    # TODO(csilvers): remove circular dependency here
-                    import topic_models
-                    change = topic_models.VersionContentChange.get_change_for_content(exercise, version)
-                    if change:
-                        exercise = change.updated_content(exercise)
-                return exercise
-        return None
+        return Exercise.all().filter('name = ', name).get()
+        #dict_exercises = Exercise._get_dict_use_cache_unsafe()
+        #if dict_exercises.has_key(name):
+        #    if dict_exercises[name].is_visible_to_current_user():
+        #        exercise = dict_exercises[name]
+        #        # if there is a version check to see if there are any updates to the video
+        #        if version:
+        #            # TODO(csilvers): remove circular dependency here
+        #            import topic_models
+        #            change = topic_models.VersionContentChange.get_change_for_content(exercise, version)
+        #            if change:
+        #                exercise = change.updated_content(exercise)
+        #        return exercise
+        #return None
 
     @staticmethod
     def to_display_name(name):
@@ -184,9 +188,9 @@ class Exercise(backup_model.BackupModel):
         query.filter('exercise =', self.key()).order('exercise_order')
         return query
 
-#    @layer_cache.cache_with_key_fxn(lambda self: "related_videos_%s_%s" %
-#        (self.key(), setting_model.Setting.topic_tree_version()),
-#        layer=layer_cache.Layers.Memcache)
+    @layer_cache.cache_with_key_fxn(lambda self: "related_videos_%s_%s" %
+        (self.key(), setting_model.Setting.topic_tree_version()),
+        layer=layer_cache.Layers.Memcache)
     def related_videos_fetch(self):
         exercise_videos = self.related_videos_query().fetch(10)
         for exercise_video in exercise_videos:
@@ -257,12 +261,12 @@ class Exercise(backup_model.BackupModel):
     def followup_exercises(self):
         return [exercise for exercise in Exercise.get_all_use_cache() if self.name in exercise.prerequisites]
 
-    @classmethod
-    def all(cls, live_only=False, **kwargs):
-        query = super(Exercise, cls).all(**kwargs)
-        #if live_only or not user_util.is_current_user_developer():
-        #    query.filter("live =", True)
-        return query
+    #@classmethod
+    #def all(cls, live_only=False, **kwargs):
+    #    query = super(Exercise, cls).all(**kwargs)
+    #    if live_only or not user_util.is_current_user_developer():
+    #        query.filter("live =", True)
+    #    return query
 
     @classmethod
     def all_unsafe(cls, **kwargs):
@@ -270,17 +274,15 @@ class Exercise(backup_model.BackupModel):
 
     @staticmethod
     def get_all_use_cache():
-        #if user_util.is_current_user_developer():
-        #    return Exercise._get_all_use_cache_unsafe()
-        #else:
-        #    return Exercise._get_all_use_cache_safe()
-        #!
-        return Exercise._get_all_use_cache_unsafe()
+        if user_util.is_current_user_developer():
+            return Exercise._get_all_use_cache_unsafe()
+        else:
+            return Exercise._get_all_use_cache_safe()
 
     @staticmethod
-#    @layer_cache.cache_with_key_fxn(
-#        lambda * args, **kwargs: "all_exercises_unsafe_%s" %
-#            setting_model.Setting.cached_exercises_date())
+    @layer_cache.cache_with_key_fxn(
+        lambda * args, **kwargs: "all_exercises_unsafe_%s" %
+            setting_model.Setting.cached_exercises_date())
     def _get_all_use_cache_unsafe():
         query = Exercise.all_unsafe().order('h_position')
         return query.fetch(1000) # TODO(Ben) this limit is tenuous
@@ -290,9 +292,9 @@ class Exercise(backup_model.BackupModel):
         return filter(lambda exercise: exercise.live, Exercise._get_all_use_cache_unsafe())
 
     @staticmethod
-#    @layer_cache.cache_with_key_fxn(
-#        lambda * args, **kwargs: "all_exercises_dict_unsafe_%s" %
-#            setting_model.Setting.cached_exercises_date())
+    @layer_cache.cache_with_key_fxn(
+        lambda * args, **kwargs: "all_exercises_dict_unsafe_%s" %
+            setting_model.Setting.cached_exercises_date())
     def _get_dict_use_cache_unsafe():
         exercises = Exercise._get_all_use_cache_unsafe()
         dict_exercises = {}
@@ -301,14 +303,15 @@ class Exercise(backup_model.BackupModel):
         return dict_exercises
 
     @staticmethod
-#    @layer_cache.cache(expiration=3600)
+    @layer_cache.cache(expiration=3600)
     def get_count():
-        return Exercise.all(live_only=True).count()
+        return 0
+        #return Exercise.all(live_only=True).count()
 
-    def put(self):
-        #setting_model.Setting.cached_exercises_date(str(datetime.datetime.now()))
-        db.Model.put(self)
-        #Exercise.get_count(bust_cache=True)
+    #def put(self):
+    #    setting_model.Setting.cached_exercises_date(str(datetime.datetime.now()))
+    #    db.Model.put(self)
+    #    Exercise.get_count(bust_cache=True)
 
     @staticmethod
     def get_dict(query, fxn_key):
@@ -321,7 +324,7 @@ class UserExercise(backup_model.BackupModel):
     """Information about a single user's interaction with a single exercise."""
     user = db.UserProperty()
     exercise = db.StringProperty()
-    #exercise_model = db.ReferenceProperty(Exercise)
+    #exercise_model = db.ReferenceProperty(db.Model)
     streak = db.IntegerProperty(default=0)
     _progress = db.FloatProperty(default=None, indexed=False)  # A continuous value >= 0.0, where 1.0 means proficiency. This measure abstracts away the internal proficiency model.
     longest_streak = db.IntegerProperty(default=0, indexed=False)
@@ -1322,9 +1325,9 @@ def commit_problem_log(problem_log_source, user_data=None, async=True):
         return
 
     #for TinCan
-    user_data = user_models.UserData.get_from_user_id(problem_log_source.user_id)
-    exercise = Exercise.get_by_name(problem_log_source.exercise)
-    user_exercise = user_data.get_or_insert_exercise(exercise)
+    #user_data = user_models.UserData.get_from_user_id(problem_log_source.user_id)
+    #exercise = Exercise.get_by_name(problem_log_source.exercise)
+    #user_exercise = user_data.get_or_insert_exercise(exercise)
     # Committing transaction combines existing problem log with any followup attempts
     def txn():
         problem_log = ProblemLog.get_by_key_name(problem_log_source.key().name())
@@ -1378,7 +1381,7 @@ def commit_problem_log(problem_log_source, user_data=None, async=True):
                 problem_log_source.earned_proficiency
 
         else: # hint
-            TinCan.create_question(user_data, "interacted", exercise, problem_log=problem_log)
+            #TinCan.create_question(user_data, "interacted", exercise, problem_log=problem_log)
             index_hint = max(0, problem_log_source.count_hints - 1)
 
             if index_hint < len(problem_log.hint_time_taken_list) \
@@ -1477,7 +1480,7 @@ class StackLog(backup_model.BackupModel):
         return query.get()
 
 def commit_stack_log(stack_log_source, card, cards_done, cards_left,
-        associated_log_type, associated_log_key):
+        associated_log_type, associated_log_key, async=False):
     """Create a stack log or find the corresponding existing log and update it,
     then save in the datastore.
 
@@ -1486,9 +1489,7 @@ def commit_stack_log(stack_log_source, card, cards_done, cards_left,
     possibly include VideoLog in the future.
     """
     def txn():
-        _k = stack_log_source.key()
-        #stack_log = StackLog.get(_k)
-        stack_log = db.get(_k)
+        stack_log = db.Model.get(stack_log_source.key())
         if stack_log is None:
             stack_log = stack_log_source
 
@@ -1513,12 +1514,12 @@ def commit_stack_log(stack_log_source, card, cards_done, cards_left,
                 associated_log_type: str(associated_log_key)
             }
         }
-        util.insert_in_position(cards_done, stack_log.cards_list, card_info, {})
+        #util.insert_in_position(cards_done, stack_log.cards_list, card_info, {})
 
         stack_log.put()
 
-    
-    #Dev only
-    txn()
-    #db.run_in_transaction(txn)
+    if async:
+        db.run_in_transaction(txn)
+    else:
+        txn()
 

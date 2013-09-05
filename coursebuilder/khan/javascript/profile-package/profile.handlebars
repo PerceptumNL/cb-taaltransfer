@@ -1,0 +1,459 @@
+<!-- If you drastically change the below nav, try to update the screenshots in coach.html. -->
+<menu class="profile-navigation">
+    <ul>
+        <li class="profile-tab">
+            <a href="{{profileRoot}}"
+               class="tab-link ellipsis no-recolor active-tab"
+               rel="profile">
+            <img src="{{profileData.avatarSrc}}" class="profile-tab-avatar">
+            <span id="profile-tab-link" class="profile-tab-text">
+                {{#if profileData.nickname}}
+                    {{profileData.nickname}}
+                {{else}}
+                    Profile
+                {{/if}}
+            </span>
+        </a></li>
+    </ul>
+    <ul class="accomplishments-statistics-section zero-top-margin">
+        <li>
+            <span class="inactive link-section-header">Prestaties</span>
+            <ul class="second-tier">
+                <li>
+                    <a href="{{profileRoot}}achievements"
+                       class="tab-link has-icon no-recolor ellipsis"
+                       rel="achievements">
+                        Successen
+                    </a>
+               </li>
+                <li>
+                    <a href="{{profileRoot}}goals"
+                       class="tab-link has-icon no-recolor ellipsis"
+                       rel="goals">
+                        Doelstellingen (beta)
+                    </a>
+                </li>
+                {{#if displayExplorations}}
+                <li>
+                    <a href="{{profileRoot}}explorations"
+                       class="tab-link has-icon no-recolor"
+                       rel="community explorations">
+                       Explorations
+                    </a>
+                </li>
+                {{/if}}
+            </ul>
+        </li>
+        <li>
+            <span class="inactive link-section-header">Belangrijke statistieken</span>
+            <ul class="second-tier">
+                <li>
+                    <a href="{{profileRoot}}vital-statistics/activity"
+                       class="tab-link has-icon no-recolor ellipsis"
+                       rel="vital-statistics activity">
+                        Activiteit
+                    </a>
+               </li>
+                <li>
+                    <a href="{{profileRoot}}vital-statistics/focus"
+                       class="tab-link has-icon no-recolor ellipsis"
+                       rel="vital-statistics focus">
+                       Focus
+                    </a>
+               </li>
+                <li>
+                    <a href="{{profileRoot}}vital-statistics/skill-progress"
+                       class="tab-link has-icon no-recolor ellipsis"
+                       rel="vital-statistics skill-progress">
+                        Voortgang in vaardigheden
+                    </a>
+                </li>
+                <li>
+                    <a href="{{profileRoot}}vital-statistics/skill-progress-over-time"
+                       class="tab-link has-icon no-recolor ellipsis"
+                       rel="vital-statistics skill-progress-over-time">
+                        Voortgang in de afgelopen tijd
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <ul class="zero-top-margin">
+        <li>
+            <span class="inactive link-section-header">Gedeeld</span>
+        </li>
+    </ul>
+    <ul class="zero-top-margin community-discussion">
+    <ul class="second-tier">
+        <li>
+            <a href="{{profileRoot}}discussion"
+               class="tab-link has-icon no-recolor ellipsis"
+               rel="community discussion">
+                Discussie
+            </a>
+        </li>
+    </ul>
+    </ul>
+    <ul class="zero-top-margin">
+    <ul class="second-tier">
+        {{#if isCoachListReadable}}
+            <li>
+                <a href="{{profileRoot}}coaches"
+                   class="tab-link has-icon no-recolor ellipsis"
+                   rel="community coaches">
+                    Coaches
+                </a>
+            </li>
+        {{/if}}
+    </ul>
+    </ul>
+
+</menu>
+
+<section class="tab-content">
+    <h2 class="profile-sheet-title">
+        <span class="nickname"></span>
+        <span class="page-title"></span>
+    </h2>
+    <div class="profile-notification">
+        {{#if profileData.isActivityAccessible}}
+            <div class="empty-graph">
+                <h2><a href="/#browse">Bekijk een video</a> of <a href="/exercisedashboard">probeer een vaardigheid</a>!</h2>
+                <p>Wanneer je begint met oefenen zullen hier je gegevens te zien zijn.</p>
+            </div>
+            <div class="error-graph">
+                <h2>Het is onze fout.</h2>
+                <p>Probeer het later opnieuw en laat het <a href="/reportissue?type=Defect">ons weten</a> als het probleem zich blijft voortdoen.</p>
+            </div>
+            <div class="no-coaches-for-phantoms">
+                <h2><a href="{{toLoginRedirectHref "/profile"}}">Log in</a> om een coach toe te voegen!</h2>
+            </div>
+        {{else}}
+            {{#if profileData.isPublic}}
+                <div class="public">
+                    <h2>Oeps, je hebt hier geen toegang tot!</h2>
+                    <p>Om echte data te zien moet je een coach zijn.</p>
+                </div>
+            {{else}}
+                <div class="public">
+                    <h2>Deze gebruiker heeft geen openbaar profiel.</h2>
+                    <p>Je kunt nog steeds hun <a class="discussion-link"
+                        href="{{profileRoot}}discussion">discussie verleden bekijken</a>.
+                    </p>
+                </div>
+                <div class="empty-landing-page">
+                    <h2>Deze gebruiker heeft geen openbaar profiel.</h2>
+                    <p>Je kunt nog steeds hun<a class="discussion-link"
+                        href="{{profileRoot}}discussion">discussie verleden bekijken</a>.
+                    </p>
+                </div>
+            {{/if}}
+        {{/if}}
+    </div>
+    <div class="clearfix">
+        <div id="tab-content-user-profile" rel="profile">
+            <div class="user-info-container"></div>
+            <div style="clear: both; margin-bottom: 20px;"></div>
+            {{#if profileData.isActivityAccessible}}
+                <div class="activity-column">
+                    <div id="activity-loading-placeholder">
+                        <h2>Laden van de activiteit...</h2>
+                        <div id="recent-activity-progress-bar" class="throbber-progress-bar"></div>
+                    </div>
+                    <div id="activity-contents" style="display:none">
+                        <div id="suggested-activity">
+                            <h2>Voorgestelde activiteit</h2>
+                        </div>
+                        <div id="recent-activity">
+                            <h2>Recent afgeronde activiteiten</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="mini-stats-column">
+                </div>
+            {{/if}}
+        </div>
+
+        <div id="tab-content-vital-statistics" rel="vital-statistics">
+            {{> profile_vital-statistics}}
+        </div>
+
+        <div id="tab-content-achievements" rel="achievements"{{#unless profileData.email}} class="empty-chart"{{/unless}}>
+        </div>
+
+        <div id="tab-content-goals" rel="goals">
+            <div class="graph-picker">
+                Laat jouw recente, afgeronde en verlaten doelstellingen zien.
+                <ul class="tabrow">
+                    <li class="type current">
+                        <a href="{{profileRoot}}goals/current" class="graph-link no-recolor">
+                            Recente
+                        </a>
+                    </li>
+                    <li class="type completed">
+                        <a href="{{profileRoot}}goals/completed" class="graph-link no-recolor">
+                            Afgeronde
+                        </a>
+                    </li>
+                    <li class="type abandoned">
+                        <a href="{{profileRoot}}goals/abandoned" class="graph-link no-recolor">
+                            Verlaten
+                        </a>
+                    </li>
+                    <li>
+                        <a class="new-goal simple-button disabled" href="javascript:void(0);">
+                            Stel nieuwe doelstellingen
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div id="profile-goals-content"></div>
+        </div>
+
+        <!-- Explorations -->
+        <div id="tab-content-explorations" rel="explorations">
+            <div class="graph-picker">
+                Alle bevindingen die je hebt gedaan door gebruik te maken van het
+                <a href="/explore/new">kladblok</a>.
+
+                <div class="graph-date-picker">
+                    <ul class="tabrow">
+                        <li>
+                            <a href="/explore"
+                                class="no-recolor graph-link">Bevindingen</a>
+                        </li>
+                        <li class="selected">
+                            <a href="{{profileRoot}}explorations"
+                                class="no-recolor graph-link">
+                                Mijn bevindingen</a>
+                        </li>
+                        <li>
+                            <a href="/explore/new"
+                                class="no-recolor graph-link">
+                                Nieuw kladblok
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="explorations-progress-bar" class="throbber-progress-bar"></div>
+            <div id="scratchpads"></div>
+        </div>
+
+        <div id="tab-content-coaches" rel="coaches">
+        </div>
+
+        <!-- Discussion -->
+        <div id="tab-content-discussion" rel="discussion" class="discussion-tab">
+            <div class="graph-picker">
+                {{#if profileData.isActivityAccessible}}
+                    Laat jouw deelname zien in discussies.
+                {{/if}}
+                {{> profile_discussion-tab-links}}
+            </div>
+
+            <div class="discussion-placeholder">
+                <div id="discussion-progress-bar"
+                    class="throbber-progress-bar"></div>
+            </div>
+
+            <div id="discussion-summary">
+                <div id="discussion-left">
+                    <!-- Discussion -> Questions -->
+                    <div class="discussion-block" id="questions-block">
+                        <h2 id="questions-block-header" class="discussion-group-header">
+                            <a class="discussion-link" href="{{profileRoot}}discussion/questions">
+                                Vragen
+                            </a>
+                            <span class="discussion-count"></span>
+                        </h2>
+                        <div class="discussion-message">
+                            Nog geen vragen gesteld.
+                        </div>
+                    </div>
+
+                    <!-- Discussion -> Answers -->
+                    <div class="discussion-block" id="answers-block">
+                        <h2 id="answers-block-header" class="discussion-group-header">
+                            <a class="discussion-link"
+                                href="{{profileRoot}}discussion/answers">
+                                Antwoorden
+                            </a>
+                            <span class="discussion-count"></span>
+                        </h2>
+                        <div class="discussion-message">
+                            Nog geen antwoorden gegeven.
+                        </div>
+                    </div>
+
+                    <!-- Discussion -> Comments -->
+                    <div class="discussion-block" id="comments-block" style="clear: both">
+                        <h2 id="comments-block-header" class="discussion-group-header">
+                            <a class="discussion-link"
+                                href="{{profileRoot}}discussion/comments">
+                                Opmerkingen
+                            </a>
+                            <span class="discussion-count"></span>
+                        </h2>
+                        <div class="discussion-message">
+                            Nog geen opmerkingen geplaatst.
+                        </div>
+                    </div>
+                </div>
+
+                <div id="discussion-right">
+                    <!-- Discussion > Achievements -->
+                    <div class="discussion-block" id="discussion-awards-block">
+                        <h2 class="discussion-group-header">
+                            Prestaties
+                        </h2>
+                        <div id="discussion-awards"></div>
+                        <div class="discussion-message">
+                            {{#if profileData.isActivityAccessible}}
+                                Verdien badges door vragen te stellen en te beantwoorden of door het makeren van ongepaste inhoud op de site.
+                            {{else}}
+                                Nog geen badges verdient.
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <!-- Discussion > Statistics -->
+                    <div class="discussion-block" id="discussion-statistics-block">
+                        <h2 class="discussion-group-header">
+                            Statistiek
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Questions -->
+        <div id="tab-content-questions" rel="questions" class="discussion-tab">
+            <div class="graph-picker">
+                {{#if profileData.isActivityAccessible}}
+                    Laat de vragen zien die je hebt gesteld.
+                {{/if}}
+
+                {{> profile_discussion-tab-links}}
+            </div>
+
+            <div id="discussion-questions" class="discussion-tab-content">
+                <h2 id="questions-header" class="discussion-group-header">
+                    Vragen <span class="discussion-count"></span>
+                    <span data-feedback-type="questions"
+                        class="discussion-sort-links">
+                        {{> profile_discussion-sort-links}}
+                    </span>
+                </h2>
+                <div class="discussion-message">
+                    Nog geen vragen gesteld.
+                </div>
+
+                <div id="questions"></div>
+
+                <div class="discussion-placeholder">
+                    <div id="questions-progress-bar"
+                        class="throbber-progress-bar"></div>
+                </div>
+
+                <a href="#" id="questions-more" data-feedback-type="questions"
+                    class="simple-button action-gradient more-button">
+                    Meer
+                </a>
+            </div>
+        </div>
+
+        <!-- Answers -->
+        <div id="tab-content-answers" rel="answers" class="discussion-tab">
+            <div class="graph-picker">
+                {{#if profileData.isActivityAccessible}}
+                    Laat jouw antwoorden zien op vragen van andere gebruikers.
+                {{/if}}
+                {{> profile_discussion-tab-links}}
+            </div>
+
+            <div id="discussion-answers" class="discussion-tab-content">
+                <h2 id="answers-header" class="discussion-group-header">
+                    Antwoorden <span class="discussion-count"></span>
+                    <span data-feedback-type="answers"
+                        class="discussion-sort-links">
+                        {{> profile_discussion-sort-links}}
+                    </span>
+                </h2>
+
+                <div class="discussion-message">
+                   Nog geen antwoorden gegeven.
+                </div>
+
+                <div id="answers"></div>
+
+                <div class="discussion-placeholder">
+                    <div id="answers-progress-bar"
+                        class="throbber-progress-bar"></div>
+                </div>
+
+                <a href="#" id="answers-more" data-feedback-type="answers"
+                    class="simple-button action-gradient more-button">
+                    Meer
+                </a>
+            </div>
+        </div>
+
+        <!-- Comments -->
+        <div id="tab-content-comments" rel="comments" class="discussion-tab">
+            <div class="graph-picker">
+                {{#if profileData.isActivityAccessible}}
+                    Laat de opmerkingen zien die je gegeven hebt.
+                {{/if}}
+                {{> profile_discussion-tab-links}}
+            </div>
+
+            <div id="discussion-comments" class="discussion-tab-content">
+                <h2 id="comments-header" class="discussion-group-header">
+                    Opmerkingen <span class="discussion-count"></span>
+                    <span data-feedback-type="comments"
+                        class="discussion-sort-links">
+                        {{> profile_discussion-sort-links}}
+                    </span>
+                </h2>
+
+                <div class="discussion-message">
+                    Nog geen opmerkingen gemaakt.
+                </div>
+
+                <div id="comments"></div>
+
+                <div class="discussion-placeholder">
+                    <div id="comments-progress-bar"
+                        class="throbber-progress-bar"></div>
+                </div>
+
+                <a href="#" id="comments-more" data-feedback-type="comments"
+                    class="simple-button action-gradient more-button">
+                    Meer                </a>
+            </div>
+        </div>
+
+        {{#if profileData.isActivityAccessible}}
+        <!-- Notifications -->
+            <div id="tab-content-notifications" rel="notifications">
+                <div class="graph-picker">
+                    {{#if profileData.isActivityAccessible}}
+                        Laat nieuwe oplossingen zien bij jou gestelde vragen.
+                    {{/if}}
+                    {{> profile_discussion-tab-links}}
+                </div>
+                <div class="discussion-placeholder">
+                    <div id="notifications-progress-bar"
+                        class="throbber-progress-bar"></div>
+                </div>
+
+                <div id="notifications" class="discussion-tab-content">
+                    <div class="discussion-message"></div>
+                </div>
+            </div>
+
+            <div id="tab-content-settings" rel="settings"></div>
+        {{/if}}
+    </div>
+</section>
