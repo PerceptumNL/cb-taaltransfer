@@ -1,8 +1,10 @@
-{% extends "page_template.html" %}
+{% extends "base_course.html" %}
 
 {% import 'macros/analytics.html' as analytics %}
 
 {% block pagecss %}
+    {{ js_css_packages.css_package("shared") }}
+    {{ js_css_packages.js_package("shared") }}
     {{ js_css_packages.css_package("profile") }}
     {{ super() }}
     {% if show_intro or show_discussion_intro %}

@@ -83,6 +83,6 @@ jinja2.default_config = {
     },
     "environment_args": {
         "autoescape": False,
-        "extensions": [],
+        "extensions": ['jinja2.ext.i18n'],
         },
     }

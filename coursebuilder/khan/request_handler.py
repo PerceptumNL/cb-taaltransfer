@@ -24,6 +24,8 @@ from profiles import util_profile
 import url_util
 import user_models
 from gandalf.bridge import gandalf
+from webapp2_extras import i18n
+import jinja2
 
 
 class RequestInputHandler(object):
@@ -444,8 +446,35 @@ class RequestHandler(webapp2.RequestHandler, RequestInputHandler):
         self.set_cookie(key, '', path=path, domain=domain, max_age=0)
 
     def add_global_template_values(self, template_values):
+        from controllers.utils import BaseHandler
+
+        import controllers.sites
+        import logging
+        import json
+        logging.error(controllers.sites.get_all_courses())
+        a = controllers.sites.get_all_courses()[0]
+        bh = BaseHandler()
+        bh.app_context = a
+        bh.request = self.request
+        bh.personalize_page_and_get_user()
+        bh.set_template_value()
+        template_values2 = bh.template_value #dict(template_values.items() + bh.template_value.items())
+        logging.error("KHAN ACA")
+        logging.error("KHAN ACA")
+        logging.error("KHAN ACA")
+        logging.error(template_values)
+        logging.error("COURSE B")
+        logging.error("COURSE B")
+        logging.error("COURSE B")
+        logging.error(template_values2)
+        template_values['navbar'] = {'progress': True}
         template_values['App'] = App
         template_values['None'] = None
+        template_values = dict(template_values2.items() + template_values.items())
+        logging.error("ALL")
+        logging.error("ALL")
+        logging.error("ALL")
+        logging.error(template_values)
 
         if not template_values.has_key('user_data'):
             user_data = user_models.UserData.current()
@@ -560,7 +589,9 @@ class RequestHandler(webapp2.RequestHandler, RequestInputHandler):
         super(RequestHandler, self).redirect(uri, *args, **kwargs)
 
     def render_jinja2_template(self, template_name, template_values):
-        self.add_global_template_values(template_values)
+        #i18n.get_i18n().set_locale("en")
+        #jinja2.Environment(extensions=['jinja2.ext.i18n']).install_gettext_translations(i18n)
+        template_values = dict(self.add_global_template_values(template_values))
         self.response.write(self.render_jinja2_template_to_string(template_name, template_values))
 
     def render_jinja2_template_to_string(self, template_name, template_values):

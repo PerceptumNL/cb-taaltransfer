@@ -192,6 +192,10 @@
       <div class="gcb-aux">
         {% block top_content %}{% endblock %}
         {{course_info.base.after_top_content_ends | safe}}
+        {% block pagecss %}{% endblock %}
+        {% block pagecontent %}{% endblock %}
+        {% block bottompagescript %}{% endblock %}
+        {% block meta_page_title %}{% endblock meta_page_title %}
 
         <!-- main section -->
         {% block main_content %}{% endblock %}

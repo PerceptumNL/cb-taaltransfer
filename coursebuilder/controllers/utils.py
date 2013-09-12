@@ -219,6 +219,20 @@ class ApplicationHandler(webapp2.RequestHandler):
         super(ApplicationHandler, self).__init__(*args, **kwargs)
         self.template_value = {}
 
+    def set_template_value(self):
+        """Computes location of template files for the current namespace."""
+        self.template_value[COURSE_INFO_KEY] = self.app_context.get_environ()
+        self.template_value['is_course_admin'] = Roles.is_course_admin(
+            self.app_context)
+        self.template_value[
+            'is_read_write_course'] = self.app_context.fs.is_read_write()
+        self.template_value['is_super_admin'] = Roles.is_super_admin()
+        self.template_value[COURSE_BASE_KEY] = self.get_base_href(self)
+        #template_environ = self.app_context.get_template_environ(
+        #    self.template_value[COURSE_INFO_KEY]['course']['locale'],
+        #    additional_dirs
+        #)
+
     def get_template(self, template_file, additional_dirs=None):
         """Computes location of template files for the current namespace."""
         self.template_value[COURSE_INFO_KEY] = self.app_context.get_environ()
@@ -314,6 +328,10 @@ class BaseHandler(ApplicationHandler):
                 self.request.uri)
             self.template_value['transient_student'] = True
             return None
+        import logging
+        
+        logging.error('personalize_page_and_get_user(self)')
+        logging.error(self.template_value)
 
         return user
 
@@ -361,6 +379,9 @@ class BaseHandler(ApplicationHandler):
     def render(self, template_file):
         """Renders a template."""
         template = self.get_template(template_file)
+        import logging
+        logging.error('render(self)')
+        logging.error(self.template_value)
         self.response.out.write(template.render(self.template_value))
 
 
