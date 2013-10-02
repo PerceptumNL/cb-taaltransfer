@@ -2092,7 +2092,8 @@ def topic_next_cards(topic_id):
 
 @route("/api/v1/user/exercises", methods=["GET"])
 @route("/api/v1/user/topic/<topic_id>/exercises", methods=["GET"])
-@api.auth.decorators.login_required_and(demo_user_allowed=True)
+#@api.auth.decorators.login_required_and(demo_user_allowed=True)
+@api.auth.decorators.open_access
 @jsonp
 @jsonify
 def user_exercises_list(topic_id=None):
@@ -2804,7 +2805,8 @@ def opengraph_earn(badge_slug):
 
 
 @route("/api/v1/user/activity", methods=["GET"])
-@api.auth.decorators.login_required
+#@api.auth.decorators.login_required
+@api.auth.decorators.open_access
 @jsonp
 @jsonify
 def get_activity():

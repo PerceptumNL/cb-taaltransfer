@@ -49,11 +49,11 @@ var APIActionResults = {
                         // w/ cookie value.
                         xhr.setRequestHeader("X-KA-FKey", xsrfToken);
                     } else {
-                        apiVersionMismatch();
-                        if (settings.error) {
-                            settings.error();
-                        }
-                        return false;
+                    //    apiVersionMismatch();
+                    //    if (settings.error) {
+                    //        settings.error();
+                    //    }
+                    //    return false;
                     }
                 }
             }
