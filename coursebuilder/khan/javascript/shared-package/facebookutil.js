@@ -179,5 +179,5 @@ var FacebookUtil = {
         }
     }
 };
-FacebookUtil.init();
+//FacebookUtil.init();
 
