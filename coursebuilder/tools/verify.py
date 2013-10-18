@@ -827,7 +827,7 @@ def set_object_attributes(target_object, names, values, converter=None):
 
 def read_objects_from_csv_stream(stream, header, new_object, converter=None):
     return read_objects_from_csv(
-        csv.reader(StringIO(stream.read())), header, new_object,
+        csv.reader(StringIO(stream.read()), delimiter=';'), header, new_object,
         converter=converter)
 
 
