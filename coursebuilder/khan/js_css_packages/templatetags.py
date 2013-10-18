@@ -15,6 +15,8 @@ except Exception:
 
 @request_cache.cache()
 def use_compressed_packages():
+    #by now
+    return False
     qs = os.environ.get("QUERY_STRING")
     dict_qs = cgi.parse_qs(qs)
 
