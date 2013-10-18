@@ -42,6 +42,7 @@ def register_module():
         ('/course', lessons.CourseHandler),
         ('/forum', utils.ForumHandler),
         ('/preview', utils.PreviewHandler),
+        ('/profile', utils.StudentProfileHandler), #this should be commented out until fixed, otherwise the server won't run
         ('/register', utils.RegisterHandler),
         ('/review', lessons.ReviewHandler),
         ('/reviewdashboard', lessons.ReviewDashboardHandler),
