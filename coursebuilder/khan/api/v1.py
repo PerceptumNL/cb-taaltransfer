@@ -2407,6 +2407,10 @@ def attempt_problem_number(exercise_name, problem_number):
 
     logging.error(exercise_name)
     exercise = exercise_models.Exercise.get_by_name(exercise_name)
+    if exercise == None:
+         exercise = exercise_models.Exercise(name=exercise_name)
+         exercise.put()
+    
     user_exercise = user_data.get_or_insert_exercise(exercise)
 
     logging.error(exercise)
