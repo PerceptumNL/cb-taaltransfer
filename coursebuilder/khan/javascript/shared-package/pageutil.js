@@ -282,9 +282,9 @@ Badges.Notifications = Backbone.View.extend({
     animate:function () {
 
         // TODO(stephanie): remove global references
-        var $elContainer = $("#page-container-inner");
+        var $elContainer = $("body");//#page-container-inner");
         var $elTarget = $(".badge-target");
-        var top = $elTarget.offset().top + $elTarget.height() + 5;
+        var top = $elTarget.height() + 5;
 
         this.$el.css("visibility", "hidden").css("display", "");
         this.$el.css("left", $elContainer.offset().left + ($elContainer.width() / 2) - (this.$el.width() / 2)).css("top", -1 * this.$el.height());
