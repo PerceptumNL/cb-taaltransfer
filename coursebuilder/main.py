@@ -16,6 +16,7 @@
 
 __author__ = 'Pavel Simakov (psimakov@google.com)'
 
+
 import os
 import webapp2
 
@@ -39,6 +40,7 @@ import modules.khanex.khanex
 import profiles
 import profiles.handlers
 
+
 # use this flag to control debug only features
 debug = not appengine_config.PRODUCTION_MODE
 
@@ -58,6 +60,13 @@ modules.oauth2.oauth2.register_module()
 
 # compute all possible routes
 global_routes, namespaced_routes = custom_modules.Registry.get_all_routes()
+
+
+import khan.user_models
+#create user if logged in and doesn't exist
+khan.user_models.UserData.current(True)
+
+
 
 # routes available at '/%namespace%/' context paths
 sites.ApplicationRequestHandler.bind(namespaced_routes)
@@ -88,6 +97,7 @@ extensions_tag_resource_routes = [(
 # i18n configuration for jinja2
 webapp2_i18n_config = {'translations_path': os.path.join(
     appengine_config.BUNDLE_ROOT, 'modules/i18n/resources/locale')}
+
 
 # init application
 app = webapp2.WSGIApplication(

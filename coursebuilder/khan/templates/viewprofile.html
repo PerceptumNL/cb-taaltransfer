@@ -1,5 +1,7 @@
 {% extends "base_course.html" %}
 
+{% import 'macros/user.html' as user %}
+{%- import 'macros/app.html' as app -%}
 {% import 'macros/analytics.html' as analytics %}
 
 {% block assets %}
@@ -13,8 +15,6 @@
   <link rel="stylesheet" type="text/css" href="assets/css/butterbar.css" media="screen" />
    -->
     {{ super() }}
-    {{ js_css_packages.css_package("shared") }}
-    {{ js_css_packages.js_package("shared") }}
     {{ js_css_packages.css_package("profile") }}
     {{ js_css_packages.js_package("profile") }}
 {% endblock %}

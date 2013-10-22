@@ -191,6 +191,10 @@ class UserData(gae_bingo.models.GAEBingoIdentityModel,
     conversion_test_easy_exercises = set([
         'counting_1', 'significant_figures_1', 'subtraction_1'])
 
+    @classmethod
+    def kind(cls):
+        return 'Student'
+
     @property
     def nickname(self):
         """Gets a human-friendly display name that the user can optionally set
@@ -354,8 +358,8 @@ class UserData(gae_bingo.models.GAEBingoIdentityModel,
         return properties_list
 
     @staticmethod
-    @request_cache.cache()
-    def current(create_if_none=False):
+    #@request_cache.cache()
+    def current(create_if_none=False, bust_cache=False):
         """Determine the current logged in user and return it.
 
         Arguments:
@@ -369,17 +373,16 @@ class UserData(gae_bingo.models.GAEBingoIdentityModel,
             was detected.
         """
 
-        #user_id = util.get_current_user_id_unsafe(bust_cache=True)
-        #if user_id is None:
-        #    return None
-
         google_user = users.get_current_user()
-        #if google_user:
-        #    email = google_user.email()
-        #else:
-        #    email = user_id
-        return models.models.Student.get_by_email(google_user.email())
+        logging.error("Google user: %s" % google_user)
+        if google_user:  
+            user = UserData.get_from_db_key_email(google_user.email())
+            if user: return user
+            else: return UserData.insert_for(google_user.nickname(), google_user.email())
+        else:
+            return None
 
+        #off
         return UserData.get_from_db_key_email(email)
 
         existing = UserData.get_from_request_info(user_id, email)
@@ -673,7 +676,7 @@ class UserData(gae_bingo.models.GAEBingoIdentityModel,
                 # UserData objects with existing key_names.
                 user_counter.add(1)
 
-                gae_bingo.gae_bingo.bingo('registered_binary')  # Core metric
+                #gae_bingo.gae_bingo.bingo('registered_binary')  # Core metric
 
         return user_data
 

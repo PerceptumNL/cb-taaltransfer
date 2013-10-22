@@ -112,10 +112,14 @@ class SuggestedActivity(object):
         activity.progress = exercise_graph_dict["progress"]
         first_topic = exercise_models.Exercise.get_by_name(
                         exercise_name).first_topic()
-        activity.topic = first_topic.title
-        activity.topic_icon = (badges.topic_exercise_badges.TopicExerciseBadge
-                                .get_by_exercise(exercise_name)
-                                .icon_src)
+        #activity.topic = first_topic.title
+        #activity.topic_icon = (badges.topic_exercise_badges.TopicExerciseBadge
+        #                        .get_by_exercise(exercise_name)
+        #                        .icon_src)
+        activity.topic = ""#first_topic.title
+        activity.topic_icon = ""#(badges.topic_exercise_badges.TopicExerciseBadge
+                              #  .get_by_exercise(exercise_name)
+                              #  .icon_src)
         return activity
 
     @staticmethod

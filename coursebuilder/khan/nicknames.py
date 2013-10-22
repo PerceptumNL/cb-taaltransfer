@@ -25,7 +25,7 @@ def get_default_nickname_for(user_data):
         return None
 
     user_id = user_data.user_id
-    email = user_data.email
+    email = user_data.user_email
 
     if not user_id or not email:
         return None
