@@ -2395,27 +2395,14 @@ def user_problem_logs(exercise_name):
 @jsonp
 @jsonify
 def attempt_problem_number(exercise_name, problem_number):
-    logging.error("attempt")
-    from google.appengine.api import datastore_errors, users
-    import models.models
-    u = users.get_current_user()
-    logging.error(u)
-    uu = models.models.Student.get_by_email(u.email())
-    logging.error(uu)
-    #user_data = user_models.UserData.current()
-    user_data = uu
-
-    logging.error(exercise_name)
     exercise = exercise_models.Exercise.get_by_name(exercise_name)
     if exercise == None:
          exercise = exercise_models.Exercise(name=exercise_name)
          exercise.put()
     
+    user_data = user_models.UserData.current()
     user_exercise = user_data.get_or_insert_exercise(exercise)
-
-    logging.error(exercise)
-    logging.error(user_exercise)
-
+    logging.error(user_data)
 
     if user_exercise and problem_number:
 
@@ -2464,7 +2451,7 @@ def attempt_problem_number(exercise_name, problem_number):
                              if (user_data.points == points_earned)
                              else points_earned)
 
-        user_states = user_exercise_graph.states(exercise.name)
+        #user_states = user_exercise_graph.states(exercise.name)
         correct = request.request_bool("complete")
 
         # Avoid an extra user exercise graph lookup during serialization
@@ -2472,8 +2459,8 @@ def attempt_problem_number(exercise_name, problem_number):
 
         action_results = {
             "exercise_state": {
-                "state": [state for state in user_states
-                          if user_states[state]],
+               # "state": [state for state in user_states
+               #           if user_states[state]],
                 "template": templatetags.exercise_message(exercise,
                     user_exercise_graph, review_mode=review_mode),
             },

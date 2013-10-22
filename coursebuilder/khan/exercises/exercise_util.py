@@ -150,6 +150,7 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
         if len(attempt_content) > 500:
             raise Exception("Attempt content exceeded maximum length.")
 
+        correct=completed and not count_hints and (attempt_number == 1)
         # Build up problem log for deferred put
         problem_log = exercise_models.ProblemLog(
                 key_name=exercise_models.ProblemLog.key_for(user_data, user_exercise.exercise, problem_number),
@@ -161,7 +162,7 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
                 time_done=dt_now,
                 count_hints=count_hints,
                 hint_used=count_hints > 0,
-                correct=completed and not count_hints and (attempt_number == 1),
+                correct=correct,
                 sha1=sha1,
                 seed=seed,
                 problem_type=problem_type,
@@ -173,6 +174,7 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
         )
         #TinCan hack
         setattr(problem_log, "completed", completed)
+        if (completed): user_exercise.attempt_list.append(correct)
 
         first_response = (attempt_number == 1 and count_hints == 0) or (count_hints == 1 and attempt_number == 0)
 
@@ -181,8 +183,10 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
 
         # Users can only attempt problems for themselves, so the experiment
         # bucket always corresponds to the one for this current user
+
         struggling_model = StrugglingExperiment.get_alternative_for_user(
                  user_data, current_user=True) or StrugglingExperiment.DEFAULT
+
         if completed:
 
             user_exercise.total_done += 1

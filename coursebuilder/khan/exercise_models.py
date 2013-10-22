@@ -335,6 +335,7 @@ class UserExercise(backup_model.BackupModel):
     last_review = db.DateTimeProperty(default=datetime.datetime.min)
     review_interval_secs = db.IntegerProperty(default=(60 * 60 * 24 * consts.DEFAULT_REVIEW_INTERVAL_DAYS), indexed=False) # Default 7 days until review
     proficient_date = db.DateTimeProperty()
+    attempt_list = db.ListProperty(bool, indexed=False)
     seconds_per_fast_problem = db.FloatProperty(default=consts.INITIAL_SECONDS_PER_FAST_PROBLEM, indexed=False) # Seconds expected to finish a problem 'quickly' for badge calculation
     _accuracy_model = object_property.ObjectProperty()  # Stateful function object that estimates P(next problem correct). May not exist for old UserExercise objects (but will be created when needed).
 
@@ -973,11 +974,17 @@ class UserExerciseGraph(object):
         graph_dict = self.graph_dict(exercise_name)
 
         return {
-            "proficient": graph_dict["proficient"],
-            "suggested": graph_dict["suggested"],
-            "struggling": graph_dict["struggling"],
-            "reviewing": graph_dict["reviewing"]
+            "proficient": "",
+            "suggested": "",
+            "struggling": "",
+            "reviewing": ""
         }
+        #return {
+        #    "proficient": graph_dict["proficient"],
+        #    "suggested": graph_dict["suggested"],
+        #    "struggling": graph_dict["struggling"],
+        #    "reviewing": graph_dict["reviewing"]
+        #}
 
     @staticmethod
     def current():
