@@ -1,3 +1,7 @@
+{% import 'macros/user.html' as user %}
+{%- import 'macros/app.html' as app -%}
+{% import 'macros/analytics.html' as analytics %}
+
 <!DOCTYPE html>
 <html lang="{{course_info.course.locale}}">
   <head>
@@ -6,6 +10,15 @@
     <meta charset="utf-8">
     {% block title %}
     {% endblock %}
+    <!-- bugherd -->
+    <script type='text/javascript'>
+    (function (d, t) {
+      var bh = d.createElement(t), s = d.getElementsByTagName(t)[0];
+      bh.type = 'text/javascript';
+      bh.src = '//www.bugherd.com/sidebarv2.js?apikey=roz9qz9o0qdubklnr7ybvq';
+      s.parentNode.insertBefore(bh, s);
+      })(document, 'script');
+    </script>
 
     <!-- The following translated strings are used in activity-generic.js and should be
     declared before that file is imported. -->
@@ -104,6 +117,8 @@
       assessmentTagMessages.yourScoreIs = "{{ gettext(' Your score is: ') }}";
     </script>
 
+    {{ js_css_packages.css_package("shared") }}
+    {{ js_css_packages.js_package("shared") }}
     {% block assets %}
     {% endblock %}
 
@@ -134,6 +149,7 @@
   </head>
 
   <body>
+{{ app.globals(username, is_mobile_capable, logged_in_user_profile, user_data, server_time) }}
     {{course_info.base.after_body_tag_begins | safe}}
 
     <!-- ButterBar -->
@@ -164,16 +180,27 @@
 
         {% if logoutUrl %}
         <div class="gcb-pull-right" style="font-size: larger;">
+{#
           {{ email }}
+#}
+
+
+          <span id="user-info" class="badge-target">
+          {% if user_data and not user_data.is_pre_phantom %}
+              {{ user.user_info(username, user_data, login_url, logoutUrl) }}
+          {% else %}
+              <a href="{{ login_url|escape }}">Inloggen</a>
+          {% endif %}
+          </span>
+{#
           {% if transient_student and can_register %}
-            {# I18N: Text shown in parentheses next to the student's email address at the top-right of all course pages, if the student is logged in but not registered for the course he/she is currently browsing. #}
             ({{ gettext('Not registered') }})
           {% endif %}
           &nbsp;|&nbsp;
           <a href="{{ logoutUrl }}" style="text-decoration: underline;">
-            {# I18N: Navbar text. #}
             {{ gettext('Logout') }}
           </a>
+#}
         </div>
         {% elif loginUrl %}
         <div class="gcb-pull-right" style="font-size: larger;">

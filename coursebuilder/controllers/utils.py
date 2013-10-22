@@ -246,8 +246,55 @@ class ApplicationHandler(webapp2.RequestHandler):
             self.template_value[COURSE_INFO_KEY]['course']['locale'],
             additional_dirs
         )
-        template_environ.filters[
-            'gcb_tags'] = jinja_utils.get_gcb_tags_filter(self)
+        import khan.util as util
+        import khan.templatefilters as templatefilters
+        import badges.templatetags 
+        import avatars.templatetags
+        import js_css_packages.templatetags
+        import app
+        import templatetags
+        import user_models
+        template_environ.filters['gcb_tags'] = jinja_utils.get_gcb_tags_filter(self)
+        template_environ.filters['thousands_separated'] = util.thousands_separated_number
+        template_environ.filters['pluralize'] = templatefilters.pluralize
+        template_environ.filters["escapejs"] = templatefilters.escapejs
+        template_environ.globals["badges"] = badges.templatetags
+        template_environ.globals["avatars"] = avatars.templatetags
+        template_environ.globals["js_css_packages"] = js_css_packages.templatetags
+        template_environ.globals["App"] = app.App
+        template_environ.globals["templatetags"] = templatetags
+        from user_models import StudentList, UserData, ParentChildPair
+        import logging
+        current_user_data = UserData.current(True) 
+        #logging.error("Current user: %s" % current_user_data)
+        #logging.error("Nickname: %s" % current_user_data.nickname)
+        #logging.error("Username: %s" % current_user_data.username)
+        #logging.error("UserNickname: %s" % current_user_data.user_nickname)
+        #logging.error("UserEmail: %s" % current_user_data.user_email)
+        if current_user_data:
+            template_environ.globals["username"] = current_user_data.nickname or current_user_data.username or current_user_data.user_nickname or current_user_data.user_email
+        else:
+            template_environ.globals["username"] = ""
+        
+        #template_environ['environment_args'] = {'autoescape' : False}
+#        template_environ["filters"] = {
+#            'gcb_tags': jinja_utils.get_gcb_tags_filter(self),
+#            #"thousands_separated": util.thousands_separated_number,
+#        }
+#        template_environ["globals"] = {
+#            "templatetags": templatetags,
+#            "profiles": profiles.templatetags,
+#            "avatars": avatars.templatetags,
+#            "badges": badges.templatetags,
+#            "phantom_users": phantom_users.templatetags,
+##            "gae_mini_profiler": gae_mini_profiler.templatetags,
+##            "xsrf": api.auth.xsrf,
+##            "UserData": UserData,
+##            "json": json,
+##            "App": App,
+##            "handlebars_template": handlebars.render.render_from_jinja,
+##            "gandalf": gandalf.bridge.gandalf,
+#        }
         return template_environ.get_template(template_file)
 
     def canonicalize_url(self, location):
@@ -307,8 +354,10 @@ class BaseHandler(ApplicationHandler):
         if hasattr(self, 'app_context'):
             self.template_value['can_register'] = self.app_context.get_environ(
                 )['reg_form']['can_register']
+        from models.models import Student
 
         if user:
+            self.template_value['user_data'] = Student.current()
             self.template_value['email'] = user.email()
             self.template_value['logoutUrl'] = (
                 users.create_logout_url(self.request.uri))
