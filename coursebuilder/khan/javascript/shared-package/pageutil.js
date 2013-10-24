@@ -254,21 +254,21 @@ Badges.Notifications = Backbone.View.extend({
     },
 
     render:function () {
-        _.each(this.subviews, function (v) {
-            v.undelegateEvents();
-        });
-        this.subviews = [];
+        //_.each(this.subviews, function (v) {
+        //    v.undelegateEvents();
+        //});
+        //this.subviews = [];
         this.$el.html(this.template(this.templateJSON()));
         this.$el.css("display", "none");
         this.$(".timeago").timeago();
 
         // attach subviews
-        this.subviews = _.map(this.$(".share-links"), function (el, i) {
-            return new Badges.ShareLinksView({
-                el:el,
-                model:this.model.at(i)
-            });
-        }, this);
+        //this.subviews = _.map(this.$(".share-links"), function (el, i) {
+        //    return new Badges.ShareLinksView({
+        //        el:el,
+        //        model:this.model.at(i)
+        //    });
+        //}, this);
     },
 
     show:function () {
@@ -298,9 +298,9 @@ Badges.Notifications = Backbone.View.extend({
     hide:function (e) {
         this.$el.animate({top:-1 * this.$el.outerHeight() - 10}, 300,
             'easeInOutCubic');
-        _.each(this.subviews, function (v) {
-            v.hide();
-        });
+        //_.each(this.subviews, function (v) {
+        //    v.hide();
+        //});
     }
 });
 
