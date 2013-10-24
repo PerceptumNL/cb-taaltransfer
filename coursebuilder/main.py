@@ -40,6 +40,8 @@ import modules.khanex.khanex
 import profiles
 import profiles.handlers
 
+import badges
+import badges.handlers
 
 # use this flag to control debug only features
 debug = not appengine_config.PRODUCTION_MODE
@@ -63,8 +65,13 @@ global_routes, namespaced_routes = custom_modules.Registry.get_all_routes()
 
 
 import khan.user_models
+from models.models import Student
 #create user if logged in and doesn't exist
-khan.user_models.UserData.current(True)
+student = Student.current(True)
+if student and student.is_enrolled == False:
+    student.is_enrolled = True
+    student.put()
+
 
 
 
@@ -88,8 +95,9 @@ khan_routes = [('/profile/graph/activity', profiles.handlers.ActivityGraph),
     ('/profile/(.*)', profiles.handlers.ViewProfile),
     ('/profile', profiles.handlers.ViewProfile),
     ('/class_profile', profiles.handlers.ViewClassProfile),
-    ('/class_profile/(.*)', profiles.handlers.ViewClassProfile)]
-
+    ('/class_profile/(.*)', profiles.handlers.ViewClassProfile),
+    ('/badges/(.*)', badges.handlers.ViewBadge),
+    ('/badges', badges.handlers.ViewBadge)]
 # tag extension resource routes
 extensions_tag_resource_routes = [(
     '/extensions/tags/.*/resources/.*', tags.ResourcesHandler)]
@@ -98,6 +106,9 @@ extensions_tag_resource_routes = [(
 webapp2_i18n_config = {'translations_path': os.path.join(
     appengine_config.BUNDLE_ROOT, 'modules/i18n/resources/locale')}
 
+
+from google.appengine.api import namespace_manager
+namespace_manager.set_namespace('ns_editable')
 
 # init application
 app = webapp2.WSGIApplication(

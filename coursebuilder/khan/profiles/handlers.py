@@ -88,10 +88,11 @@ class ViewClassProfile(request_handler.RequestHandler):
                 'selected_graph_type': selected_graph_type,
                 'initial_graph_url': initial_graph_url,
                 'exercises': exercise_models.Exercise.get_all_use_cache(),
-                'is_profile_empty': not coach.has_students(),
+                'is_profile_empty': False, #not coach.has_students(),
                 'selected_nav_link': 'coach',
                 "view": self.request_string("view", default=""),
                 'stats_charts_class': 'coach-view',
+                'navbar': {'class': True}
                 }
         self.render_jinja2_template('viewclassprofile.html', template_values)
 
@@ -113,18 +114,14 @@ class ViewProfile(request_handler.RequestHandler):
 
         """
         current_user_data = UserData.current() or UserData.pre_phantom()
-        import logging
-        logging.error(current_user_data)
 
         if current_user_data.is_pre_phantom and username is None:
             # Pre-phantom users don't have any profiles - just redirect them
             # to the homepage if they try to view their own.
-            logging.error("1")
             self.redirect(url_util.create_login_url(self.request.uri))
             return
 
         if not current_user_data.is_phantom and username == 'nouser':
-            logging.error("2")
             # If anybody has bookmarked, or gets redirected to, or otherwise
             # finds their way to /profile/nouser while they're logged in, just
             # redirect them to their actual profile.
@@ -154,10 +151,8 @@ class ViewProfile(request_handler.RequestHandler):
                     self.redirect("/profile/%s" % user_data.username)
                 return
 
-        logging.error("3")
         profile = util_profile.UserProfile.from_user(user_data,
                 current_user_data)
-        logging.error("4")
 
         if profile is None:
             self.render_jinja2_template('noprofile.html', {})
@@ -264,6 +259,7 @@ class ProfileGraph(request_handler.RequestHandler):
         json_update = ""
 
         user_data_target = self.get_profile_target_user_data()
+    
         if user_data_target:
             if self.redirect_if_not_ajax(user_data_target):
                 return

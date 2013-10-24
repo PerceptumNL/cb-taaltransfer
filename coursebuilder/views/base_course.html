@@ -80,6 +80,11 @@
             <a href="dashboard">Dashboard</a>
           </li>
         {% endif %}
+        {% if is_course_admin %}
+          <li class="gcb-pull-right{% if navbar.class %} active{% endif %}">
+            <a href="class_profile">Class</a>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>

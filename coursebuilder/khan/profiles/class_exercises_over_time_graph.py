@@ -24,6 +24,9 @@ def class_exercises_over_time_graph_context(user_data, student_list):
         students_data = user_data.get_students_data()
   
     dict_student_exercises = {}
+    import logging
+    logging.error(students_data)
+    logging.error(student_list)
     user_exercise_cache_list = exercise_models.UserExerciseCache.get(
             students_data)
     for i, user_data_student in enumerate(students_data):

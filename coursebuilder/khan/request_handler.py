@@ -210,6 +210,7 @@ class RequestHandler(webapp2.RequestHandler, RequestInputHandler):
         production.
         """
         def __new__(mcls, name, bases, attrs):
+            
             for fn in ("get", "post", "head", "put"):
                 if fn in attrs:
                     # TODO(csilvers): remove the requirement that the
@@ -459,22 +460,11 @@ class RequestHandler(webapp2.RequestHandler, RequestInputHandler):
         bh.personalize_page_and_get_user()
         bh.set_template_value()
         template_values2 = bh.template_value #dict(template_values.items() + bh.template_value.items())
-        logging.error("KHAN ACA")
-        logging.error("KHAN ACA")
-        logging.error("KHAN ACA")
-        logging.error(template_values)
-        logging.error("COURSE B")
-        logging.error("COURSE B")
-        logging.error("COURSE B")
-        logging.error(template_values2)
-        template_values['navbar'] = {'progress': True}
+        if not ('navbar' in template_values):
+            template_values['navbar'] = {'progress': True}
         template_values['App'] = App
         template_values['None'] = None
         template_values = dict(template_values2.items() + template_values.items())
-        logging.error("ALL")
-        logging.error("ALL")
-        logging.error("ALL")
-        logging.error(template_values)
 
         if not template_values.has_key('user_data'):
             user_data = user_models.UserData.current()

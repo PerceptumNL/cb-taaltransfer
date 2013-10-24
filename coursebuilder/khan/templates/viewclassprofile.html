@@ -3,8 +3,6 @@
 {% import 'macros/coach.html' as coach %}
 {% import 'macros/profiles.html' as profile_macros %}
 
-{% block meta_page_title %}Class Profile | {% endblock meta_page_title %}
-
 {% block pagecss %}
     {{ super() }}
     {{ js_css_packages.css_package("studentlists") }}
@@ -79,9 +77,7 @@
         </li>
         <li>
             <a href="/class_profile/exercise-progress-over-time" class="graph-link graph-link-header header ">Periodieke voortgang vaardigheden</a>
-            <div class="accordion-content">Laat zien hoeveel vaardigheden jouw student heeft afgerond binnen een bepaalde periode.<br /><br />
-                <span class="instructions">Licht een <a href="#" class="highlight-section show-students-highlight">specifieke student</a> of een <a href="#" class="highlight-section show-exercises-highlight">bepaalde vaardigheid uit</a>.</span><br />
-
+            <div class="accordion-content">Laat zien hoeveel vaardigheden jouw student heeft afgerond binnen een bepaalde periode.
                 <div id="students-highlight" class="vertical-choice-container" style="display:none;">
                     <ul>
                         <li>&hellip;</li>
@@ -129,7 +125,7 @@
     <div class="filter-block">
       <h3>Voortgangsrapport</h3>
     </div>
-    <div class="filter-block">
+    <div class="filter-block" style="margin-bottom: 20px">
       <p>Toont alleen
         <input type="text" id="student-progressreport-search" placeholder="leerling of vaardigheid" class="search-input simple-input ui-corner-all blur-on-esc"></input>
         <span class="coach-filter-block">

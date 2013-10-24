@@ -68,7 +68,7 @@
 .profile-sheet-title {
     display: none;
     background: #EEE;
-    margin: 0 -19px 0 -20px;
+    margin: 0 0px 0 -20px;
     padding: 5px 20px;
     border-top: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
@@ -385,7 +385,7 @@
         opacity: 0.5;
         width: auto;
         text-align: center;
-        min-width: 16%;
+        min-width: 19%;
         margin-left: 0.5%;
     }
         #individual_report #achievements #achievement-list > ul li img {
@@ -417,6 +417,7 @@
         padding: 3px 0;
         text-shadow: 0 1px 0 #fff;
         width: 95%;
+        font-size: 12px;
 
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
@@ -450,7 +451,7 @@
     margin-bottom: 10px;
 }
 .activity-column {
-    width: 530px;
+    width: 570px;
     float: left;
     position: relative;
 }

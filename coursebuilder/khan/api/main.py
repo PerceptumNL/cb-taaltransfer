@@ -18,6 +18,8 @@ import api.v1  # @UnusedImport
 import api.labs.handlers  # @UnusedImport
 import api.v1_fetch_logs  # @UnusedImport
 
+from google.appengine.api import namespace_manager
+namespace_manager.set_namespace('ns_editable')
 
 class ProfilerMiddleware(object):
     def __init__(self, app):

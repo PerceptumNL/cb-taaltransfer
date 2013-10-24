@@ -274,10 +274,11 @@ class Exercise(backup_model.BackupModel):
 
     @staticmethod
     def get_all_use_cache():
-        if user_util.is_current_user_developer():
-            return Exercise._get_all_use_cache_unsafe()
-        else:
-            return Exercise._get_all_use_cache_safe()
+        return Exercise.all_unsafe()
+        #if user_util.is_current_user_developer():
+        #    return Exercise._get_all_use_cache_unsafe()
+        #else:
+        #    return Exercise._get_all_use_cache_safe()
 
     @staticmethod
     @layer_cache.cache_with_key_fxn(
@@ -819,8 +820,10 @@ class UserExerciseCache(db.Model):
         # Experiment to try different struggling models.
         # It's important to pass in the user_data of the student owning the
         # exercise, and not of the current viewer (as it may be a coach).
-        struggling_model = experiments.StrugglingExperiment.get_alternative_for_user(
-                user_data, is_current_user) or experiments.StrugglingExperiment.DEFAULT
+        #struggling_model = experiments.StrugglingExperiment.get_alternative_for_user(
+        #        user_data, is_current_user) or experiments.StrugglingExperiment.DEFAULT
+
+        struggling_model = experiments.StrugglingExperiment.DEFAULT
 
         dicts = {}
 

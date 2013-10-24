@@ -254,7 +254,6 @@ class UserData(gae_bingo.models.GAEBingoIdentityModel,
         should not be displayed to users -- for that, use the 'email'
         property.
         """
-        return 'test@example.com'
         return self.user.email()
 
     def has_sendable_email(self):
@@ -376,9 +375,14 @@ class UserData(gae_bingo.models.GAEBingoIdentityModel,
         google_user = users.get_current_user()
         logging.error("Google user: %s" % google_user)
         if google_user:  
-            user = UserData.get_from_db_key_email(google_user.email())
-            if user: return user
-            else: return UserData.insert_for(google_user.nickname(), google_user.email())
+            user_data = UserData.get_from_db_key_email(google_user.email())
+            if user_data == None:
+                user_data = UserData.insert_for(google_user.nickname(), google_user.email())
+            #check
+            if (user_data.user != google_user):
+                user_data.user = google_user
+                user_data.put()
+            return user_data
         else:
             return None
 
@@ -1080,19 +1084,21 @@ class UserData(gae_bingo.models.GAEBingoIdentityModel,
 
     def get_students_data(self):
         """Return the full list of student UserData for this user."""
-        coach_email = self.key_email
-        query = UserData.all().filter('coaches =', coach_email)
-        students_data = query.fetch(1000)
+        return UserData.all().fetch(10000)
+        
+        #coach_email = self.key_email
+        #query = UserData.all().filter('coaches =', coach_email)
+        #students_data = query.fetch(1000)
 
-        # Attempt to be slightly case insensitive
-        if coach_email.lower() != coach_email:
-            students_set = set([s.key().id_or_name() for s in students_data])
-            query = UserData.all().filter('coaches =', coach_email.lower())
-            for student_data in query:
-                if student_data.key().id_or_name() not in students_set:
-                    students_data.append(student_data)
+        ## Attempt to be slightly case insensitive
+        #if coach_email.lower() != coach_email:
+        #    students_set = set([s.key().id_or_name() for s in students_data])
+        #    query = UserData.all().filter('coaches =', coach_email.lower())
+        #    for student_data in query:
+        #        if student_data.key().id_or_name() not in students_set:
+        #            students_data.append(student_data)
 
-        return students_data
+        #return students_data
 
     def get_coworkers_data(self):
         return filter(

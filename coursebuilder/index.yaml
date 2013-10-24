@@ -35,6 +35,11 @@ indexes:
 - kind: Goal
   ancestor: yes
   properties:
+  - name: created_on
+
+- kind: Goal
+  ancestor: yes
+  properties:
   - name: updated_on
 
 - kind: ProblemLog
@@ -75,6 +80,12 @@ indexes:
   - name: points
     direction: desc
 
+- kind: Student
+  properties:
+  - name: user_email
+  - name: points
+    direction: desc
+
 - kind: UserBadge
   properties:
   - name: user
@@ -86,18 +97,6 @@ indexes:
   properties:
   - name: user
   - name: date
-
-- kind: UserData
-  properties:
-  - name: user
-  - name: points
-    direction: desc
-
-- kind: UserData
-  properties:
-  - name: user_id
-  - name: points
-    direction: desc
 
 - kind: UserExercise
   properties:

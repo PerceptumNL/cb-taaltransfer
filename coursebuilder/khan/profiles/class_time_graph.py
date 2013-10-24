@@ -2,6 +2,7 @@ import classtime
 import datetime
 import logging
 import setting_model
+import user_models
 
 
 def class_time_graph_context(user_data, dt_utc, tz_offset, student_list):
@@ -9,11 +10,12 @@ def class_time_graph_context(user_data, dt_utc, tz_offset, student_list):
     if not user_data:
         return {}
     
-    students_data = None
-    if student_list:
-        students_data = student_list.get_students_data()
-    else:
-        students_data = user_data.get_students_data()
+    students_data = user_models.UserData.all().fetch(10000)
+    #students_data = None
+    #if student_list:
+    #    students_data = student_list.get_students_data()
+    #else:
+    #    students_data = user_data.get_students_data()
 
     students_data = sorted(students_data, key=lambda student: student.nickname)
     classtime_table = None

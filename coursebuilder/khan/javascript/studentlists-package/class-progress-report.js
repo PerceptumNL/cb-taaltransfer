@@ -375,7 +375,7 @@ var ProgressReport = {
     adjustTable: function(adjustData) {
 
         if (adjustData.brow == 'chrome' || adjustData.brow == 'safari') {
-            adjustData.tableDiv.css('top', '1px');
+            adjustData.tableDiv.css('top', '0px');
         }
 
         adjustData.firstTd.css("width",adjustData.newFirstTdWidth);//for adjusting first td

@@ -1453,9 +1453,10 @@ def save_video(video_id="", version_id="edit"):
 
 
 def get_students_data_from_request(user_data):
-    return util_profile.get_students_data(user_data,
-                                          request.request_string("list_id"))
-
+    return user_models.UserData.all().fetch(1000)
+#    return util_profile.get_students_data(user_data,
+#                                          request.request_string("list_id"))
+#
 
 @route("/api/v1/user", methods=["GET"])
 @api.auth.decorators.login_required
@@ -2402,7 +2403,6 @@ def attempt_problem_number(exercise_name, problem_number):
     
     user_data = user_models.UserData.current()
     user_exercise = user_data.get_or_insert_exercise(exercise)
-    logging.error(user_data)
 
     if user_exercise and problem_number:
 
@@ -2722,6 +2722,7 @@ def get_user_badges():
     for category, user_badge_bucket in user_badges_by_category.iteritems():
         user_badge_dicts_by_category[category] = user_badge_bucket
 
+
     badge_collections = []
 
     # Iterate over the set of all possible badges.
@@ -3017,7 +3018,8 @@ def user_data():
 
 
 @route("/api/v1/user/students/progressreport", methods=["GET"])
-@api.auth.decorators.login_required_and(demo_user_allowed=True)
+#@api.auth.decorators.login_required_and(demo_user_allowed=True)
+@api.auth.decorators.developer_required
 @jsonp
 @jsonify
 def get_student_progress_report():

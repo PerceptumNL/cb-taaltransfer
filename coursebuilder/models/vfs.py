@@ -509,7 +509,7 @@ class DatastoreBackedFileSystem(object):
     def get_jinja_environ(self, dir_names):
 
         jinja_environment = jinja2.Environment(
-            autoescape=True, finalize=jinja_utils.finalize,
+            autoescape=False, finalize=jinja_utils.finalize,
             extensions=['jinja2.ext.i18n'],
             loader=VirtualFileSystemTemplateLoader(
                 self, self._logical_home_folder, dir_names))

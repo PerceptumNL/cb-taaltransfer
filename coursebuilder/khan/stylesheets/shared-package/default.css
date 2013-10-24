@@ -92,25 +92,8 @@ div#content {
 }
 
 article {
-    /*padding: 0 19px;*/
-    padding: 0 20px;
     background: #fff;
     position: relative;
-    /*margin: 0 1px;*/
-    /*border: 1px solid rgb(231, 231, 231);*/
-}
-
-/* Basic typography for the entire site */
-
-h1, h2, h3, h4, h5 {
-    color: #111;
-    font-family: "MuseoSans500", sans-serif;
-}
-
-h1 {
-    font-size: 1.5em;
-    margin-bottom: 22px;
-   
 }
 
 .main-headline, .section-headline {
@@ -154,11 +137,6 @@ h4 {
 h5 {
     font-size: 0.938em;
     margin-bottom: -22px;
-}
-
-p {
-    font-size: 0.875em;
-    margin: 22px 0;
 }
 
 .pulls {
@@ -1197,7 +1175,7 @@ body, html { overflow-x: hidden; }
 
 .simple-input.search-input {
     background-image: url(/images/non-repeating-sprites.4.png);
-    background-position: -2px -856px;
+    background-position: -6px -866px;
     background-clip: padding-box;
     background-repeat: no-repeat;
     padding-left: 25px;
@@ -2521,6 +2499,8 @@ background: #fafafa;
 #module-progress #firstTd {
     background-color: #F7F7F7;
     border-color: #CCCCCC;
+    padding: 0px;
+    border: none;
 }
 
 #module-progress #firstcol td {
@@ -2558,7 +2538,7 @@ background: #fafafa;
     -moz-border-radius: 3px;
     border-radius: 3px;
     height: 20px;
-    padding-left: 95px;
+    padding-left: 96px;
 }
 
 #module-progress .proficient,
@@ -4453,5 +4433,9 @@ div.topic-condensed {
 .dropdown-menu {
     margin: 0;
 
+}
+
+#ui-datepicker-div {
+    display: none;
 }
 
