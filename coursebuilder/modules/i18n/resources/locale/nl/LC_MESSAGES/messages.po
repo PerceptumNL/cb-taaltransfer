@@ -123,7 +123,7 @@ msgstr "Naam wijzigen"
 #: experimental/coursebuilder/views/unit.html:5
 #: experimental/coursebuilder/views/unit.html:35
 msgid "Unit"
-msgstr "Eenheid"
+msgstr "Deel"
 
 #. Navigation breadcrumb.
 #. Title of the webpage.
@@ -159,7 +159,7 @@ msgstr "Activiteit"
 #: experimental/coursebuilder/views/unit.html:44
 #, python-format
 msgid "Unit %(id)s - %(title)s"
-msgstr "Eenheid %(id)s - %(title)s"
+msgstr "Deel %(id)s - %(title)s"
 
 #. Text shown for a unit that has had no lessons added to it yet.
 #: experimental/coursebuilder/views/activity.html:55
