@@ -63,6 +63,10 @@ class Exercise(backup_model.BackupModel):
     covers = db.StringListProperty()
     v_position = db.IntegerProperty() # actually horizontal position on knowledge map
     h_position = db.IntegerProperty() # actually vertical position on knowledge map
+
+    lesson_id = db.IntegerProperty(indexed=True)
+    unit_id = db.IntegerProperty(indexed=True) 
+
     seconds_per_fast_problem = db.FloatProperty(default=consts.INITIAL_SECONDS_PER_FAST_PROBLEM) # Seconds expected to finish a problem 'quickly' for badge calculation
 
     # True if this exercise is live and visible to all users.
