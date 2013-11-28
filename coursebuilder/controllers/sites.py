@@ -150,6 +150,7 @@ GCB_MODULES_FOLDER_NAME = os.path.normpath('/modules/')
 
 # Files in these folders are inheritable between file systems.
 GCB_INHERITABLE_FOLDER_NAMES = [
+    os.path.join(GCB_ASSETS_FOLDER_NAME, 'fonts/'),
     os.path.join(GCB_ASSETS_FOLDER_NAME, 'css/'),
     os.path.join(GCB_ASSETS_FOLDER_NAME, 'img/'),
     os.path.join(GCB_ASSETS_FOLDER_NAME, 'lib/'),
