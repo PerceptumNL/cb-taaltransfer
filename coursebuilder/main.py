@@ -107,8 +107,8 @@ webapp2_i18n_config = {'translations_path': os.path.join(
     appengine_config.BUNDLE_ROOT, 'modules/i18n/resources/locale')}
 
 
-from google.appengine.api import namespace_manager
-namespace_manager.set_namespace('ns_editable')
+#from google.appengine.api import namespace_manager
+#namespace_manager.set_namespace('ns_editable')
 
 # init application
 app = webapp2.WSGIApplication(

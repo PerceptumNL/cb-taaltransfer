@@ -610,6 +610,7 @@ class Unit13(object):
         self.type = ''
         self.title = ''
         self.release_date = ''
+        self.kind = ''
         self.now_available = False
 
         # Units of 'U' types have 1-based index. An index is automatically
@@ -651,6 +652,7 @@ class Lesson13(object):
         self.unit_id = 0  # unit.unit_id of parent
         self.title = ''
         self.scored = False
+        self.kind = ''
         self.objectives = ''
         self.video = ''
         self.notes = ''
@@ -714,6 +716,7 @@ class PersistentCourse13(object):
                 unit = Unit13()
                 defaults = {
                     'workflow_yaml': DEFAULT_AUTO_GRADER_WORKFLOW,
+                    'kind': '',
                     'html_content': '',
                     'html_check_answers': False,
                     'html_review_form': ''}
@@ -727,6 +730,7 @@ class PersistentCourse13(object):
                 lesson = Lesson13()
                 defaults = {
                     'activity_listed': True,
+                    'kind': '',
                     'scored': False}
                 transforms.dict_to_instance(
                     lesson_dict, lesson, defaults=defaults)
@@ -735,6 +739,8 @@ class PersistentCourse13(object):
     @classmethod
     def save(cls, app_context, course):
         """Saves course to datastore."""
+
+        
         persistent = PersistentCourse13(
             next_id=course.next_id,
             units=course.units, lessons=course.lessons)
@@ -1141,6 +1147,7 @@ class CourseModel13(object):
         existing_unit.title = unit.title
         existing_unit.release_date = unit.release_date
         existing_unit.now_available = unit.now_available
+        existing_unit.kind = unit.kind
 
         if verify.UNIT_TYPE_LINK == existing_unit.type:
             existing_unit.href = unit.href
@@ -1165,6 +1172,7 @@ class CourseModel13(object):
         existing_lesson.unit_id = lesson.unit_id
         existing_lesson.objectives = lesson.objectives
         existing_lesson.video = lesson.video
+        existing_lesson.kind = lesson.kind
         existing_lesson.notes = lesson.notes
         existing_lesson.activity_title = lesson.activity_title
 

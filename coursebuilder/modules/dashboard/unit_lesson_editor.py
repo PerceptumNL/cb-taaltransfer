@@ -375,6 +375,7 @@ class UnitRESTHandler(CommonUnitRESTHandler):
             "key" : {"type": "string"},
             "type": {"type": "string"},
             "title": {"optional": true, "type": "string"},
+            "kind": {"type": "string"},
             "is_draft": {"type": "boolean"}
             }
     }
@@ -389,6 +390,13 @@ class UnitRESTHandler(CommonUnitRESTHandler):
         (['properties', 'type', '_inputex'], {
             'label': 'Type', '_type': 'uneditable'}),
         (['properties', 'title', '_inputex'], {'label': 'Title'}),
+        (['properties', 'kind', '_inputex'], {
+            '_type': 'select',
+            'choices': [
+                {'label': 'Focus','value': 'focus'},
+                {'label': 'Normal','value': 'normal'},
+                {'label': 'Review', 'value': 'review'}],
+            'label': 'Kind Unit'}),
         STATUS_ANNOTATION]
 
     REQUIRED_MODULES = [
@@ -400,10 +408,12 @@ class UnitRESTHandler(CommonUnitRESTHandler):
             'key': unit.unit_id,
             'type': verify.UNIT_TYPE_NAMES[unit.type],
             'title': unit.title,
+            'kind': unit.kind,
             'is_draft': not unit.now_available}
 
     def apply_updates(self, unit, updated_unit_dict, unused_errors):
         unit.title = updated_unit_dict.get('title')
+        unit.kind = updated_unit_dict.get('kind')
         unit.now_available = not updated_unit_dict.get('is_draft')
 
 
@@ -918,6 +928,7 @@ class LessonRESTHandler(BaseRESTHandler):
             "unit_id": {"type": "string"},
             "video" : {"type": "string", "optional": true},
             "scored": {"type": "string"},
+            "kind": {"type": "string"},
             "objectives" : {
                 "type": "string", "format": "html", "optional": true},
             "notes" : {"type": "string", "optional": true},
@@ -964,6 +975,13 @@ class LessonRESTHandler(BaseRESTHandler):
                         'value': 'not_scored'}],
                 'label': 'Scored',
                 'description': messages.LESSON_SCORED_DESCRIPTION}),
+            (['properties', 'kind', '_inputex'], {
+                '_type': 'select',
+                'choices': [
+                    {'label': 'Video', 'value': 'video'},
+                    {'label': 'Exercise','value': 'exercise'},
+                    {'label': 'Level Review', 'value': 'level_review'}],
+                'label': 'Type Lesson'}),
             # TODO(sll): The internal 'objectives' property should also be
             # renamed.
             (['properties', 'objectives', '_inputex'], {
@@ -1008,11 +1026,13 @@ class LessonRESTHandler(BaseRESTHandler):
         else:
             activity = ''
 
+
         payload_dict = {
             'key': key,
             'title': lesson.title,
             'unit_id': lesson.unit_id,
             'scored': 'scored' if lesson.scored else 'not_scored',
+            'kind': lesson.kind,
             'objectives': lesson.objectives,
             'video': lesson.video,
             'notes': lesson.notes,
@@ -1056,10 +1076,13 @@ class LessonRESTHandler(BaseRESTHandler):
         updates_dict = transforms.json_to_dict(
             transforms.loads(payload), self.SCHEMA_DICT)
 
+        import logging
+        logging.error(updates_dict)
         lesson.title = updates_dict['title']
         lesson.unit_id = updates_dict['unit_id']
         lesson.scored = (updates_dict['scored'] == 'scored')
         lesson.objectives = updates_dict['objectives']
+        lesson.kind = updates_dict['kind']
         lesson.video = updates_dict['video']
         lesson.notes = updates_dict['notes']
         lesson.activity_title = updates_dict['activity_title']
@@ -1068,7 +1091,7 @@ class LessonRESTHandler(BaseRESTHandler):
 
 
         #trigger exercises khan exercises
-        khan_hook.LessonExercises().update(lesson.objectives)
+        khan_hook.UpdateExercises(lesson)
 
         activity = updates_dict.get('activity', '').strip()
         errors = []
