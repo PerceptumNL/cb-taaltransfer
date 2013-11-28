@@ -1,4 +1,52 @@
-<div class="gcb-nav" id="gcb-nav-y" role="navigation">
+<div class="col-md-offset-1" role="navigation">
+<div class="btn-group">
+    {% for lesson in lessons %}
+      {% if lesson.now_available or is_course_admin %}
+        <a href="unit?unit={{ unit_id }}&lesson={{ lesson.lesson_id }}" class="btn btn-default btn-lg
+        {% if page_type == 'unit' and lesson.lesson_id == lesson_id %}
+        active
+        {% endif %}
+        ">
+        <span class="glyphicon 
+        {% if lesson.kind == "exercise" %}
+        glyphicon-star
+        {% else %}
+        glyphicon-facetime-video
+        {% endif %}
+        "></span>
+        </a>
+      {% endif %}
+    {% endfor %}
+  <div class="btn-group">
+    <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown">
+      {% for lesson in lessons %}
+        {% if lesson.now_available or is_course_admin %}
+          {% if page_type == 'unit' and lesson.lesson_id == lesson_id %}
+            {{ unit.index }}.{{ lesson.index }} {{ lesson.title }}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      {% for lesson in lessons %}
+        {% if lesson.now_available or is_course_admin %}
+          {% if page_type == 'unit' and lesson.lesson_id != lesson_id %}
+            <li>
+                <a href="unit?unit={{ unit_id }}&lesson={{ lesson.lesson_id }}">
+                  {{ unit.index }}.{{ lesson.index }} {{ lesson.title }}
+                </a>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+  
+    </ul>
+  </div>
+</div>
+
+
+<!--
   <ul>
     {{course_info.unit.after_leftnav_begins | safe}}
 
@@ -131,4 +179,5 @@
 
     {{course_info.unit.before_leftnav_ends | safe}}
   </ul>
+-->
 </div>
