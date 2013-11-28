@@ -2396,6 +2396,8 @@ def user_problem_logs(exercise_name):
 @jsonp
 @jsonify
 def attempt_problem_number(exercise_name, problem_number):
+    #from google.appengine.api import namespace_manager
+    #namespace_manager.set_namespace('ns_test')
     exercise = exercise_models.Exercise.get_by_name(exercise_name)
     if exercise == None:
          exercise = exercise_models.Exercise(name=exercise_name)
@@ -2407,7 +2409,7 @@ def attempt_problem_number(exercise_name, problem_number):
     if user_exercise and problem_number:
 
         review_mode = request.request_bool("review_mode", default=False)
-        card_json = request.request_string("card", {})
+        card_json = request.request_string("card", "{}")
         cards_done = request.request_int("cards_done", default=-1)
         cards_left = request.request_int("cards_left", default=-1)
 
