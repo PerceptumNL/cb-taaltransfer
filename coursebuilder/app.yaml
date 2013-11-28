@@ -1,5 +1,5 @@
-application: cb-rekenen # FIXME: Replace this with your application id
-version: 1
+application: taal-transfer # FIXME: Replace this with your application id
+version: 2
 runtime: python27
 api_version: 1
 threadsafe: false
