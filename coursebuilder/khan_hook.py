@@ -16,72 +16,41 @@ Maak nu de volgende opdracht. </p>\
 <br><span><khanex name="getallen_tot_100_lezen"></khanex></span><span><br></span>\
 <p>Is het gelukt? Nu je over dit onderwerp heb geleerd, mag je naar het volgend onderdeel gaan.</p>'
 
-
 def html_string_to_element_tree(html_string):
     parser = html5lib.HTMLParser(
         tree=html5lib.treebuilders.getTreeBuilder('etree', cElementTree),
         namespaceHTMLElements=False)
     return parser.parseFragment('<div>%s</div>' % html_string)[0]
 
-
-def html_to_safe_dom(html_string, handler):
-    """Render HTML text as a tree of safe_dom elements."""
-
-    node_list = []
-    if not html_string:
-        return node_list
-
-    def _process_html_tree(elt):
-        tail = elt.tail
-        try:
-            for child in elt:
-                if child.tag == "khanex":
-                    node_list.append(child)
-
-        except Exception as e:  # pylint: disable-msg=broad-except
-            logging.error('Invalid HTML tag: %s. %s', elt, e)
-        return node_list
-
+def get_khanex_dict(html_string):
     root = html_string_to_element_tree(html_string)
+    khanex_list = root.findall('khanex')
 
-    for elt in root:
-        _process_html_tree(elt)
+    khanex_dict = {}
 
-    return node_list
+    for khanex in khanex_list:
+        khanex_dict[khanex.attrib['name']] = {}
 
+    return khanex_dict
 
-class LessonExercises():
+def UpdateExercises(lesson):
+    from google.appengine.api import namespace_manager
+    namespace = namespace_manager.get_namespace()
 
-    def parse(self, html_str=None):
-    
-        if html_str == None: html_str = _str
-    
-        exs = html_to_safe_dom(html_str, None)
-        exs_names = []
-        for ex in exs:
-            print ex.tag
-            print ex.get('name')
-            exs_names.append(ex.get('name'))
-                
-        return exs_names
+    ex_name_list = get_khanex_dict(lesson.objectives).keys()
 
-    def update(self, html_str):
-        from google.appengine.api import namespace_manager
-    
-        namespace = namespace_manager.get_namespace()
-        logging.error(namespace)
-        exs =  self.parse(html_str)
-        _all = exercise_models.Exercise.all().fetch(100)
-        logging.error(_all)
-        for ex_name in exs:
-            logging.error("f")
-            logging.error(ex_name)
-            
-            ex = exercise_models.Exercise.all().filter("name =", ex_name).get()
-#get_by_name(ex_name)
-            if ex == None:
-                logging.error("New exercise: %s" % ex_name)
-                ex = exercise_models.Exercise(name=ex_name)
-                ex.put()
-            else:
-                logging.error("Found exercise: %s" % ex_name)
+    for ex_name in ex_name_list:
+        ex = exercise_models.Exercise.all().filter("name =", ex_name).get()
+        if ex == None:
+            ex = exercise_models.Exercise(name=ex_name)
+            ex.lesson_id = lesson.lesson_id
+            ex.unit_id = lesson.unit_id
+            ex.pretty_display_name = lesson.title
+            ex.put()
+            logging.error("New exercise: %s" % ex_name)
+        else:
+            ex.lesson_id = lesson.lesson_id
+            ex.unit_id = lesson.unit_id
+            ex.pretty_display_name = lesson.title
+            ex.put()
+            logging.error("Update exercise: %s" % ex_name)
