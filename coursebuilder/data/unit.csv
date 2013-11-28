@@ -1,10 +1,33 @@
-id;type;unit_id;title;release_date;now_available
-1;U;2;Inleiding: inzicht in getallen;available July 10;True
-2;U;9;Volgorde van getallen;available July 11;True
-3;U;15;Bewerken van getallen;available July 12;True
-4;U;22;Optellen en aftrekken;available July 17;True
-5;U;28;Tafels en vermenigvuldigen;available July 18;True
-6;U;34;Maten en munten;available July 19;True
-7;U;43;Klokkijken;;True
-8;A;38;Sample peer review assignment;;True
-9;A;39;Post-course assessment;;True
+id,type,unit_id,title,release_date,now_available
+1,A,1,New Assessment,,True
+2,U,2,<b>FOCUS</b> - De persoonsvorm,,True
+3,U,6,Onderwerp,,True
+4,U,9,<b>FOCUS</b> - Het werkwoordelijk gezegde en de rest persoonsvorm,,True
+5,U,10,<b>FOCUS</b> - Zinsdelen,,True
+6,U,11,Herhaling 1-4,,True
+7,U,12,<b>FOCUS</b> - Het lijdend voorwerp,,True
+8,U,13,Herhaling 1-6,,True
+9,U,14,<b>FOCUS</b> - De gebiedende wijs,,True
+10,U,15,Herhaling 1-8,,True
+11,U,16,<b>FOCUS</b> - Het meewerkend voorwerp I,,True
+12,U,17,Herhaling 1-10,,True
+13,U,18,<b>FOCUS</b> - Het meewerkend voorwerp II,,True
+14,U,19,Herhaling 1-12,,True
+15,U,20,<b>FOCUS</b> - De bijwoordelijke bepaling,,True
+16,U,21,Herhaling 1-14,,True
+17,U,22,<b>FOCUS</b> - Het naamwoordelijk gezegde I,,True
+18,U,23,<b>FOCUS</b> - Het naanwoordelijk gezegde II,,True
+19,U,24,<b>FOCUS</b> - Het naamwoordelijk gezegde III,,True
+20,U,25,Herhaling 1-18,,True
+21,U,26,<b>FOCUS</b> - Actieve en passieve zinnen,,True
+22,U,27,Herhaling 1-20,,True
+23,U,28,<b>FOCUS</b> - Het voorzetselvoorwerp I,,True
+24,U,29,<b>FOCUS</b> - Het voorzetselvoorwerp II,,True
+25,U,30,Herhaling 1-24,,True
+26,U,31,<b>FOCUS</b> - De bijstelling,,True
+27,U,32,Herhaling 1-25,,True
+28,U,33,<b>FOCUS</b> - De bijvoeglijke bepaling,,True
+29,U,34,Herhaling 1-27,,True
+30,U,35,<b>FOCUS</b> - De bijzin,,True
+31,U,36,Bijzinnen benoemen,,True
+32,U,37,New Unit,,True

@@ -1,6 +1,6 @@
-base: {show_gplus_button: true}
+base: {show_gplus_button: false}
 course:
-  admin_user_emails: '[sergio@perceptum.nl]'
+  admin_user_emails: '[sergio@perceptum.nl] [marta@perceptum.nl] [wijnand@perceptum.nl] [elise@perceptum.nl]'
   announcement_list_email: ''
   blurb: ''
   forum_email: ''
@@ -10,11 +10,11 @@ course:
   main_video: {url: ''}
   now_available: true
   start_date: ''
-  title: Groep 4
+  title: Taal Transfer
 institution:
   logo: {}
   url: ''
 preview: {}
 reg_form: {additional_registration_fields: <!-- reg_form.additional_registration_fields
-    -->, can_register: true}
+    -->, can_register: false}
 unit: {}
