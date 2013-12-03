@@ -1,3 +1,32 @@
+{% macro lesson_progress(lesson) -%}
+{% if units_progress %}
+{% set progress = units_progress[lesson.unit_id].lessons[lesson.lesson_id].progress %}
+  {% if progress == 1 %}
+    <img src="assets/lib/completed.png"
+         alt="{{ gettext('Completed') }}"
+         title="{{ gettext('Completed') }}"
+         class="gcb-progress-icon"
+         id="progress-completed-{{unit.unit_id}}">
+  {% else %}
+  {% if progress > 0 %}
+    <img src="assets/lib/in_progress.png"
+         alt="{{ gettext('In progress') }}"
+         title="{{ gettext('In progress') }}"
+         class="gcb-progress-icon"
+         id="progress-inprogress-review-{{unit.unit_id}}">
+  {% else %}
+    <img src="assets/lib/not_started.png"
+         alt="{{ gettext('Not yet submitted') }}"
+         title="{{ gettext('Not yet submitted') }}"
+         class="gcb-progress-icon"
+         #id="progress-notstarted-{{unit.unit_id}}">
+  {% endif %}
+  {% endif %}
+
+{% endif %}
+
+{%- endmacro %}
+
 <div class="col-md-offset-1" role="navigation">
 <div class="btn-group">
     {% for lesson in lessons %}
@@ -7,13 +36,13 @@
         active
         {% endif %}
         ">
-        <span class="glyphicon 
         {% if lesson.kind == "exercise" %}
-        glyphicon-star
+            {{ lesson_progress(lesson) }}
         {% else %}
+        <span class="glyphicon 
         glyphicon-facetime-video
-        {% endif %}
         "></span>
+        {% endif %}
         </a>
       {% endif %}
     {% endfor %}

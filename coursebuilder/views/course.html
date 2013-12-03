@@ -1,35 +1,49 @@
 {% extends 'base_course.html' %}
+
 {% macro unit_progress(unit) -%}
-{{ unit }}{{ progress }}
+
+{% if units_progress %}
+{% set progress = units_progress[unit.unit_id].progress %}
+{#
 {% if not transient_student %}
-  {% if progress[unit.unit_id] > 0 %}
+#}
+  {% if progress == 1 %}
     <img src="assets/lib/completed.png"
-         alt="{# I18N: Alt text for image representing student progress. #}{{ gettext('Completed') }}"
-         title="{# I18N: Alt text for image representing student progress. #}{{ gettext('Completed') }}"
+         alt="{{ gettext('Completed') }}"
+         title="{{ gettext('Completed') }}"
          class="gcb-progress-icon"
          id="progress-completed-{{unit.unit_id}}">
   {% else %}
-    <img src="assets/lib/not_started.png"
-         alt="{# I18N: Alt text for image representing student progress. #}{{ gettext('Not yet submitted') }}"
-         title="{# I18N: Alt text for image representing student progress. #}{{ gettext('Not yet submitted') }}"
+  {% if progress > 0 %}
+    <img src="assets/lib/in_progress.png"
+         alt="{{ gettext('In progress') }}"
+         title="{{ gettext('In progress') }}"
          class="gcb-progress-icon"
-         id="progress-notstarted-{{unit.unit_id}}">
+         id="progress-inprogress-review-{{unit.unit_id}}">
+  {% else %}
+    <img src="assets/lib/not_started.png"
+         alt="{{ gettext('Not yet submitted') }}"
+         title="{{ gettext('Not yet submitted') }}"
+         class="gcb-progress-icon"
+         #id="progress-notstarted-{{unit.unit_id}}">
   {% endif %}
+  {% endif %}
+{#
 {% else %}
   <span class="gcb-progress-empty"></span>
+{% endif %}
+#}
 {% endif %}
 {%- endmacro %}
 
 {% block top_content %}
   <div class="gcb-cols">
-    <div class="gcb-col-11 gcb-aside">
-      {% include 'summary.html' %}
-    </div>
+    
 </div>
 {% endblock %}
 
 {% block main_content %}
-    <div style="margin-top: 20px;" class="gcb-cols">
+    <div class="gcb-cols">
       <div class="gcb-col-9">
 
         <h1 class="gcb-schedule-headers">
@@ -97,11 +111,16 @@
 
                   {% elif unit.type == 'U' %}
                     <li><p class="gcb-top-content">
-                      {{ unit_progress(unit) }}
+{{ unit_progress(unit) }}
+{#
+{% if units_progress[unit.unit_id].progress > 0  %}
+{{ units_progress[unit.unit_id].progress }}
+{% endif %}
+#}
 
                       <a href="unit?unit={{ unit.unit_id }}">
                         {# I18N: A row in the course schedule. #}
-                        {{ gettext('Unit %(id)s - %(title)s', id=unit.index, title=unit.title) }}
+                        {{ gettext('Niveau %(id)s - %(title)s', id=unit.index, title=unit.title) }}
                       </a>
                   {% elif unit.type == 'O' %}
                     <li>
@@ -132,7 +151,7 @@
                       <p class="gcb-top-content">
                         <span class="gcb-progress-empty"></span>
                         {# I18N: A row in the course schedule. #}
-                        {{ gettext('Unit %(id)s - %(title)s', id=unit.index, title=unit.title) }}
+                        {{ gettext('Niveau %(id)s - %(title)s', id=unit.index, title=unit.title) }}
                       </p>
                     </li>
                   {% else %}
@@ -151,5 +170,6 @@
         </div>
 
       </div>
+      
     </div>
 {% endblock %}

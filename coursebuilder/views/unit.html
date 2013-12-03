@@ -2,7 +2,7 @@
 
 {% block subtitle %}
   {# I18N: Title of the webpage. #}
-  - {{ gettext('Unit') }} {{ unit.index }} - {{ unit.title }}
+  - {{ gettext('Niveau') }} {{ unit.index }} - {{ unit.title }}
 {% endblock subtitle %}
 
 {% block top_content %}
@@ -11,7 +11,7 @@
 {% block main_content %}
 <div class="col-md-12">
   {% if is_read_write_course and is_course_admin %}
-    <div class="btn-group col-sm-push-9">
+    <div class="btn-group col-sm-push-9 lesson-edit">
     <a href="dashboard?action=edit_unit&key={{ unit_id }}"
       class="btn btn-primary" role="button">Edit unit</a>
     {% if lesson %}
@@ -24,7 +24,7 @@
   <div class="col-md-offset-1">
     <h2>
       {# I18N: Header text for a unit page. #}
-      {{ gettext('Unit %(id)s - %(title)s', id=unit.index, title=unit.title) }}
+      {{ gettext('Niveau %(id)s - %(title)s', id=unit.index, title=unit.title) }}
     </h2>
   </div>
 
@@ -32,7 +32,7 @@
     {% include 'lesson_navbar.html' %}
   {% endif %}
 
-  <div role="main">
+  <div class="col-md-offset-1" role="main">
     {{course_info.unit.after_content_begins | safe}}
 
     {% if not lesson %}
@@ -57,11 +57,119 @@
           </div>
         </div><!-- /gcb-cols -->
 
+
         {% if objectives %}
-          <div class="gcb-lesson-content">
+          <div class="gcb-lesson-content {{lesson.kind}}">
+            {% if lesson.kind == "exercise" %}
+            <div class="progress">
+              <div class="streak progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                <span class="sr-only">40% Complete (success)</span>
+              </div>
+            </div>
+            {% endif %}
             {{ objectives | gcb_tags}}
           </div>
         {% endif %}
+<script>
+
+    var Progress = {
+        in_progress_src: "assets/lib/in_progress.png",
+        completed_src: "assets/lib/completed.png",
+        in_progress: function() {
+            $("a.active img").attr("src", this.in_progress_src);
+        },
+        completed: function() {
+            $("a.active img").attr("src", this.completed_src);
+        }
+    }
+
+    var nextLesson = "nextLesson";
+    var nextUnit = "nextUnit";
+
+
+    var Streak = {
+      showIfStreak: true,
+      min: 10,
+      init: function() {
+        if (userExercise.longestStreak >= this.min) {
+          this.showIfStreak = false;
+        }
+        this.update();
+      },
+      showAchieved: function() {
+        Progress.completed();
+        Badges.show({
+          "badges": [
+              {
+                  "absoluteUrl": "", 
+                  "badgeCategory": 0, 
+                  "description": "Streak", 
+                  "hideContext": false, 
+                  "iconSrc": "/images/badges/meteorite-small.png", 
+                  "icons": {
+                      "compact": "/images/badges/meteorite-60x60.png", 
+                      "large": "/images/badges/meteorite.png", 
+                      "medium": "/images/badges/meteorite-medium.png", 
+                      "small": "/images/badges/meteorite-small.png"
+                  }, 
+                  "isOwned": false, 
+                  "isRetired": false, 
+                  "name": "exercisecompleted", 
+                  "points": 0, 
+                  "relativeUrl": "{{ next_button_url }}", 
+                  "safeExtendedDescription": "Correct 10 vaardigheden problemen", 
+                  "slug": ""
+              }
+          ]
+        })
+      },
+      update: function() {
+        if (userExercise.longestStreak >= 10) {
+            Progress.completed();
+        } else if (userExercise.longestStreak >= 1 || userExercise.streak >= 1) {
+            Progress.in_progress();
+        }
+        if (userExercise.longestStreak >= this.min) {
+          percent = "100%";
+          if (this.showIfStreak) {
+            this.showAchieved();
+          }
+        } else {
+          percent = (userExercise.streak * 100 / this.min) + "%";
+        }
+        $(".streak").css("width", percent);
+      }
+    } 
+
+    Streak.init();
+    $('iframe').eq(0).load(function() { 
+        var frm = this;
+        var percent;
+        var __$ = frm.contentWindow.$
+        var __Khan = frm.contentWindow.Khan
+        var __Exercises = frm.contentWindow.Exercises
+        __$(__Khan).bind("updateUserExercise", function(ev, data) {
+          console.debug("unit.html: updateUserExercise");
+          userExercise = data.userExercise;
+          Streak.update();
+        });
+        __$(__Khan).bind("gotoNextProblem", function() {
+          console.debug("unit.html: gotoNextProblem");
+        });
+        __$(__Exercises).bind("checkAnswer", function(ev, answer) {
+          console.debug("unit.html: checkAnswer");
+          if (answer.correct && answer.hintsUsed == 0 && answer.attemptNum == 0) {
+            userExercise.streak++;
+          } else {
+            userExercise.streak = 0
+          }
+          Streak.update();
+        });
+		frm.contentWindow.Badges = window['Badges'];
+        frm.contentWindow.parentBgColor = $(document.body).css("background-color");
+    });
+
+</script>
 
         {% if lesson.video %}
           <p class="gcb-video-container">
