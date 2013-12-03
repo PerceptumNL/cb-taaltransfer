@@ -97,7 +97,7 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
     attempt_content, sha1, seed, completed, count_hints, time_taken,
     review_mode, topic_mode, problem_type, ip_address, card, stack_uid,
     topic_id, cards_done, cards_left, async_problem_log_put=False,
-    async_stack_log_put=False):
+    async_stack_log_put=False, taaltransfer_category=-1):
 
     if user_exercise: # and user_exercise.belongs_to(user_data):
         dt_now = datetime.datetime.now()
@@ -141,8 +141,8 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
             ##    user_exercise.total_done + 1, user_data.user_id,
             ##    attempt_content, seed))
 
-        if len(sha1) <= 0:
-            raise Exception("Missing sha1 hash of problem content.")
+        #if len(sha1) <= 0:
+        #    raise Exception("Missing sha1 hash of problem content.")
 
         if len(seed) <= 0:
             raise Exception("Missing seed for problem content.")
@@ -171,6 +171,7 @@ def attempt_problem(user_data, user_exercise, problem_number, attempt_number,
                 ip_address=ip_address,
                 review_mode=review_mode,
                 topic_mode=topic_mode,
+                taaltransfer_category=taaltransfer_category,
         )
         #TinCan hack
         setattr(problem_log, "completed", completed)

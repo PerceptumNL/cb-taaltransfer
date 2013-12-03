@@ -2412,6 +2412,7 @@ def attempt_problem_number(exercise_name, problem_number):
         card_json = request.request_string("card", "{}")
         cards_done = request.request_int("cards_done", default=-1)
         cards_left = request.request_int("cards_left", default=-1)
+        taaltransfer_category = request.request_int("taaltransfer_category", default=-1)
 
         #if cards_done == -1 or cards_left == -1 or not card_json:
         #    return api_invalid_param_response("Missing request params:" +
@@ -2438,7 +2439,10 @@ def attempt_problem_number(exercise_name, problem_number):
                 request.request_string("topic_id"),
                 cards_done,
                 cards_left,
+                taaltransfer_category=taaltransfer_category 
                 ))
+
+        user_exercise.exercise_model = exercise
 
         # this always returns a delta of points earned each attempt
         points_earned = user_data.points - user_data.original_points()
@@ -2499,13 +2503,15 @@ def hint_problem_number(exercise_name, problem_number):
         attempt_number = request.request_int("attempt_number")
         count_hints = request.request_int("count_hints")
         review_mode = request.request_bool("review_mode", default=False)
-        card_json = request.request_string("card")
+        card_json = request.request_string("card", default="{}")
         cards_done = request.request_int("cards_done", default=-1)
         cards_left = request.request_int("cards_left", default=-1)
+        taaltransfer_category = request.request_int("taaltransfer_category", default=-1)
 
-        if cards_done == -1 or cards_left == -1 or not card_json:
-            return api_invalid_param_response("Missing request params:" +
-                    " cards_done, cards_left, or card")
+        # there is no cards
+        #if cards_done == -1 or cards_left == -1 or not card_json:
+        #    return api_invalid_param_response("Missing request params:" +
+        #            " cards_done, cards_left, or card")
 
         user_exercise, user_exercise_graph, _ = (
             exercises.exercise_util.attempt_problem(
@@ -2528,7 +2534,10 @@ def hint_problem_number(exercise_name, problem_number):
                 request.request_string("topic_id"),
                 cards_done,
                 cards_left,
+                taaltransfer_category=taaltransfer_category
                 ))
+
+        user_exercise.exercise_model = exercise
 
         # TODO: this exercise_message_html functionality is currently hidden
         # from power-mode. Restore it.

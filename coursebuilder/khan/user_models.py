@@ -356,9 +356,9 @@ class UserData(gae_bingo.models.GAEBingoIdentityModel,
 
         return properties_list
 
-    @staticmethod
+    @classmethod
     #@request_cache.cache()
-    def current(create_if_none=False, bust_cache=False):
+    def current(cls, create_if_none=False, bust_cache=False):
         """Determine the current logged in user and return it.
 
         Arguments:
@@ -375,9 +375,9 @@ class UserData(gae_bingo.models.GAEBingoIdentityModel,
         google_user = users.get_current_user()
         logging.error("Google user: %s" % google_user)
         if google_user:  
-            user_data = UserData.get_from_db_key_email(google_user.email())
+            user_data = cls.get_from_db_key_email(google_user.email())
             if user_data == None:
-                user_data = UserData.insert_for(google_user.nickname(), google_user.email())
+                user_data = cls.insert_for(google_user.nickname(), google_user.email())
             #check
             if (user_data.user != google_user):
                 user_data.user = google_user

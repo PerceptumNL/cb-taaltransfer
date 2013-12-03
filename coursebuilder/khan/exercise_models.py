@@ -109,6 +109,16 @@ class Exercise(backup_model.BackupModel):
     def ka_url(self):
         return url_util.absolute_url(self.relative_url)
 
+    #remove by lesson_id that doesn't exists
+    @staticmethod
+    def get_by_lesson_id(name, version=None):
+        return Exercise.all().filter('lesson_id = ', name).fetch(1000)
+
+    #remove by lesson_id that doesn't exists
+    @staticmethod
+    def get_by_unit_id(name, version=None):
+        return Exercise.all().filter('unit_id = ', name).fetch(1000)
+
     @staticmethod
     def get_by_name(name, version=None):
         return Exercise.all().filter('name = ', name).get()
@@ -1245,6 +1255,7 @@ class ProblemLog(backup_model.BackupModel):
     attempts = db.StringListProperty(indexed=False)
     random_float = db.FloatProperty() # Add a random float in [0, 1) for easy random sampling
     ip_address = db.StringProperty(indexed=False)
+    taaltransfer_category = db.IntegerProperty(default=-1, indexed=True)
 
     @classmethod
     def key_for(cls, user_data, exid, problem_number):
@@ -1361,6 +1372,7 @@ def commit_problem_log(problem_log_source, user_data=None, async=True):
                 ip_address = problem_log_source.ip_address,
                 review_mode = problem_log_source.review_mode,
                 topic_mode = problem_log_source.topic_mode,
+                taaltransfer_category = problem_log_source.taaltransfer_category,
         )
 
         problem_log.count_hints = max(problem_log.count_hints, problem_log_source.count_hints)
