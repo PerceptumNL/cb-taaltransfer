@@ -68,7 +68,7 @@ import khan.user_models
 from models.models import Student
 #create user if logged in and doesn't exist
 student = Student.current(True)
-if student and student.is_enrolled == False:
+if student and hasattr(student, "is_enrolled") and student.is_enrolled == False:
     student.is_enrolled = True
     student.put()
 

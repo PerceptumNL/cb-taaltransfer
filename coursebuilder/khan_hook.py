@@ -39,6 +39,7 @@ def UpdateExercises(lesson):
 
     ex_name_list = get_khanex_dict(lesson.objectives).keys()
 
+    ex_list = []
     for ex_name in ex_name_list:
         ex = exercise_models.Exercise.all().filter("name =", ex_name).get()
         if ex == None:
@@ -54,3 +55,6 @@ def UpdateExercises(lesson):
             ex.pretty_display_name = lesson.title
             ex.put()
             logging.error("Update exercise: %s" % ex_name)
+        ex_list.append(ex)
+    return ex_list
+    

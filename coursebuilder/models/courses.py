@@ -1680,6 +1680,73 @@ class Course(object):
     def get_lessons(self, unit_id):
         return self._model.get_lessons(unit_id)
 
+    def get_lesson_in_progress(self, unit_id):
+        progress_dict = self.get_units_progress()
+        lessons_progress_dict = progress_dict[unit_id]['lessons']
+        for lesson_id, progress_dict in lessons_progress_dict.items():
+            logging.info(lesson_id)
+            logging.info(progress_dict)
+            if progress_dict['progress'] < 1:
+                unit = self.find_unit_by_id(unit_id)
+                return self.find_lesson_by_id(unit, lesson_id)
+        return None
+    
+    def get_units_progress(self):
+
+        import khan_hook
+        from khan.user_models import UserData
+        from khan.exercise_models import UserExercise
+
+        user_data = UserData.current()
+        if user_data == None: 
+            return None
+        user_exercises = UserExercise.get_for_user_data(user_data)
+        
+        def _get_exercises_progress(user_exercises, ex_names):
+            exs = [ue for ue in user_exercises for en in ex_names if ue.exercise == en]
+            if len(ex_names) == 0: return 1
+            _sum = 0
+            for ex in exs:
+                #if ex.longest_streak >= 10: _sum+=1
+                _sum += ex.longest_streak / 10
+                logging.error(ex.longest_streak)
+            return float(_sum) / len(ex_names)
+
+        units = self.get_units()
+        progress_dict = {}
+        for unit in units:
+            lessons = self.get_lessons(unit.unit_id)
+            lessons_progress_dict = {}
+            _sum = 0
+            _cnt = 0
+            for lesson in lessons:
+                if lesson.kind == "exercise":
+                    ex_names = khan_hook.get_khanex_dict(lesson.objectives).keys()
+                    progress = _get_exercises_progress(user_exercises, ex_names)
+                    _sum += progress
+                    _cnt += 1
+                    lessons_progress_dict[lesson.lesson_id] = {
+                        "progress": progress
+                    }
+            if len(lessons) == 0 or _cnt == 0: _mean = -1
+            else: _mean = float(_sum) / _cnt
+            progress_dict[unit.unit_id] = {
+                "progress": _mean,
+                "lessons": lessons_progress_dict,
+            }
+                
+        return progress_dict
+
+    def get_lessons_progress(self, unit_id): 
+        pass
+
+        
+        
+    
+
+        
+
+
     def save(self):
         return self._model.save()
 
