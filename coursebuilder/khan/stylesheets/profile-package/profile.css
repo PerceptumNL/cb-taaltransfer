@@ -930,12 +930,11 @@ li.profile-tab {
 
 .basic-stats .simple-stat {
     float: left;
-    text-align: left;
+    text-align: center;
     margin-right: 9px;
 }
 .simple-stat .summary-icon {
     display: block;
-    width: 30px;
     height: 30px;
     margin: 2px 0 1px;
     background: #005987;
@@ -944,7 +943,6 @@ li.profile-tab {
 }
 
 .simple-stat .summary-icon.star {
-    width: 30px;
     height: 30px;
     padding-top: 3px;
     padding-bottom: 3px;

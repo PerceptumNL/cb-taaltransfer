@@ -237,13 +237,13 @@ hr.thin {
 }
 
 /* Links in the header and footer don't change color when visited. */
+/*
 a:link,
 a:visited,
 header a:visited,
 footer a:visited,
 .visited-no-recolor a:visited,
 a.visited-no-recolor:visited {
-    /*color:rgb(0, 9, 112);*/
     text-decoration: none;
 }
 
@@ -252,10 +252,10 @@ a:visited {
 }
 
 a:link:hover, a:link:focus, a:visited:hover, a:visited:focus {
-    /* TODO why was this color defined here?color: #26008F;*/
     text-decoration: underline;
     color: #BABABA;
 }
+*/
 
 /*
  * Hide links with href=# and other script-requiring elements from non-scripting users,
@@ -904,8 +904,7 @@ span.username_and_notification .user-name {
 }
 
 .user-avatar {
-    width: 16px;
-    height: 16px;
+    width: 20px;
     padding: 0 4px 0 0;
     vertical-align: middle;
 }

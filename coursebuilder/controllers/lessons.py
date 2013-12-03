@@ -58,6 +58,9 @@ ACTIVITY_PAGE_TYPE = 'activity'
 
 def get_first_lesson(handler, unit_id):
     """Returns the first lesson in the unit."""
+    #lesson_in_progress = handler.get_course().get_lesson_in_progress(unit_id)
+    #if lesson_in_progress: return lesson_in_progress 
+
     lessons = handler.get_course().get_lessons(unit_id)
     return lessons[0] if lessons else None
 
@@ -194,6 +197,10 @@ class CourseHandler(BaseHandler):
         self.template_value['is_progress_recorded'] = (
             CAN_PERSIST_ACTIVITY_EVENTS.value)
         self.template_value['navbar'] = {'course': True}
+
+            
+        self.template_value['units_progress'] = self.get_course().get_units_progress()
+        
         self.render('course.html')
 
 
@@ -296,6 +303,7 @@ class UnitHandler(BaseHandler):
             self.get_course().get_progress_tracker().put_html_accessed(
                 student, unit_id, lesson_id)
 
+        self.template_value['units_progress'] = self.get_course().get_units_progress()
         self.render('unit.html')
 
 
