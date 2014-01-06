@@ -2,15 +2,19 @@ cb-taaltransfer
 ===============
 
 
-Create the 'tmp/' and 'tools'/ paths if they don't exist.
+1. Create the 'tmp/' and 'tools'/ paths if they don't exist.
 
-Unpack Google App Engine 1.8.8 SDK under the tools/ path. 
+2. Unpack Google App Engine 1.8.8 SDK under the tools/ path. 
 
-Download the git submodules:
+3. Download the git submodules:
 
+```
   git submodule init
   git submodule update
+```
  
-Run locally:
+4. Run locally:
 
+```
   python manage.py run
+```
