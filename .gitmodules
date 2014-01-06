@@ -29,3 +29,6 @@
 [submodule "coursebuilder/taaltransfer-exercises"]
 	path = coursebuilder/taaltransfer-exercises
 	url = https://github.com/PerceptumNL/taaltransfer-exercises
+[submodule "angular.js"]
+	path = angular.js
+	url = https://github.com/angular/angular.js.git
