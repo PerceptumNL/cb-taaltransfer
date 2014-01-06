@@ -1,13 +1,21 @@
 import datetime
 import time
 import exercise_models
-from secrets import *
 import base64
 import logging
 import json
 from app import App
 import urllib
 
+try:
+    from secrets import *
+except:
+    tincan_url = None
+    tincan_user = None
+    tincan_pw = None
+    tincan_whitelist = []
+    #logging.error("Missing Tincan LRS config")
+    
 
 #if App.is_dev_server:
 #    import urlfetch
@@ -155,6 +163,8 @@ class TinCan():
 
         self.log_statement()
         logging.error(self.user_email)
+        if tincan_user == None:
+            return
 
         if not self.check_email(): 
             return
