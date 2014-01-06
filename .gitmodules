@@ -26,3 +26,6 @@
 [submodule "coursebuilder/gae_mini_profiler"]
 	path = coursebuilder/gae_mini_profiler
 	url = https://github.com/kamens/gae_mini_profiler.git
+[submodule "coursebuilder/taaltransfer-exercises"]
+	path = coursebuilder/taaltransfer-exercises
+	url = https://github.com/PerceptumNL/taaltransfer-exercises
