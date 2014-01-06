@@ -2247,12 +2247,15 @@ def user_exercises_request_video(exercise_name):
         return {'rc': False}
 
 @route("/api/v1/user/exercises/<exercise_name>", methods=["GET"])
-@api.auth.decorators.login_required
+#@api.auth.decorators.login_required
+@api.auth.decorators.open_access
 @jsonp
 @jsonify
 def user_exercises_specific(exercise_name):
     user_data_student = get_visible_user_data_from_request()
     exercise = exercise_models.Exercise.get_by_name(exercise_name)
+    logging.error(user_data_student)
+    logging.error(exercise)
 
     if user_data_student and exercise:
         user_exercise = (exercise_models.UserExercise.all()
@@ -2266,11 +2269,13 @@ def user_exercises_specific(exercise_name):
             user_exercise.exercise = exercise_name
             user_exercise.user = user_data_student.user
 
+        setattr(user_exercise, "exercise_model", exercise)
+
         # Cheat and send back related videos when grabbing a single
         # UserExercise for ease of exercise integration
-        user_exercise.exercise_model.related_videos = map(
-            lambda exercise_video: exercise_video.video,
-            user_exercise.exercise_model.related_videos_fetch())
+        #user_exercise.exercise_model.related_videos = map(
+        #    lambda exercise_video: exercise_video.video,
+        #    user_exercise.exercise_model.related_videos_fetch())
         return user_exercise
 
     return None

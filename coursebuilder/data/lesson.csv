@@ -1,9 +1,49 @@
-unit_id,unit_title,lesson_id,lesson_title,lesson_activity,lesson_activity_name,lesson_notes,lesson_video_id,lesson_objectives
-2,<b>FOCUS</b> - De persoonsvorm,1,<b>Oefening:</b> Klik op persoonsvorm,yes,,,,"<khanex name='level1' instanceid='y7NmpRx6fJ4z'></khanex>"
-2,<b>FOCUS</b> - De persoonsvorm,2,Oefening 2: Werkwoord,yes,,,,"<khanex name='level1b' instanceid='ifZQ43lIsnQE'></khanex><br>"
-6,Onderwerp,1,Oefening 1: Verdeel de zin,yes,,,,"<khanex name='level2' instanceid='5jFdAkR0Nn8a'></khanex><br>"
-6,Onderwerp,2,Oefening 2,yes,,,,"<khanex name='level2b' instanceid='VYj0gd4Eu3D7'></khanex><br>"
-9,<b>FOCUS</b> - Het werkwoordelijk gezegde en de rest persoonsvorm,1,Oefening 1,yes,,,,"<khanex name='level3' instanceid='90k3FLcAVY1z'></khanex><br>"
-10,<b>FOCUS</b> - Zinsdelen,1,Oefening 1,yes,,,,"<khanex name='level4' instanceid='ctBUcFo9uTq9'></khanex><br>"
-11,Herhaling 1-4,1,Oefening 1,yes,,,,"<khanex name='level5' instanceid='kSRKNFTMr7hR'></khanex><br>"
-12,<b>FOCUS</b> - Het lijdend voorwerp,1,Oefening 1,yes,,,,"<khanex name='level6' instanceid='4e60vEwwmjtg'></khanex><br>"
+unit_id,unit_title,lesson_id,"lesson_title",lesson_activity,lesson_activity_name,lesson_notes,lesson_video_id,lesson_objectives,kind
+2,De persoonsvorm,1,"Video",yes,,,3CVkWagOmKc,"",video
+2,De persoonsvorm,2,"Klik op persoonsvorm",,,,,"<khanex name='level1a' streak='' instanceid='jyZQUER8r8Qq'></khanex><br>",exercise
+2,De persoonsvorm,3,"Werkwoord",yes,,,,"<khanex name='level1b' instanceid='ifZQ43lIsnQE'></khanex><br>",exercise
+6,Onderwerp,1,"Video",yes,,,jy_qA_NAo3A,"",video
+6,Onderwerp,2,"Verdeel de zin",yes,,,,"<khanex name='level2a' instanceid='5jFdAkR0Nn8a'></khanex><br>",exercise
+6,Onderwerp,3,"Redekundig ontleden: onderwerp en persoonsvorm",,,,,"<khanex name='level2b' instanceid='VYj0gd4Eu3D7'></khanex><br>",exercise
+6,Onderwerp,4,"Video",yes,,,_74RJag-JeU,"<gcb-youtube videoid='f2zFmqGoJOw' instanceid='ibq1g3rY468a'></gcb-youtube><gcb-youtube videoid='wFHmVlLXbqo' instanceid='avOXdrVU0Ugo'></gcb-youtube><br>",video
+6,Onderwerp,5,"Woorden benoemen - lidwoord, zelfstandig naamwoord en bijvoeglijk naamwoord",,,,,"<khanex name='level2c' streak='' instanceid='JsKyrxuUthoN'></khanex><br>",exercise
+9,Het werkwoordelijk gezegde en de rest persoonsvorm,1,"Video",yes,,,,"<gcb-youtube videoid='qpr9eDruLmM' instanceid='bXSOUxt2zage'></gcb-youtube><br><gcb-youtube videoid='IfIeXArxPeM' instanceid='si7e4m70AAMS'></gcb-youtube><br>",video
+9,Het werkwoordelijk gezegde en de rest persoonsvorm,2,"Redekundig ontleden - werkwoordelijk gezegde",,,,,"<khanex name='level3a' streak='' instanceid='dxAyqoLwTdKP'></khanex>",exercise
+9,Het werkwoordelijk gezegde en de rest persoonsvorm,3,"Video",yes,,,4rQsE669ZhY,"<gcb-youtube videoid='PLrMf0MiQRs' instanceid='NiNHQ1wpYFck'></gcb-youtube><br>",video
+9,Het werkwoordelijk gezegde en de rest persoonsvorm,4,"Woorden benoemen - hulpwerkwoord en zelfstandig werkwoord",,,,,"<khanex name='level3b' streak='' instanceid='bGQDlTyWPULy'></khanex>",exercise
+10,Zinsdelen,1,"Redekundig ontleden - zinsdelen",,,,,"<khanex name='level4a' streak='' instanceid='ehtfklvj9kfg'></khanex>",exercise
+10,Zinsdelen,2,"Video",yes,,,raMqgGwhyTU,"<gcb-youtube videoid='KkNQjRokPzU' instanceid='L1n5HKGuA4P1'></gcb-youtube><br>",video
+10,Zinsdelen,3,"Woorden benoemen - persoonlijk voornaamwoord en bezittelijk voornaamwoord",,,,,"<khanex name='level4b' streak='' instanceid='t42vUuT1hIb7'></khanex><br>",exercise
+11,Herhaling 1-4,1,"Herhaling 1-4",yes,,,,"<khanex name='level5' streak='' instanceid='dcMaNnWVDGaO'></khanex><br>",exercise
+12,Het lijdend voorwerp,1,"Video",yes,,,LpYS2TwtN0c,"",video
+12,Het lijdend voorwerp,2,"Redekundig ontleden - lijdend voorwerp",,,,,"<khanex name='level6a' streak='' instanceid='qZmrQPnw2l4w'></khanex>",exercise
+12,Het lijdend voorwerp,3,"Video",yes,,,kqVySgUDNXc,"",video
+12,Het lijdend voorwerp,4,"Woorden benoemen - voorzetsel",,,,,"<khanex name='level6b' streak='' instanceid='nzJrHoF7Nihj'></khanex><br>",exercise
+13,Herhaling 1-6,1,"Herhaling 1-6",,,,,"<khanex name='level7' streak='' instanceid='MTWD24mAqfOr'></khanex><br>",exercise
+14,De gebiedende wijs,1,"Video",yes,,,QucuCLgJnNc,"",video
+14,De gebiedende wijs,2,"Redekundig ontleden - Zinnen in de gebiedende wijs",,,,,"<khanex name='level8a' streak='' instanceid='8lNA3BIaxP6O'></khanex><br>",exercise
+14,De gebiedende wijs,3,"Video",yes,,,RgnH_5RwZHI,"",video
+14,De gebiedende wijs,4,"Woorden benoemen - Aanwijzend voornaamwoord",yes,,,,"<khanex name='level8b' streak='' instanceid='9qiQkKvjA7ry'></khanex><br>",exercise
+15,Herhaling 1-8,1,"Herhaling 1-8",,,,,"<khanex name='level9a' streak='' instanceid='Yezx05zlEzfh'></khanex><br>",exercise
+15,Herhaling 1-8,2,"Video",yes,,,T2XAkP1bUgk,"",video
+15,Herhaling 1-8,3,"Woorden benoemen - Vragend voornaamwoord",,,,,"<khanex name='level9b' streak='' instanceid='5CI0iNv7PuA4'></khanex><br>",exercise
+16,Het meewerkend voorwerp I,1,"Video",yes,,,sKXYsRsg8nk,"",video
+16,Het meewerkend voorwerp I,2,"Redekundig ontleden - Meewerkend voorwerp",,,,,"<khanex name='level10a' streak='' instanceid='AEc4XnFhiTtq'></khanex><br>",exercise
+17,Herhaling 1-10,1,"Herhaling 1-10 I",yes,,,,"<khanex name='level11a' streak='' instanceid='OCCu70p1eDiz'></khanex><br>",exercise
+17,Herhaling 1-10,2,"Herhaling 1-10",,,,,"<khanex name='level11b' streak='' instanceid='HkYMFMFmn7tQ'></khanex><br>",exercise
+18,Het meewerkend voorwerp II,1,"Video",yes,,,mpXu1_PCa6I,"",video
+18,Het meewerkend voorwerp II,2,"Redekundig ontleden - Meewerkend voorwerp",,,,,"<khanex name='level12a' streak='' instanceid='uIJXoUELuewA'></khanex><br>",exercise
+19,Herhaling 1-12,1,"Herhaling 1-12",,,,,"<khanex name='level13a' streak='' instanceid='PsijjwB7EQo0'></khanex><br>",exercise
+19,Herhaling 1-12,2,"Video",yes,,,SWdg8Sj7dE8,"<gcb-youtube videoid='OCFvT9SagRo' instanceid='VhxV2zBTKssP'></gcb-youtube><br>",video
+19,Herhaling 1-12,3,"Woorden benoemen - Wederkerend en wederkerig",,,,,"<khanex name='level13b' streak='' instanceid='kB5UIr4Ei9VB'></khanex><br>",exercise
+20,De bijwoordelijke bepaling,1,"Video",yes,,,fPmpkuHpBS4,"",video
+20,De bijwoordelijke bepaling,2,"Redekundig ontleden - Bijwoordelijke bepaling",,,,,"<khanex name='level14a' streak='' instanceid='ueLQOCT1bNEP'></khanex><br>",exercise
+20,De bijwoordelijke bepaling,3,"Video",yes,,,sIRQvF6kPeE,"",video
+20,De bijwoordelijke bepaling,4,"Woorden benoemen - Bijwoord en bijwoord van graad",,,,,"<khanex name='level14b' streak='' instanceid='jj1kwDDZTkzf'></khanex><br>",exercise
+21,Herhaling 1-14,1,"Herhaling 1-14",,,,,"<khanex name='level15a' streak='' instanceid='zMyKIVkTIUh2'></khanex><br>",exercise
+21,Herhaling 1-14,2,"Woorden benoemen - Herhaling",yes,,,,"<khanex name='level15b' streak='' instanceid='YsKhIi01TA5a'></khanex><br>",exercise
+22,Het naamwoordelijk gezegde I,1,"Video",yes,,,WL0GY5M6rS0,"",video
+22,Het naamwoordelijk gezegde I,2,"Redekundig ontleden - Naamwoordelijk gezegde",,,,,"<khanex name='level16a' streak='' instanceid='fgbHDdB9ndLn'></khanex><br>",exercise
+22,Het naamwoordelijk gezegde I,3,"Video",yes,,,B05am6wRDik,"",video
+22,Het naamwoordelijk gezegde I,4,"Woorden benoemen - Koppelwerkwoord",,,,,"<khanex name='level16b' streak='' instanceid='MS6GrCeVnmLV'></khanex><br>",exercise
+23,Het naanwoordelijk gezegde II,1,"Video",yes,,,eFHSRVqY2Qc,"",video

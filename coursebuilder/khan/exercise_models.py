@@ -121,7 +121,11 @@ class Exercise(backup_model.BackupModel):
 
     @staticmethod
     def get_by_name(name, version=None):
-        return Exercise.all().filter('name = ', name).get()
+        exercise = Exercise.all().filter('name = ', name).get()
+        if exercise == None:
+            exercise = Exercise(exercise=name)
+            exercise.put()
+        return exercise
         #dict_exercises = Exercise._get_dict_use_cache_unsafe()
         #if dict_exercises.has_key(name):
         #    if dict_exercises[name].is_visible_to_current_user():
