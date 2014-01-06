@@ -3,11 +3,15 @@
 {% import 'macros/analytics.html' as analytics %}
 
 <!DOCTYPE html>
-<html lang="{{course_info.course.locale}}">
+<html ng-app="cbApp" lang="{{course_info.course.locale}}">
   <head>
     <base href="{{ gcb_course_base }}" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
+    <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/angular-route.min.js"></script>
+    <script src="assets/js/angular-sanitize.min.js"></script>
+    <script src="assets/js/angular-animate.min.js"></script>
     {% block title %}
     {% endblock %}
     <!-- bugherd -->
@@ -15,7 +19,7 @@
     (function (d, t) {
       var bh = d.createElement(t), s = d.getElementsByTagName(t)[0];
       bh.type = 'text/javascript';
-      bh.src = '//www.bugherd.com/sidebarv2.js?apikey=roz9qz9o0qdubklnr7ybvq';
+      bh.src = '//www.bugherd.com/sidebarv2.js?apikey=kfw4xztmqpxpwvrjjtmq0a';
       s.parentNode.insertBefore(bh, s);
       })(document, 'script');
     </script>
@@ -117,8 +121,10 @@
       assessmentTagMessages.yourScoreIs = "{{ gettext(' Your score is: ') }}";
     </script>
 
+{#
     {{ js_css_packages.css_package("shared") }}
     {{ js_css_packages.js_package("shared") }}
+#}
     {% block assets %}
     {% endblock %}
 
@@ -189,5 +195,6 @@
         <a target="_blank" href="http://www.perceptum.nl/"><img style="width: 163px; padding-top: 30px; margin-left:140px;" src="assets/lib/Perceptum_logo_bw.png" /></a>
     </footer>
     {{course_info.base.before_body_tag_ends | safe}}
+    {{ profiler_includes }}
  </body>
 </html>

@@ -1,6 +1,6 @@
 {% macro lesson_progress(lesson) -%}
 {% if units_progress %}
-{% set progress = units_progress[lesson.unit_id].lessons[lesson.lesson_id].progress %}
+{% set progress = units_progress[lesson.unit_id|string()].lessons[lesson.lesson_id].progress %}
   {% if progress == 1 %}
     <img src="assets/lib/completed.png"
          alt="{{ gettext('Completed') }}"

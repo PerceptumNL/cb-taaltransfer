@@ -1,175 +1,201 @@
 {% extends 'base_course.html' %}
 
-{% macro unit_progress(unit) -%}
-
-{% if units_progress %}
-{% set progress = units_progress[unit.unit_id].progress %}
-{#
-{% if not transient_student %}
-#}
-  {% if progress == 1 %}
-    <img src="assets/lib/completed.png"
-         alt="{{ gettext('Completed') }}"
-         title="{{ gettext('Completed') }}"
-         class="gcb-progress-icon"
-         id="progress-completed-{{unit.unit_id}}">
-  {% else %}
-  {% if progress > 0 %}
-    <img src="assets/lib/in_progress.png"
-         alt="{{ gettext('In progress') }}"
-         title="{{ gettext('In progress') }}"
-         class="gcb-progress-icon"
-         id="progress-inprogress-review-{{unit.unit_id}}">
-  {% else %}
-    <img src="assets/lib/not_started.png"
-         alt="{{ gettext('Not yet submitted') }}"
-         title="{{ gettext('Not yet submitted') }}"
-         class="gcb-progress-icon"
-         #id="progress-notstarted-{{unit.unit_id}}">
-  {% endif %}
-  {% endif %}
-{#
-{% else %}
-  <span class="gcb-progress-empty"></span>
-{% endif %}
-#}
-{% endif %}
-{%- endmacro %}
-
-{% block top_content %}
-  <div class="gcb-cols">
-    
-</div>
-{% endblock %}
-
 {% block main_content %}
-    <div class="gcb-cols">
-      <div class="gcb-col-9">
+<script type="text/javascript">
+var units_json = {{ units_json|tojson() }};
+var units_progress_json = {{ units_progress|tojson() }}
 
-        <h1 class="gcb-schedule-headers">
-          {# I18N: This should be interpreted as a noun. It is the title for the course schedule on the main contents page. #}
-          {{ gettext('Schedule') }}
-        </h1>
-        <div id="gcb-main">
-          <div style="width: 100%;" class="gcb-nav" id="gcb-nav-y">
-            <ul>
-              {% for unit in units %}
-                {% if unit.now_available or is_course_admin %}
-                  {% if unit.type == 'A' %}
-                    <li><p class="gcb-top-content">
-                      {{ unit_progress(unit) }}
-                      <a href="assessment?name={{ unit.unit_id }}">{{ unit.title }}</a>
 
-                      {% if unit.needs_human_grader %}
-                        {% if not unit.now_available and is_course_admin %}
-                          (Private)
-                        {% endif %}
-                        </p></li>
-                        <li>
-                          <p class="gcb-top-content">
-                            <span class="gcb-progress-empty"></span>
+{% raw %}
 
-                          {% if not transient_student %}
-                            {% if unit.review_progress == 2 %}
-                              <img src="assets/lib/completed.png"
-                                   alt="{# I18N: Alt text for image representing student progress. #}{{ gettext('Completed') }}"
-                                   title="{# I18N: Alt text for image representing student progress. #}{{ gettext('Completed') }}"
-                                   class="gcb-progress-icon"
-                                   id="progress-completed-review-{{unit.unit_id}}">
-                            {% elif unit.review_progress == 1 %}
-                              <img src="assets/lib/in_progress.png"
-                                   alt="{# I18N: Alt text for image representing student progress. #}{{ gettext('In progress') }}"
-                                   title="{# I18N: Alt text for image representing student progress. #}{{ gettext('In progress') }}"
-                                   class="gcb-progress-icon"
-                                   id="progress-inprogress-review-{{unit.unit_id}}">
-                            {% else %}
-                              <img src="assets/lib/not_started.png"
-                                   alt="{# I18N: Alt text for image representing student progress. #}{{ gettext('Not yet submitted') }}"
-                                   title="{# I18N: Alt text for image representing student progress. #}{{ gettext('Not yet submitted') }}"
-                                   class="gcb-progress-icon"
-                                   id="progress-notstarted-review-{{unit.unit_id}}">
-                            {% endif %}
-                          {% endif %}
+//angular.module('cbAnimations', ['ngAnimate']).
+var cbApp = angular.module('cbApp', [
+  'ngRoute',
+  'ngAnimate',
+  'ngSanitize',
+  'cbControllers'
+]).factory('$streak', function() { 
+  return {
+    min: 10,
+    not_started: "not_started",
+    in_progress: "in_progress",
+    completed: "completed",
+    showIfStreak: true,
+    $scope: null,
+    userExercise: null,
+  
+    init: function($scope, userExercise) {
+      this.$scope = $scope;
+      this.userExercise = userExercise;
+      if (this.userExercise.longestStreak >= this.min) {
+        this.showIfStreak = false;
+      }
+      this.registerEvents();
+    },
 
-                          {% if unit.is_submitted %}
-                            <a href="reviewdashboard?unit={{ unit.unit_id }}">
-                              {% if unit.matcher == 'peer' %}
-                                {# I18N: Displayed in the course contents page. Indicates a page to which students can go to review other students' assignments. #}
-                                {{ gettext('Review peer assignments') }}
-                              {% endif %}
-                            </a>
-                          {% else %}
-                            <span>
-                              {% if unit.matcher == 'peer' %}
-                                {# I18N: Displayed in the course contents page. Indicates a page to which students can go to review other students' assignments. #}
-                                {{ gettext('Review peer assignments') }}
-                              {% endif %}
-                            </span>
-                          {% endif %}
+    showAchieved: function() {
+      Badges.show({
+        "badges": [
+            {
+                "absoluteUrl": "", 
+                "badgeCategory": 0, 
+                "description": "Streak", 
+                "hideContext": false, 
+                "iconSrc": "/images/badges/meteorite-small.png", 
+                "icons": {
+                    "compact": "/images/badges/meteorite-60x60.png", 
+                    "large": "/images/badges/meteorite.png", 
+                    "medium": "/images/badges/meteorite-medium.png", 
+                    "small": "/images/badges/meteorite-small.png"
+                }, 
+                "isOwned": false, 
+                "isRetired": false, 
+                "name": "exercisecompleted", 
+                "points": 0, 
+                "relativeUrl": "{{ next_button_url }}", 
+                "safeExtendedDescription": "Correct 10 vaardigheden problemen", 
+                "slug": ""
+            }
+        ]
+      })
+    },
+  
+    update: function() {
+      if (this.userExercise.longestStreak >= this.min) {
+        this.$scope.percent = 100;
+        //if (this.showIfStreak) {
+        //  this.showAchieved();
+        //}
+      } else {
+        this.$scope.percent = this.userExercise.streak * 100 / this.min;
+      }
+      this.$scope.$apply();
+    },
 
-                      {% endif %}
+    calculate: function(userExercise, answer) {
+      if (answer && answer.correct) {
+        userExercise.streak++;
+      } else if (answer) {
+        userExercise.streak = 0
+      }
+      if (userExercise.streak >= this.min || userExercise.longestStreak >= this.min) {
+        return 100;
+      } else {
+        return userExercise.streak * 100 / this.min;
+      }
+    },
+ 
+    registerEvents: function() {
+      var self = this;
+      $(Khan).bind("updateUserExercise", function(ev, data) {
+        console.debug("unit.html: updateUserExercise");
+        self.userExercise = data.userExercise;
+      });
+      $(Exercises).bind("checkAnswer", function(ev, answer) {
+        console.debug("unit.html: checkAnswer");
+        if (answer.correct) {
+          self.userExercise.streak++;
+        } else {
+          self.userExercise.streak = 0
+        }
+        Streak.update();
+      });
+    }
+  }
+});
 
-                  {% elif unit.type == 'U' %}
-                    <li><p class="gcb-top-content">
-{{ unit_progress(unit) }}
-{#
-{% if units_progress[unit.unit_id].progress > 0  %}
-{{ units_progress[unit.unit_id].progress }}
-{% endif %}
-#}
+cbApp.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/units', {
+        templateUrl: 'assets/lib/course.html',
+        controller: 'OutlineCtrl'
+      }).
+      when('/units/:unitId', {
+        templateUrl: 'assets/lib/unit.html',
+        controller: 'UnitCtrl'
+      }).
+      when('/units/:unitId/:lessonId', {
+        templateUrl: 'assets/lib/unit.html',
+        controller: 'UnitCtrl'
+      }).
+      otherwise({
+        redirectTo: '/units'
+      });
+  }]);
 
-                      <a href="unit?unit={{ unit.unit_id }}">
-                        {# I18N: A row in the course schedule. #}
-                        {{ gettext('Niveau %(id)s - %(title)s', id=unit.index, title=unit.title) }}
-                      </a>
-                  {% elif unit.type == 'O' %}
-                    <li>
-                      <p class="gcb-top-content">
-                        <span class="gcb-progress-empty"></span>
-                        <a href="{{ unit.href }}"> {{ unit.title }} </a>
-                  {% else %}
-                    <li>
-                      <p class="gcb-top-content">
-                        <span class="gcb-progress-empty"></span>
-                        Error: unit type not recognized.
-                  {% endif %}
-                      {% if not unit.now_available and is_course_admin %}
-                        (Private)
-                      {% endif %}
-                      </p>
-                    </li>
-                {% else %}
-                  {% if unit.type == 'A' or unit.type == 'O' %}
-                    <li>
-                      <p class="gcb-top-content">
-                        <span class="gcb-progress-empty"></span>
-                        {{ unit.title }}
-                      </p>
-                    </li>
-                  {% elif unit.type == 'U' %}
-                    <li>
-                      <p class="gcb-top-content">
-                        <span class="gcb-progress-empty"></span>
-                        {# I18N: A row in the course schedule. #}
-                        {{ gettext('Niveau %(id)s - %(title)s', id=unit.index, title=unit.title) }}
-                      </p>
-                    </li>
-                  {% else %}
-                    <li>
-                      <p class="gcb-top-content">
-                        <span class="gcb-progress-empty"></span>
-                        Error: unit type not recognized.
-                      </p>
-                    </li>
-                  {% endif %}
-                {% endif %}
+var cbControllers = angular.module('cbControllers', [])
+ 
+cbControllers.controller('OutlineCtrl', ['$scope', '$http',
+  function ($scope, $http) {
+    $.each(units_json, function(k, unit) {
+      unit.progress = "not_started";
+    });
+    $scope.units = units_json;
+    setTimeout(function() {
+    $(".view-frame").show()   
+    }, 100);
+  }]);
+ 
+cbControllers.controller('UnitCtrl', ['$scope', '$http', '$routeParams', '$sce', '$streak',
+  function($scope, $http, $routeParams, $sce, $streak) {
+    $.each(units_json, function(k, unit) {
+      if (unit.unit_id == $routeParams.unitId) {
+        $scope.unit = unit;
+        return;
+      }
+    });
 
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
 
-      </div>
-      
-    </div>
+    $scope.unitId = $scope.unit.unit_id;
+    $scope.lessonId = $routeParams.lessonId || $scope.unit.lessons[0].lesson_id;
+    
+    $.each($scope.unit.lessons, function(k, lesson) {
+      if (lesson.lesson_id == $scope.lessonId) {
+          $scope.lesson = lesson;
+          lesson.active = "active";
+      } else {
+          lesson.active = "";
+      }
+      lesson.progress = "not_started";
+    });
+
+    $scope.lesson = $scope.lesson || $scope.unit.lessons[0];
+    $scope.nextUnit = units_json[$scope.unit.index+1] || false;
+    $scope.exercise = $scope.lesson.kind == "exercise";
+    $scope.video = $scope.lesson.kind == "video";
+    $scope.admin = true;
+    $scope.percent = 0;
+    
+
+    var khanex = $($scope.lesson['objectives']).filter("khanex").eq(0).attr("name");
+
+    $http.get('/api/v1/user/exercises/'+khanex+'?casing=camel')
+      .success(function(userExercise) {
+      $(".view-frame").show()   
+      userExercise.exerciseModel.name = khanex
+      $scope.percent = $streak.calculate(userExercise);
+      $(Exercises).trigger("problemTemplateRendered");
+      $(".exercise").show()
+      $(Exercises).trigger("clearExistingProblem")
+      $(Exercises).trigger("gotoNextProblem");
+      $(Exercises).trigger("readyForNextProblem", {
+        "userExercise": userExercise 
+      });
+      $(Exercises).bind("checkAnswer", function(ev, answer) {
+        $scope.percent = $streak.calculate(userExercise, answer);
+        $scope.$apply();
+      });
+    console.error("LOAD!2")
+    });
+    console.error("LOAD!")
+  }])
+</script>
+<div class="view-container">
+<div ng-view class="view-frame"></div>
+</div>
+
+
+{% endraw %}
+    
 {% endblock %}

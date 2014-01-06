@@ -98,5 +98,12 @@ def gcb_init_third_party():
     sys.path.insert(0, BUNDLE_ROOT + '/khan')
     sys.path.insert(0, BUNDLE_ROOT + '/khan/third_party')
 
+def gae_mini_profiler_should_profile_production():
+    return True 
+
+def gae_mini_profiler_should_profile_development(): 
+    return True
+
+
 
 gcb_init_third_party()

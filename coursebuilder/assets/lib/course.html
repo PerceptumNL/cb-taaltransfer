@@ -1,0 +1,10 @@
+<div class="gcb-col-9">
+  <h1 class="gcb-schedule-headers">Schema<!--{{ gettext('Schedule') }}--></h1>
+  <ul class="units">
+  <li ng-repeat="unit in units">
+    <img src="assets/lib/{{unit.progress}}.png"class="gcb-progress-icon" />
+    <a href="course#/units/{{unit.unit_id}}">Niveau {{unit.index}} - {{unit.title}}</a>
+  </li>
+  </ul>
+</div>
+

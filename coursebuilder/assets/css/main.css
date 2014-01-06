@@ -16,7 +16,7 @@
 
 .progress { 
     width: 40%;
-    float: right;
+    margin-left: auto !important;
 }
 
 .gcb-video-container {
@@ -54,7 +54,6 @@ position: relative;
 }
 
 .lesson-edit {
-    margin-top: 20px;
 }
 
 .container {
@@ -68,5 +67,104 @@ position: relative;
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   background-clip: padding-box;
+}
+
+.user-avatar {
+  width: 16px;
+  margin-right: 10px;
+}
+
+.units {
+  list-style-type: none;
+  margin: 10px 0px;
+  padding: 0px;
+}
+.units li {
+  margin: 5px 0px;
+}
+
+
+.view-container {
+  position: relative;
+}
+ 
+.view-frame {
+  display: none;
+}
+.view-frame.ng-enter, .view-frame.ng-leave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+ 
+.view-frame.ng-enter {
+  -webkit-animation: 0.5s left-in;
+  -moz-animation: 0.5s left-in;
+  -o-animation: 0.5s left-in;
+  animation: 0.5s left-in;
+  z-index:99;
+  
+}
+ 
+.view-frame.ng-leave {
+  -webkit-animation: 0.5s left-out;
+  -moz-animation: 0.5s left-out;
+  -o-animation: 0.5s left-out;
+  animation: 0.5s left-out;
+  z-index: 100;
+}
+/*
+.view-frame.ng-enter {
+  -webkit-animation: 0.5s fade-in;
+  -moz-animation: 0.5s fade-in;
+  -o-animation: 0.5s fade-in;
+  animation: 0.5s fade-in;
+  z-index:99;
+}
+ 
+.view-frame.ng-leave {
+  -webkit-animation: 0.5s fade-out;
+  -moz-animation: 0.5s fade-out;
+  -o-animation: 0.5s fade-out;
+  animation: 0.5s fade-out;
+  z-index: 100;
+}
+*/
+ 
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@-moz-keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@-webkit-keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+ 
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@-moz-keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@-webkit-keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@-webkit-keyframes left-in {
+  from { left: 100%; }
+  to { left: 0%; }
+}
+
+@-webkit-keyframes left-out {
+  from { left: 0%; }
+  to { left: -100%; }
 }
 

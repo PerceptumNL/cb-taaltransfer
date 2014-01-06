@@ -1,16 +1,13 @@
-{% extends 'base_course.html' %}
-
-{% block subtitle %}
-  {# I18N: Title of the webpage. #}
-  - {{ gettext('Niveau') }} {{ unit.index }} - {{ unit.title }}
-{% endblock subtitle %}
-
-{% block top_content %}
-{% endblock %}
-
-{% block main_content %}
 <div class="col-md-12">
   {% if is_read_write_course and is_course_admin %}
+    <div class="btn-group col-sm-push-9 lesson-edit">
+    <a href="dashboard?action=edit_unit&key={{ unit_id }}"
+      class="btn btn-primary" role="button">Edit unit</a>
+    {% if lesson %}
+      <a href="dashboard?action=edit_lesson&key={{ lesson_id }}"
+        class="btn btn-primary" role="button">Edit lesson</a>
+    {% endif %}
+    </div>
   {% endif %}
   
   <div class="col-md-offset-1">
@@ -188,4 +185,3 @@
   </div>
 </div>
 
-{% endblock %}

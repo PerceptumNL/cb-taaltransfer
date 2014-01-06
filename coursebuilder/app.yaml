@@ -1,5 +1,5 @@
-application: taal-transfer # FIXME: Replace this with your application id
-version: 2
+application: dev-taal-transfer #cb-taaltransfer # FIXME: Replace this with your application id
+version: 5
 runtime: python27
 api_version: 1
 threadsafe: false
@@ -24,6 +24,12 @@ libraries:
 
 handlers:
 
+- url: /gae_mini_profiler/static
+  static_dir: gae_mini_profiler/static
+
+- url: /gae_mini_profiler/.*
+  script: gae_mini_profiler.main.application
+
 - url: /gae_bingo/static
   static_dir: khan/gae_bingo/static
 
@@ -35,6 +41,9 @@ handlers:
 
 - url: /javascript
   static_dir: khan/javascript
+
+- url: /khan-exercises
+  static_dir: taaltransfer-exercises
 
 - url: /api/.*
   script: khan.api.main.application
@@ -49,4 +58,3 @@ handlers:
 - url: /.*
   script: main.app
 #  secure: always
-

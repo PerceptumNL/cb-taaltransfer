@@ -1,0 +1,97 @@
+<div class="col-md-12">
+  <div ng-if="admin" class="btn-group col-sm-3 col-sm-offset-9 lesson-edit">
+    <a href="dashboard?action=edit_unit&key={{unitId}}" class="btn btn-primary" role="button">Edit unit</a>
+    <a href="dashboard?action=edit_lesson&key={{lesson_id}}" class="btn btn-primary" role="button">Edit lesson</a>
+  </div>
+  <h2>{{unit.title}}</h2>
+  <div class="btn-group">
+    <a href="course#/units" class="btn btn-default btn-lg">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a ng-repeat="lesson in unit.lessons" href="course#/units/{{lesson.unit_id}}/{{lesson.lesson_id}}" class="btn btn-default btn-lg {{lesson.active}}">
+      <span ng-switch on="lesson.kind">
+        <span ng-switch-when="video" class="glyphicon glyphicon-facetime-video"></span>
+        <img ng-switch-when="exercise" src="assets/lib/{{lesson.progress}}.png"class="gcb-progress-icon" />
+      </span>
+    </a>
+    <a ng-if="nextUnit" href="course#/units/{{nextUnit.unit_id}}" class="btn btn-default btn-lg">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+    <div class="btn-group">
+    <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown">
+      {{unit.index}}.{{lesson.index}} {{lesson.title}}
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li ng-repeat="lesson in unit.lessons">
+         <a href="course#/units/{{lesson.unit_id}}/{{lesson.lesson_id}}">
+           {{unit.index}}.{{lesson.index}} {{lesson.title}}
+         </a>
+      </li>
+    </ul>
+    </div>  
+  </div>
+  <div ng-if="video">
+    <p class="gcb-video-container">
+      <iframe class="youtube-player" title="YouTube Video Player"
+              type="text/html" width="650" height="400" frameborder="0" allowfullscreen
+              src="https://www.youtube.com/embed/aa?feature=player_embedded&rel=0">
+      </iframe>
+    </p>
+  </div>
+  <div ng-if="exercise" id="outer-wrapper">
+    <div class="progress">
+      <div class="streak progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%">
+        <span class="sr-only">40% Complete (success)</span>
+      </div>
+    </div>
+    <div id="page-container" class="exercise">
+      <article class="exercises-content clearfix">
+        <div class="exercises-body">
+          <div class="current-card-container card-type-problem">
+            <div class="current-card-container-inner vertical-shadow">
+              <div class="current-card-contents">
+                <div id="problem-and-answer">
+                  <form id="answerform" name="answerform">
+                    <div id="problemarea">
+                      <div id="scratchpad"><div></div></div>
+                      <div id="workarea"></div>
+                      <div id="hintsarea"></div>
+                    </div>
+                    <div id="answer_area_wrap"><div id="answer_area">
+                      <input style="position: absolute; left: -9999px; width: 1px; height: 1px" type="submit">
+                      <div class="info-box" id="answercontent">
+                          <span id="examples-show">Acceptable formats</span>
+                          <span class="info-box-header">Answer</span>
+                          <div class="fancy-scrollbar" id="solutionarea"></div>
+                          <ul id="examples" style="display: none"></ul>
+                          <div class="answer-buttons">
+                          <div class="check-answer-wrapper">
+                              <input class="simple-button green" id="check-answer-button" type="button" value="Check Answer">
+                          </div>
+                          <input class="simple-button green" id="next-question-button" name="correctnextbutton" style="display:none;" type="button" value="Correct! Next Question...">
+                          <div id="positive-reinforcement"><img src="/images/face-smiley.png"></div>
+                          <span id="show-solution-button-container"></span>
+                          <div id="check-answer-results"><p class="check-answer-message info-box-sub-description"></p></div>
+                          </div>
+                      </div>
+                      <div class="info-box hint-box">
+                          <span class="info-box-header">Need help?</span>
+                          <div id="get-hint-button-container">
+                              <input class="simple-button orange full-width" id="hint" name="hint" type="button" value="I'd like a hint">
+                          </div>
+                          <span id="hint-remainder"></span>
+                      </div>
+                  </div></div>
+                  </form>
+                  <div style="clear: both;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+  <div class="push"></div>
+</div>

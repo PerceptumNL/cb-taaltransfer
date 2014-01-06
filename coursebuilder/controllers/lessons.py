@@ -125,7 +125,8 @@ class CourseHandler(BaseHandler):
     @classmethod
     def get_child_routes(cls):
         """Add child handlers for REST."""
-        return [('/rest/events', EventsRESTHandler)]
+        return [('/rest/events', EventsRESTHandler),
+                ('/rest/lessons', LessonsRESTHandler)]
 
     def augment_assessment_units(self, student):
         """Adds additional fields to assessment units."""
@@ -200,6 +201,36 @@ class CourseHandler(BaseHandler):
 
             
         self.template_value['units_progress'] = self.get_course().get_units_progress()
+
+        units_json = []
+        from common.jinja_utils import get_gcb_tags_filter
+        gcb_tags = get_gcb_tags_filter(self)
+
+        for unit in self.get_units():
+            lessons = self.get_lessons(unit.unit_id)
+            lessons_json = []
+            for lesson in lessons:
+                #import logging
+                #logging.error(gcb_tags(lesson.objectives))
+                lessons_json.append({
+                    "unit_id": unit.unit_id,
+                    "lesson_id": lesson.lesson_id,
+                    "title": lesson.title,
+                    "objectives": lesson.objectives,
+                    "kind": lesson.kind,
+                    "index": lesson.index,
+                })
+            
+            units_json.append({ 
+                "unit_id": unit.unit_id,
+                "title": unit.title,
+                "kind": unit.kind,
+                "index": unit.index,
+                "lessons": lessons_json
+            })
+                
+        self.template_value['units_json'] = units_json
+            
         
         self.render('course.html')
 
@@ -865,6 +896,25 @@ class ReviewHandler(BaseHandler):
 
         self.render('review_confirmation.html')
 
+
+class LessonsRESTHandler(BaseRESTHandler):
+    """Provides REST API for an Event."""
+
+    def get(self):
+        """Returns a 404 error; this handler should not be GET-accessible."""
+        lesson_id = self.request.get('lesson_id')
+        unit_id = self.request.get('unit_id')
+        import logging
+        logging.error("error")
+        logging.error(lesson_id)
+        logging.error(unit_id)
+        self.template_value['lesson_id'] = lesson_id
+        self.template_value['unit_id'] = unit_id
+        self.template_value['unit'] = unit = self.find_unit_by_id(unit_id)
+        self.template_value['lesson'] = self.get_course().find_lesson_by_id(unit, lesson_id)
+        self.template_value['objectives'] = self.template_value['lesson'].objectives
+        self.render('lesson.html')
+        return 
 
 class EventsRESTHandler(BaseRESTHandler):
     """Provides REST API for an Event."""

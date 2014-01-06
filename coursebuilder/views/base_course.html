@@ -16,13 +16,54 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 
   <!-- jQuery should be imported first -->
+<!--
   <script src="assets/lib/jquery-1.7.2.min.js"></script>
+-->
+  <script src="assets/js/jquery.js"></script>
   <script src="assets/lib/bootstrap.js"></script>
 
   <script src="assets/lib/activity-generic-1.3.js"></script>
 
   <script src="assets/lib/butterbar.js"></script>
+<script>
+    var Exercises =  {
+        init: function() {},
+        render: function() {},
+    }
+    //var userExercises = {{ user_exercises_json }};
+    Exercises.init({
+{#
+        topic: {{ topic_json }},
+        topicExerciseBadge: {{ topic_exercise_badge_json }},
+        practiceExercise: {{ practice_exercise_json }},
+        userData: {{ user_data_json }},
+        userExercises: {{ user_exercises_json }},
+        incompleteStack: {{ stack_json }},
+        cards: {{ cards_json }},
+        reviewMode: {{ review_mode_json }},
+        practiceMode: {{ practice_mode_json }},
+        readOnly: {% if read_only %}true{% else %}false {% endif %}
+#}
+    });
+
+    $(function() {
+        Exercises.render();
+    });
+</script>
+  <script src="khan-exercises/local-only/jquery-migrate-1.1.1.js"></script>
+  <script src="khan-exercises/local-only/ui/jquery-ui.js"></script>
+  <script src="khan-exercises/local-only/ui/jquery.ui.dialog.js"></script>
+  <script src="khan-exercises/local-only/jquery.qtip.js"></script>
+  <script src="khan-exercises/local-only/underscore.js"></script>
+  <script src="khan-exercises/local-only/kas.js"></script>
+  <script src="khan-exercises/local-only/jed.js"></script>
+  <script src="khan-exercises/local-only/i18n.js"></script>
+  <script src="khan-exercises/local-only/katex/katex.js"></script>
+  <script src="assets/js/khan-exercise.js"></script>
+  <script src="khan-exercises/interface.js"></script>
   <link rel="stylesheet" type="text/css" href="assets/css/butterbar.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="khan-exercises/css/khan-exercise.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="khan-exercises/css/taaltransfer.css" media="screen" />
 {% endblock %}
 
 {% block navbar %}
