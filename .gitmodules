@@ -20,3 +20,6 @@
 [submodule "watchdog"]
 	path = watchdog
 	url = git://github.com/gorakhargosh/watchdog.git
+[submodule "bootstrap"]
+	path = bootstrap
+	url = https://github.com/PerceptumNL/bootstrap
