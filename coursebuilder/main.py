@@ -40,6 +40,9 @@ import modules.khanex.khanex
 import profiles
 import profiles.handlers
 
+import gae_mini_profiler.templatetags
+import gae_mini_profiler.profiler
+
 import badges
 import badges.handlers
 
@@ -109,9 +112,17 @@ webapp2_i18n_config = {'translations_path': os.path.join(
 
 #from google.appengine.api import namespace_manager
 #namespace_manager.set_namespace('ns_editable')
+#
+#webapp2_extras.jinja2.default_config = {
+#    "globals": {
+#        "profiler_includes": gae_mini_profiler.templatetags.profiler_includes
+#    }
+#}
 
 # init application
 app = webapp2.WSGIApplication(
     global_routes + extensions_tag_resource_routes + khan_routes + app_routes,
     config={'webapp2_extras.i18n': webapp2_i18n_config},
     debug=debug)
+
+app = gae_mini_profiler.profiler.ProfilerWSGIMiddleware(app)
