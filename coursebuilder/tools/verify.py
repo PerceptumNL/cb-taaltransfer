@@ -106,10 +106,10 @@ UNIT_TYPE_NAMES = {
     UNIT_TYPE_ASSESSMENT: 'Assessment'}
 
 UNITS_HEADER = (
-    'id,type,unit_id,title,release_date,now_available')
+    'id,type,unit_id,title,release_date,now_available,kind')
 LESSONS_HEADER = (
     'unit_id,unit_title,lesson_id,lesson_title,lesson_activity,'
-    'lesson_activity_name,lesson_notes,lesson_video_id,lesson_objectives')
+    'lesson_activity_name,lesson_notes,lesson_video_id,lesson_objectives,kind')
 
 UNIT_CSV_TO_DB_CONVERTER = {
     'id': None,
