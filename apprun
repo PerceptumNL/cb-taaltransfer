@@ -1,5 +1,0 @@
-
-source activate
-PYTHONPATH=$PWD/coursebuilder/khan:$PYTHONPATH
-
-dev_appserver.py --datastore_path=./tmp/test_db.sqlite coursebuilder/
