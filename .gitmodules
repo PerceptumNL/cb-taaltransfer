@@ -17,3 +17,6 @@
 [submodule "werkzeug-debugger-appengine"]
 	path = coursebuilder/khan/werkzeug-debugger-appengine
 	url = https://github.com/daaku/werkzeug-debugger-appengine.git
+[submodule "watchdog"]
+	path = watchdog
+	url = git://github.com/gorakhargosh/watchdog.git
