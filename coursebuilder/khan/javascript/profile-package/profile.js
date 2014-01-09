@@ -898,7 +898,7 @@ var Profile = {
         this.profile.bind("change:avatarSrc", function (profile) {
             var src = profile.get("avatarSrc");
             $(".profile-tab-avatar").attr("src", src);
-            $("#user-info .user-avatar").attr("src", src);
+            $(".user-avatar").attr("src", src);
         });
     },
 

@@ -159,7 +159,7 @@ Avatar.Picker.prototype.show = function() {
         keyboard: true,
         backdrop: true,
         show: true
-    }).on("hidden", _.bind(this.onHide_, this));
+    }).on("hide.bs.modal", _.bind(this.onHide_, this));
 };
 
 /**
