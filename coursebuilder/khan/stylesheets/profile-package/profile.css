@@ -1037,15 +1037,6 @@ li.profile-tab {
     background-image:url(/images/cross.png);
 }
 
-.avatar-picker.modal {
-    width: 700px;
-    left: 50%;
-    margin: 0 0 0 -300px;
-    position: absolute;
-}
-.avatar-picker .modal-body {
-    margin-bottom: 0;
-}
 .avatar-picker .avatar {
     display: block;
     float: left;

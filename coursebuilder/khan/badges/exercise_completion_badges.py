@@ -74,7 +74,6 @@ class ChallengeCompletionBadge(ExerciseCompletionBadge):
         return self.icon_src
 
 
-@badges.active_badge
 class LevelOneArithmeticianBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -85,7 +84,6 @@ class LevelOneArithmeticianBadge(ExerciseCompletionBadge):
         self.points = 100
 
 
-@badges.active_badge
 class LevelTwoArithmeticianBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -96,7 +94,6 @@ class LevelTwoArithmeticianBadge(ExerciseCompletionBadge):
         self.points = 500
 
 
-@badges.active_badge
 class LevelThreeArithmeticianBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -108,7 +105,6 @@ class LevelThreeArithmeticianBadge(ExerciseCompletionBadge):
         self.points = 750
 
 
-@badges.active_badge
 class TopLevelArithmeticianBadge(badges.RetiredBadge,
                                  ChallengeCompletionBadge):
     def __init__(self):
@@ -123,7 +119,6 @@ class TopLevelArithmeticianBadge(badges.RetiredBadge,
         return "/images/badges/Arithmetic.png"
 
 
-@badges.active_badge
 class LevelOneTrigonometricianBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -134,7 +129,6 @@ class LevelOneTrigonometricianBadge(ExerciseCompletionBadge):
         self.points = 100
 
 
-@badges.active_badge
 class LevelTwoTrigonometricianBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -145,7 +139,6 @@ class LevelTwoTrigonometricianBadge(ExerciseCompletionBadge):
         self.points = 500
 
 
-@badges.active_badge
 class LevelThreeTrigonometricianBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -157,7 +150,6 @@ class LevelThreeTrigonometricianBadge(ExerciseCompletionBadge):
         self.points = 750
 
 
-@badges.active_badge
 class TopLevelTrigonometricianBadge(badges.RetiredBadge,
                                     ChallengeCompletionBadge):
     def __init__(self):
@@ -172,7 +164,6 @@ class TopLevelTrigonometricianBadge(badges.RetiredBadge,
         return "/images/badges/Geometry-Trig.png"
 
 
-@badges.active_badge
 class LevelOnePrealgebraistBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -184,7 +175,6 @@ class LevelOnePrealgebraistBadge(ExerciseCompletionBadge):
         self.points = 100
 
 
-@badges.active_badge
 class LevelTwoPrealgebraistBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -196,7 +186,6 @@ class LevelTwoPrealgebraistBadge(ExerciseCompletionBadge):
         self.points = 500
 
 
-@badges.active_badge
 class LevelThreePrealgebraistBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -208,7 +197,6 @@ class LevelThreePrealgebraistBadge(ExerciseCompletionBadge):
         self.points = 750
 
 
-@badges.active_badge
 class TopLevelPrealgebraistBadge(badges.RetiredBadge,
                                  ChallengeCompletionBadge):
     def __init__(self):
@@ -223,7 +211,6 @@ class TopLevelPrealgebraistBadge(badges.RetiredBadge,
         return "/images/badges/Pre-Algebra.png"
 
 
-@badges.active_badge
 class LevelOneAlgebraistBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -235,7 +222,6 @@ class LevelOneAlgebraistBadge(ExerciseCompletionBadge):
         self.points = 100
 
 
-@badges.active_badge
 class LevelTwoAlgebraistBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -248,7 +234,6 @@ class LevelTwoAlgebraistBadge(ExerciseCompletionBadge):
         self.points = 500
 
 
-@badges.active_badge
 class LevelThreeAlgebraistBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -262,7 +247,6 @@ class LevelThreeAlgebraistBadge(ExerciseCompletionBadge):
         self.points = 750
 
 
-@badges.active_badge
 class LevelFourAlgebraistBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -276,7 +260,6 @@ class LevelFourAlgebraistBadge(ExerciseCompletionBadge):
         self.points = 1000
 
 
-@badges.active_badge
 class LevelFiveAlgebraistBadge(ExerciseCompletionBadge):
     def __init__(self):
         ExerciseCompletionBadge.__init__(self)
@@ -290,7 +273,6 @@ class LevelFiveAlgebraistBadge(ExerciseCompletionBadge):
         self.points = 1000
 
 
-@badges.active_badge
 class TopLevelAlgebraistBadge(badges.RetiredBadge, ChallengeCompletionBadge):
     def __init__(self):
         ChallengeCompletionBadge.__init__(self)

@@ -1,4 +1,5 @@
 function onYouTubePlayerStateChange(state) {
+    console.error("onYouTubePlayerStateChange");
     VideoStats.playerStateChange(state);
     $(VideoControls).trigger("playerStateChange", state);
 }
@@ -178,6 +179,7 @@ var VideoControls = {
     },
 
     playVideo: function(youtubeId, videoKey, forcePlayBegin) {
+        console.debug("playVideo");
         if (VideoControls.player && youtubeId) {
             $(VideoControls).trigger("beforeplay");
 
@@ -188,7 +190,7 @@ var VideoControls = {
             }
             VideoControls.scrollToPlayer();
         }
-        VideoStats.startLoggingProgress(videoKey);
+        VideoStats.startLoggingProgress(videoKey, youtubeId);
     },
 
     /**
@@ -297,6 +299,7 @@ var VideoStats = {
     },
 
     startLoggingProgress: function(sVideoKey, sYoutubeId) {
+        console.debug("startLoggingProgress", sVideoKey, sYoutubeId);
 
         if (sYoutubeId) {
             this.sYoutubeId = sYoutubeId;
@@ -305,12 +308,10 @@ var VideoStats = {
             this.sVideoKey = sVideoKey;
             this.sYoutubeId = null;
         } else {
-            return; // no key given, can't log anything.
+    //        return; // no key given, can't log anything.
         }
 
-        this.dPercentLastSaved = 0;
-        this.cachedDuration = 0;
-        this.cachedCurrentTime = 0;
+        this.dPercentLastSaved = 0; this.cachedDuration = 0; this.cachedCurrentTime = 0;
         this.dtLastSaved = new Date();
 
         if (this.fEventsAttached) return;
@@ -352,6 +353,7 @@ var VideoStats = {
     },
 
     listenToPlayerStateChange: function() {
+        console.debug("listenToPlayerStateChange");
         if (!this.fAlternativePlayer && !this.player.fStateChangeHookAttached) {
             // YouTube player is ready, add event listener
             this.player.addEventListener("onStateChange", "onYouTubePlayerStateChange");
@@ -620,11 +622,12 @@ var VideoStats = {
 // Called by standard (non-iframe) youtube player upon load.
 // See http://code.google.com/apis/youtube/js_api_reference.html
 function onYouTubePlayerReady(playerID) {
+    console.debug("onYouTubePlayerReady: " + playerID);
 
     // Check .playVideo to ensure that the YouTube JS API is available. Modern
     // browsers see both the OBJECT and EMBED elements, but only one has the
     // API attached to it, e.g., OBJECT for IE9, EMBED for Chrome.
-    var player = $(".mirosubs-widget object").get(0);
+    var player = $("object").get(0);
     if (!player || !player.playVideo) player = document.getElementById("idPlayer");
     if (!player || !player.playVideo) player = document.getElementById("idOVideo");
     if (!player || !player.playVideo) throw new Error("YouTube player not found");
@@ -634,6 +637,7 @@ function onYouTubePlayerReady(playerID) {
 
     // defer this call as otherwise any exceptions thrown within will be
     // swallowed by flash
+    console.debug("player ", player);
     _.defer(function() { connectYouTubePlayer(player); });
 }
 
@@ -687,4 +691,12 @@ function connectYouTubePlayer(player) {
     // take appropriate action to use the new player.
     $(VideoControls).trigger("playerready");
     $(VideoStats).trigger("playerready");
+    var url = player.getVideoUrl();
+    // "http://www.youtube.com/watch?v=gzDS-Kfd5XQ&feature=..."
+    var match = url.match(/[?&]v=([^&]+)/);
+    // ["?v=gzDS-Kfd5XQ", "gzDS-Kfd5XQ"]
+    var videoId = match[1];
+    console.log(url)
+    console.log(videoId);
+    VideoControls.playVideo(videoId);
 }

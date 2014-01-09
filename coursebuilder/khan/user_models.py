@@ -357,7 +357,7 @@ class UserData(gae_bingo.models.GAEBingoIdentityModel,
         return properties_list
 
     @classmethod
-    #@request_cache.cache()
+    @request_cache.cache()
     def current(cls, create_if_none=False, bust_cache=False):
         """Determine the current logged in user and return it.
 
@@ -926,6 +926,7 @@ class UserData(gae_bingo.models.GAEBingoIdentityModel,
         if not exercise:
             return None
 
+        logging.error("ERROR")
         exid = exercise.name
         userExercise = exercise_models.UserExercise.get_by_key_name(
             exid, parent=self)

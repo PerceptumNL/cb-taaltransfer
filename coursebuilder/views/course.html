@@ -10,6 +10,7 @@ var units_progress_json = {{ units_progress|tojson() }}
 
 //angular.module('cbAnimations', ['ngAnimate']).
 var cbApp = angular.module('cbApp', [
+  'ui.router',
   'ngRoute',
   'ngAnimate',
   'ngSanitize',
@@ -104,8 +105,21 @@ var cbApp = angular.module('cbApp', [
   }
 });
 
-cbApp.config(['$routeProvider',
-  function($routeProvider) {
+cbApp.config(['$routeProvider', '$stateProvider',
+  function($routeProvider, $stateProvider) {
+    $stateProvider
+        .state('achievements', {
+            url: "",
+            views: {
+                "viewA": {
+                    templateUrl: "assets/lib/vital-statistics.html"
+                },
+                "viewB": {
+                    template: "index.viewB"
+                }
+            }
+        })
+    
     $routeProvider.
       when('/units', {
         templateUrl: 'assets/lib/course.html',
@@ -118,6 +132,13 @@ cbApp.config(['$routeProvider',
       when('/units/:unitId/:lessonId', {
         templateUrl: 'assets/lib/unit.html',
         controller: 'UnitCtrl'
+      }).
+      when('/profile', {
+        templateUrl: 'assets/lib/profile.html',
+        controller: 'ProfileCtrl'
+      }).
+      when('/profile/:tabId', {
+        redirectTo: '/profile'
       }).
       otherwise({
         redirectTo: '/units'
@@ -137,6 +158,17 @@ cbControllers.controller('OutlineCtrl', ['$scope', '$http',
     }, 100);
   }]);
  
+cbControllers.controller('ProfileCtrl', ['$scope', '$http', '$routeParams', '$sce', '$streak',
+  function($scope, $http, $routeParams, $sce, $streak) {
+    $scope.profileRoot = "course#/profile/"
+    $scope.profileData = { 
+        avatarSrc: "ble",
+        isActivityAccessible: true
+    }
+    console.log("Profile")    
+    $(".view-frame").show()   
+  }])
+
 cbControllers.controller('UnitCtrl', ['$scope', '$http', '$routeParams', '$sce', '$streak',
   function($scope, $http, $routeParams, $sce, $streak) {
     $.each(units_json, function(k, unit) {
@@ -166,9 +198,21 @@ cbControllers.controller('UnitCtrl', ['$scope', '$http', '$routeParams', '$sce',
     $scope.video = $scope.lesson.kind == "video";
     $scope.admin = true;
     $scope.percent = 0;
+    $scope.videoUrl = $sce.trustAsResourceUrl("http://www.youtube.com/v/"+
+        $scope.lesson.video+
+        "?version=3&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;enablejsapi=1");
+
     
 
+    console.log("OBJECTIVES");
+    console.log($scope.lesson['objectives']);
+    if ($scope.exercise) {
     var khanex = $($scope.lesson['objectives']).filter("khanex").eq(0).attr("name");
+    } else if ($scope.video) {
+//    var khanid = $($scope.lesson['objectives']).filter("gcb-youtube").eq(0).attr("name");
+//<gcb-youtube videoid='f2zFmqGoJOw' instanceid='ibq1g3rY468a'></gcb-youtube><gcb-youtube videoid='wFHmVlLXbqo' instanceid='avOXdrVU0Ugo'></gcb-youtube><br>
+//
+    }
 
     $http.get('/api/v1/user/exercises/'+khanex+'?casing=camel')
       .success(function(userExercise) {

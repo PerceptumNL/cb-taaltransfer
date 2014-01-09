@@ -119,26 +119,6 @@ h1.main-headline {
     z-index: 10;
 }
 
-h2 {
-    font-size: 1.25em;
-    margin-bottom: 22px;
-}
-
-h3 {
-    font-size: 1.125em;
-    margin-bottom: 22px;
-}
-
-h4 {
-    font-size: 0.938em;
-    margin-bottom: 22px;
-}
-
-h5 {
-    font-size: 0.938em;
-    margin-bottom: -22px;
-}
-
 .pulls {
     margin-bottom: 9px;
 }

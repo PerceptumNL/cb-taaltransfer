@@ -219,6 +219,7 @@ class CourseHandler(BaseHandler):
                     "objectives": lesson.objectives,
                     "kind": lesson.kind,
                     "index": lesson.index,
+                    "video": lesson.video,
                 })
             
             units_json.append({ 

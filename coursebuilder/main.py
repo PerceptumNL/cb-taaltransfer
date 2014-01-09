@@ -45,6 +45,7 @@ import gae_mini_profiler.profiler
 
 import badges
 import badges.handlers
+import youtube_sync
 
 # use this flag to control debug only features
 debug = not appengine_config.PRODUCTION_MODE
@@ -100,7 +101,9 @@ khan_routes = [('/profile/graph/activity', profiles.handlers.ActivityGraph),
     ('/class_profile', profiles.handlers.ViewClassProfile),
     ('/class_profile/(.*)', profiles.handlers.ViewClassProfile),
     ('/badges/(.*)', badges.handlers.ViewBadge),
-    ('/badges', badges.handlers.ViewBadge)]
+    ('/badges', badges.handlers.ViewBadge),
+    ('/list/(.*)', youtube_sync.ListTest),
+    ('/admin/youtubesync.*', youtube_sync.YouTubeSync)]
 # tag extension resource routes
 extensions_tag_resource_routes = [(
     '/extensions/tags/.*/resources/.*', tags.ResourcesHandler)]

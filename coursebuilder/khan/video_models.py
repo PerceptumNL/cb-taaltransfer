@@ -618,34 +618,34 @@ class VideoLog(backup_model.BackupModel):
                     "video_started_count",]) # Core metric
 
                 user_data.uservideocss_version += 1
-                UserVideoCss.set_started(user_data, user_video.video, user_data.uservideocss_version)
+                #UserVideoCss.set_started(user_data, user_video.video, user_data.uservideocss_version)
 
             user_video.seconds_watched += seconds_watched
             user_data.total_seconds_watched += seconds_watched
 
             # Update seconds_watched of all associated topics
-            video_topics = db.get(video.topic_string_keys)
+            #video_topics = db.get(video.topic_string_keys)
 
             first_topic = True
-            for topic in video_topics:
-                user_topic = topic_models.UserTopic.get_for_topic_and_user_data(topic, user_data, insert_if_missing=True)
-                user_topic.title = topic.standalone_title
-                user_topic.seconds_watched += seconds_watched
-                user_topic.last_watched = datetime.datetime.now()
-                user_topic.put()
+            #for topic in video_topics:
+            #    user_topic = topic_models.UserTopic.get_for_topic_and_user_data(topic, user_data, insert_if_missing=True)
+            #    user_topic.title = topic.standalone_title
+            #    user_topic.seconds_watched += seconds_watched
+            #    user_topic.last_watched = datetime.datetime.now()
+            #    user_topic.put()
 
-                video_log.playlist_titles.append(user_topic.title)
+            #    video_log.playlist_titles.append(user_topic.title)
 
-                if first_topic:
-                    action_cache.push_video_log(video_log)
+            #    if first_topic:
+            #        action_cache.push_video_log(video_log)
 
-                badges.util_badges.update_with_user_topic(
-                        user_data,
-                        user_topic,
-                        include_other_badges=first_topic,
-                        action_cache=action_cache)
+            #    badges.util_badges.update_with_user_topic(
+            #            user_data,
+            #            user_topic,
+            #            include_other_badges=first_topic,
+            #            action_cache=action_cache)
 
-                first_topic = False
+            #    first_topic = False
 
         user_video.last_second_watched = last_second_watched
         user_video.last_watched = datetime.datetime.now()
@@ -687,9 +687,10 @@ class VideoLog(backup_model.BackupModel):
         # Defer the put of VideoLog for now, as we think it might be causing hot tablets
         # and want to shift it off to an automatically-retrying task queue.
         # http://ikaisays.com/2011/01/25/app-engine-datastore-tip-monotonically-increasing-values-are-bad/
-        deferred.defer(_commit_video_log, video_log,
-                       _queue="video-log-queue",
-                       _url="/_ah/queue/deferred_videolog")
+        _commit_video_log(video_log)
+        #deferred.defer(_commit_video_log, video_log,
+        #               _queue="video-log-queue",
+        #               _url="/_ah/queue/deferred_videolog")
 
 
         if user_data is not None and user_data.coaches:

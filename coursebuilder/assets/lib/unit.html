@@ -33,10 +33,20 @@
   </div>
   <div ng-if="video">
     <p class="gcb-video-container">
+<object id="idOVideo" name="idOVideo" width="800" height="480" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+    <param name="movie" value="{{videoUrl}}">
+    <param name="allowFullScreen" value="true">
+    <param name="allowScriptAccess" value="always">
+    <param name="wmode" value="transparent">
+    <embed id="idPlayer" name="idPlayer" wmode="transparent" src="{{videoUrl}}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="800" height="480">
+</object>
+<!--
       <iframe class="youtube-player" title="YouTube Video Player"
               type="text/html" width="650" height="400" frameborder="0" allowfullscreen
-              src="https://www.youtube.com/embed/aa?feature=player_embedded&rel=0">
+              color="{{lesson.video}}"
+              ng-src="{{videoUrl}}">
       </iframe>
+-->
     </p>
   </div>
   <div ng-if="exercise" id="outer-wrapper">

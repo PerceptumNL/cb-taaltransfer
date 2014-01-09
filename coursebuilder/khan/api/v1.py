@@ -2006,7 +2006,7 @@ def user_videos_specific(youtube_id):
 # (either the cookie or oauth map is set), or else create a phantom user.
 @api.auth.decorators.open_access
 @api.auth.decorators.oauth_consumers_must_be_anointed
-@api_create_phantom
+#@api_create_phantom
 @jsonp
 @jsonify
 def log_user_video(youtube_id):

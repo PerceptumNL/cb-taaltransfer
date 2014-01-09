@@ -123,7 +123,10 @@ class Exercise(backup_model.BackupModel):
     def get_by_name(name, version=None):
         exercise = Exercise.all().filter('name = ', name).get()
         if exercise == None:
-            exercise = Exercise(exercise=name)
+            logging.error("Create new exercise: %s" % name)
+            import traceback
+            logging.error(traceback.print_stack())
+            exercise = Exercise(name=name)
             exercise.put()
         return exercise
         #dict_exercises = Exercise._get_dict_use_cache_unsafe()
@@ -152,6 +155,7 @@ class Exercise(backup_model.BackupModel):
             return self.pretty_display_name
         else:
             return self.name.replace('_', ' ').capitalize()
+            #return self.name.replace('_', ' ').capitalize()
 
     @property
     def sha1(self):
